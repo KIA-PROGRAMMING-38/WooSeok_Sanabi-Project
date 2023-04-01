@@ -9,7 +9,7 @@ public class ShakeCamera : MonoBehaviour
 
     private float mouseX; // 마우스 입력을 받기 위한 변수(Y축으로 1자 그릴수 없을 것 같음)
     private float saveTime; // 시간을 저장하기 위한 변수
-    private readonly string shakeCameraPosition = "ShakeCameraPosition"; // 오타 방지용
+    private readonly string SHAKECAMERAPOSITION = "ShakeCameraPosition"; // 오타 방지용
 
     void Update()
     {
@@ -22,7 +22,7 @@ public class ShakeCamera : MonoBehaviour
 
     public void OnShakeCamera(float shakeTime, float shakeIntensity)
     {
-        StartCoroutine(shakeCameraPosition);
+        StartCoroutine(SHAKECAMERAPOSITION);
     }
 
     private IEnumerator ShakeCameraPosition()

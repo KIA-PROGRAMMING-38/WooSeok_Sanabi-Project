@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UITextController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TitleUITextController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     Text textComponent;
     Color hovorColor = new Color(255, 0, 170);

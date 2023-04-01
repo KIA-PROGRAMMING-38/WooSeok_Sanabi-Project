@@ -9,17 +9,17 @@ public enum SceneNumber
     Exit,
 }
 
-public class UIManager : MonoBehaviour
+public class TitleUIManager : MonoBehaviour
 {
     GameObject[] buttonChildren;
-    UIButtonController buttonController;
+    TitleUIButtonController buttonController;
     private void Awake()
     {
         buttonChildren = GameObject.FindGameObjectsWithTag("Button");
         for (int i = 0; i < buttonChildren.Length; ++i)
         {
-            buttonChildren[i].AddComponent<UIButtonController>();
-            buttonController = buttonChildren[i].GetComponent<UIButtonController>();
+            buttonChildren[i].AddComponent<TitleUIButtonController>();
+            buttonController = buttonChildren[i].GetComponent<TitleUIButtonController>();
             buttonController.sceneID = i;
         }
     }

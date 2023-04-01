@@ -6,15 +6,13 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UIButtonController : MonoBehaviour, IPointerClickHandler
+public class TitleUIButtonController : MonoBehaviour, IPointerClickHandler
 {
     Camera mainCamera;
     public int sceneID { get; set; }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Object.DontDestroyOnLoad(mainCamera); // 화면 흔들림은 계속 필요해서 매씬 데려갈꺼임
-
         if (sceneID == (int)SceneNumber.Settings)
         {
             SceneManager.LoadScene(sceneID, LoadSceneMode.Additive);
@@ -31,7 +29,7 @@ public class UIButtonController : MonoBehaviour, IPointerClickHandler
 
     private void Start()
     {
-        transform.GetChild(0).AddComponent<UITextController>();
+        transform.GetChild(0).AddComponent<TitleUITextController>(); // 어차피 자식 한명밖에 없음
         mainCamera= Camera.main;
     }
 
