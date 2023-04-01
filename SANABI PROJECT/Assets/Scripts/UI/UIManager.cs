@@ -2,16 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SceneNumber
+{
+    Normal,
+    Settings,
+    Exit,
+}
+
 public class UIManager : MonoBehaviour
 {
-    GameObject[] textChildren;
+    GameObject[] buttonChildren;
+    UIButtonController buttonController;
     private void Awake()
     {
-        textChildren = GameObject.FindGameObjectsWithTag("ButtonText");
-        foreach (GameObject child in textChildren)
+        buttonChildren = GameObject.FindGameObjectsWithTag("Button");
+        for (int i = 0; i < buttonChildren.Length; ++i)
         {
-            child.AddComponent<UIColorChange>();
+            buttonChildren[i].AddComponent<UIButtonController>();
+            buttonController = buttonChildren[i].GetComponent<UIButtonController>();
+            buttonController.sceneID = i;
         }
     }
+
     
 }

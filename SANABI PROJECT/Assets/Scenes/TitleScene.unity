@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 393026337}
   m_Layer: 5
   m_Name: Settings Button
-  m_TagString: Untagged
+  m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -614,6 +614,7 @@ GameObject:
   - component: {fileID: 1355953611}
   - component: {fileID: 1355953610}
   - component: {fileID: 1355953609}
+  - component: {fileID: 1355953613}
   m_Layer: 5
   m_Name: UI Canvas
   m_TagString: Untagged
@@ -705,6 +706,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1355953613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355953608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa015b3f1d93f2b4cb71ddb15377a03e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1363738726
 GameObject:
   m_ObjectHideFlags: 0
@@ -719,7 +732,7 @@ GameObject:
   - component: {fileID: 1363738728}
   m_Layer: 5
   m_Name: Exit Button
-  m_TagString: Untagged
+  m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -838,7 +851,6 @@ GameObject:
   - component: {fileID: 1456474233}
   - component: {fileID: 1456474236}
   - component: {fileID: 1456474235}
-  - component: {fileID: 1456474234}
   m_Layer: 5
   m_Name: Settings Text
   m_TagString: ButtonText
@@ -866,18 +878,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1456474234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456474232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa015b3f1d93f2b4cb71ddb15377a03e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1456474235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1002,7 +1002,7 @@ GameObject:
   - component: {fileID: 1784563121}
   m_Layer: 5
   m_Name: Start Button
-  m_TagString: Untagged
+  m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1121,7 +1121,6 @@ GameObject:
   - component: {fileID: 1938633097}
   - component: {fileID: 1938633100}
   - component: {fileID: 1938633099}
-  - component: {fileID: 1938633098}
   m_Layer: 5
   m_Name: Start Text
   m_TagString: ButtonText
@@ -1149,18 +1148,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1938633098
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938633096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa015b3f1d93f2b4cb71ddb15377a03e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1938633099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1214,7 +1201,6 @@ GameObject:
   - component: {fileID: 1952586967}
   - component: {fileID: 1952586970}
   - component: {fileID: 1952586969}
-  - component: {fileID: 1952586968}
   m_Layer: 5
   m_Name: Exit Text
   m_TagString: ButtonText
@@ -1242,18 +1228,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1952586968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1952586966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa015b3f1d93f2b4cb71ddb15377a03e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1952586969
 MonoBehaviour:
   m_ObjectHideFlags: 0
