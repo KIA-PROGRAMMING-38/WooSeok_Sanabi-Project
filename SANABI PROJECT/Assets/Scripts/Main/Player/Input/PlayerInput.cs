@@ -5,8 +5,12 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     public readonly string HORIZONTAL = "Horizontal";
+    public readonly string VERTICAL = "Vertical";
     public readonly string JUMP = "Jump";
-    public float horizontalInput;
+    private float horizontalInput;
+    private float verticalInput;
+    
+    public Vector2 MovementInput { get; private set; }
     void Start()
     {
         
@@ -15,5 +19,7 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
         horizontalInput = Input.GetAxisRaw(HORIZONTAL);
+        verticalInput = Input.GetAxisRaw(VERTICAL);
+        MovementInput = new Vector2(horizontalInput, verticalInput);
     }
 }

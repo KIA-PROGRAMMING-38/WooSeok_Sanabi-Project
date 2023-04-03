@@ -21,13 +21,15 @@ public class PlayerState
     public virtual void Enter() // when enter the state
     {
         DoChecks();
-        player.Anim.SetBool(animBoolName, true);
+        player.BodyAnimator.SetBool(animBoolName, true);
+        player.ArmAnimator.SetBool(animBoolName, true);
         startTime = Time.time;
     }
 
     public virtual void Exit() // when exit the state
     {
-        player.Anim.SetBool(animBoolName, false);
+        player.BodyAnimator.SetBool(animBoolName, false);
+        player.ArmAnimator.SetBool(animBoolName, false);
     }
 
     public virtual void LogicUpdate() // update for each frame
