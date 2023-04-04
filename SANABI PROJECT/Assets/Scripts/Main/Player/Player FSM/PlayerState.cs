@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PlayerState 
 {
-    protected Player player;
+    protected PlayerController player;
     protected PlayerStateMachine stateMachine;
     protected PlayerData playerData;
 
+    protected bool isAnimationFinished;
     protected float startTime; // defines how long the player has been in the state
     private string animBoolName;
-    public PlayerState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
+    public PlayerState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
     {
         this.player = player;
         this.stateMachine= stateMachine;
@@ -24,6 +25,7 @@ public class PlayerState
         player.BodyAnimator.SetBool(animBoolName, true);
         player.ArmAnimator.SetBool(animBoolName, true);
         startTime = Time.time;
+        isAnimationFinished = false;
     }
 
     public virtual void Exit() // when exit the state
@@ -47,4 +49,11 @@ public class PlayerState
 
     }
 
+    public virtual void AnimationTrigger()
+    {
+
+    }
+
+    public virtual void AnimationFinishTrigger() => isAnimationFinished = true;
+    
 }

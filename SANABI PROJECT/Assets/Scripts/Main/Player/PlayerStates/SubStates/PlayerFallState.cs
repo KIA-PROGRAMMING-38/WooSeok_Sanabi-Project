@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerRunState : PlayerGroundedState
+public class PlayerFallState : PlayerState
 {
-    public PlayerRunState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerFallState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
-        
     }
 
     public override void DoChecks()
@@ -27,12 +26,6 @@ public class PlayerRunState : PlayerGroundedState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        player.CheckIfShouldFlip(InputX);
-        player.SetVelocityX(playerData.movementVelocity * InputX);
-        if (InputX == 0)
-        {
-            stateMachine.ChangeState(player.IdleState);
-        }
     }
 
     public override void PhysicsUpdate()

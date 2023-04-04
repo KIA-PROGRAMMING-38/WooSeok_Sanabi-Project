@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PlayerGroundedState : PlayerState
 {
-    protected Vector2 input;
+    protected float InputX;
+    private bool JumpInput;
 
-    public PlayerGroundedState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerGroundedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
 
@@ -29,7 +30,13 @@ public class PlayerGroundedState : PlayerState
     {
         base.LogicUpdate();
 
-        input = player.Input.MovementInput;
+        InputX = player.Input.MovementInput.x;
+        JumpInput = player.Input.JumpInput;
+        if (JumpInput)
+        {
+            player.Input.UseJumpInput();
+            stateMachine.ChangeState(player.JumpState);
+        }
     }
 
     public override void PhysicsUpdate()
