@@ -39,7 +39,6 @@ public class PlayerController : MonoBehaviour
         RunState = new PlayerRunState(this, StateMachine, playerData, "run");
         JumpState = new PlayerJumpState(this, StateMachine, playerData, "inAir");
         InAirState = new PlayerInAirState(this, StateMachine, playerData, "inAir");
-        // FallState = new PlayerFallState(this, StateMachine, playerData, "fall");
         LandState = new PlayerLandState(this, StateMachine, playerData, "land");
     }
 
@@ -56,9 +55,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(playerRigidBody.gravityScale);
         CurrentVelocity = playerRigidBody.velocity;
         StateMachine.CurrentState.LogicUpdate();
-        Debug.Log(StateMachine.CurrentState);
     }
 
     private void FixedUpdate()
