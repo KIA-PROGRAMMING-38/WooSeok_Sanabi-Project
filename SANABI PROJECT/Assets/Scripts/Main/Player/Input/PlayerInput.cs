@@ -14,6 +14,8 @@ public class PlayerInput : MonoBehaviour
     public bool JumpInputStop { get; private set; }
     public bool JumpInput { get; private set; }
     public Vector2 MovementInput { get; private set; }
+
+    
     void Start()
     {
         
@@ -24,10 +26,14 @@ public class PlayerInput : MonoBehaviour
         horizontalInput = Input.GetAxisRaw(HORIZONTAL);
         verticalInput = Input.GetAxisRaw(VERTICAL);
         MovementInput = new Vector2(horizontalInput, verticalInput);
+
+        
         JumpInput = Input.GetButtonDown(JUMP);
         JumpInputStop = Input.GetButtonUp(JUMP);
+        
     }
 
     public void UseJumpInput() => JumpInput = false; 
+    
     
 }

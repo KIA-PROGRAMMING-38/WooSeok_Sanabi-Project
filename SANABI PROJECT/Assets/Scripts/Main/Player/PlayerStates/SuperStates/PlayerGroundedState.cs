@@ -7,6 +7,7 @@ public class PlayerGroundedState : PlayerState
     protected float InputX;
     private bool JumpInput;
     private bool isGrounded;
+    private bool isTouchingWall;
 
     public PlayerGroundedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
@@ -17,6 +18,7 @@ public class PlayerGroundedState : PlayerState
         base.DoChecks();
 
         isGrounded = player.CheckIfGrounded();
+        isTouchingWall= player.CheckIfTouchingWall();
     }
 
     public override void Enter()

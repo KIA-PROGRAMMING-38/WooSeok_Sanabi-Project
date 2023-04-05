@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour
     public PlayerInAirState InAirState { get; private set; }
     // public PlayerFallState FallState { get; private set; }
     public PlayerLandState LandState { get; private set; }
+    public PlayerWallSlideState WallSlideState { get; private set; }
+    public PlayerWallGrabState WallGrabState { get; private set; }
+    public PlayerWallClimbState WallClimbState { get; private set; }
+
     #endregion
     public Rigidbody2D playerRigidBody { get; private set; }
 
@@ -24,6 +28,7 @@ public class PlayerController : MonoBehaviour
     public PlayerData playerData;
 
     [SerializeField] private Transform groundCheck;
+    [SerializeField] private Transform wallCheck;
 
     #region variables
     public Vector2 CurrentVelocity { get; private set; }    
@@ -40,6 +45,9 @@ public class PlayerController : MonoBehaviour
         JumpState = new PlayerJumpState(this, StateMachine, playerData, "inAir");
         InAirState = new PlayerInAirState(this, StateMachine, playerData, "inAir");
         LandState = new PlayerLandState(this, StateMachine, playerData, "land");
+        WallSlideState = new PlayerWallSlideState(this, StateMachine, playerData, "wallSlide");
+        WallGrabState = new PlayerWallGrabState(this, StateMachine, playerData, "wallGrab");
+        WallClimbState = new PlayerWallClimbState(this, StateMachine, playerData, "wallClimb");
     }
 
     private void Start()
@@ -55,7 +63,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(playerRigidBody.gravityScale);
         CurrentVelocity = playerRigidBody.velocity;
         StateMachine.CurrentState.LogicUpdate();
     }
@@ -95,6 +102,13 @@ public class PlayerController : MonoBehaviour
         return Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
         // this will return true if anything conditioned above is detected, otherwise false
     }
+
+    public bool CheckIfTouchingWall()
+    {
+        return Physics2D.Raycast(wallCheck.position, Vector2.right * FacingDirection, playerData.wallCheckDistance, playerData.whatIsGround);
+        // this will return true if anything conditioned above is detected, otherwise false
+    }
+
     #endregion
 
     #region Other Functions

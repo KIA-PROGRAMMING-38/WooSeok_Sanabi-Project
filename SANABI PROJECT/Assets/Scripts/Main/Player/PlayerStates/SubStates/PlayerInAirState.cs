@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerInAirState : PlayerState
 {
     private bool isGrounded; // to check if it's grounded
+    private bool isTouchingWall;
     private float xInput;
     private bool isJumping; // to check if still jumping
     private bool jumpInputStop; // to check if finger off space bar
@@ -17,6 +18,7 @@ public class PlayerInAirState : PlayerState
         base.DoChecks();
 
         isGrounded = player.CheckIfGrounded();
+        isTouchingWall = player.CheckIfTouchingWall();
     }
 
     public override void Enter()
@@ -42,6 +44,10 @@ public class PlayerInAirState : PlayerState
         {
             stateMachine.ChangeState(player.LandState);
         }
+        else if (isTouchingWall && xInput == player.FacingDirection && player.CurrentVelocity.y <= 0f) // if xInput is in the direction of the wall
+        {
+            stateMachine.ChangeState(player.WallGrabState);
+        }
         else
         {
             player.CheckIfShouldFlip(xInput);
@@ -49,6 +55,7 @@ public class PlayerInAirState : PlayerState
             player.BodyAnimator.SetFloat("yVelocity", player.CurrentVelocity.y);
             player.ArmAnimator.SetFloat("yVelocity", player.CurrentVelocity.y);
         }
+        
 
         FastFall();
         
