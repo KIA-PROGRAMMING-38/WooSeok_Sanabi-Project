@@ -48,6 +48,10 @@ public class PlayerGroundedState : PlayerState
         {
             stateMachine.ChangeState(player.InAirState);
         }
+        else if (MouseInput)
+        {
+            stateMachine.ChangeState(player.WireShootState);
+        }
         
     }
 

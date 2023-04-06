@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         WallGrabState = new PlayerWallGrabState(this, StateMachine, playerData, "wallGrab");
         WallClimbState = new PlayerWallClimbState(this, StateMachine, playerData, "wallClimb");
         WallJumpState = new PlayerWallJumpState(this, StateMachine, playerData, "inAir");
-        WireShootState = new PlayerWireShootState(this, StateMachine, playerData, "shootWire");
+        WireShootState = new PlayerWireShootState(this, StateMachine, playerData, "wireShoot");
     }
 
     private void Start()

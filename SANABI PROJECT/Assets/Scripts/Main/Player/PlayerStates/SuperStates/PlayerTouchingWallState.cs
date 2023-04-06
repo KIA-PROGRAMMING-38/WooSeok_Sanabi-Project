@@ -73,6 +73,10 @@ public class PlayerTouchingWallState : PlayerState
                 xInputTime = 0f;
             }
         }
+        else if (MouseInput)
+        {
+            stateMachine.ChangeState(player.WireShootState);
+        }
     }
 
     public override void PhysicsUpdate()
