@@ -29,7 +29,7 @@ public class PlayerRunState : PlayerGroundedState
         base.LogicUpdate();
         player.CheckIfShouldFlip(InputX);
         player.SetVelocityX(playerData.movementVelocity * InputX);
-        if (InputX == 0)
+        if (InputX == 0 && !isExitingState)
         {
             stateMachine.ChangeState(player.IdleState);
         }

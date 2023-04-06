@@ -7,6 +7,7 @@ public class PlayerAbilityState : PlayerState
 
     protected bool isAbilityDone;
     public bool isGrounded;
+    public bool MouseInput;
 
     public PlayerAbilityState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
@@ -33,7 +34,7 @@ public class PlayerAbilityState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-
+        MouseInput = player.Input.MouseInput;
         if (isAbilityDone)
         {
             if (isGrounded && player.CurrentVelocity.y < 0.01f)

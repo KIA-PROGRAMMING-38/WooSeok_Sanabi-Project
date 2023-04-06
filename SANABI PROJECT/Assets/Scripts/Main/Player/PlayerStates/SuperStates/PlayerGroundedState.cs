@@ -8,6 +8,7 @@ public class PlayerGroundedState : PlayerState
     private bool JumpInput;
     private bool isGrounded;
     private bool isTouchingWall;
+    public bool MouseInput;
 
     public PlayerGroundedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
@@ -37,6 +38,7 @@ public class PlayerGroundedState : PlayerState
 
         InputX = player.Input.MovementInput.x;
         JumpInput = player.Input.JumpInput;
+        MouseInput = player.Input.MouseInput;
         if (JumpInput)
         {
             player.Input.UseJumpInput();
@@ -46,6 +48,7 @@ public class PlayerGroundedState : PlayerState
         {
             stateMachine.ChangeState(player.InAirState);
         }
+        
     }
 
     public override void PhysicsUpdate()

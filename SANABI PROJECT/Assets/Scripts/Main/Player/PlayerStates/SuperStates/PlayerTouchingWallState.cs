@@ -9,8 +9,8 @@ public class PlayerTouchingWallState : PlayerState
     protected float xInput;
     protected float yInput;
     protected bool JumpInput;
-    protected float xInputTime;
-
+    protected float xInputTime; // how long input X is pressed for
+    public bool MouseInput;
     public PlayerTouchingWallState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -31,7 +31,6 @@ public class PlayerTouchingWallState : PlayerState
 
         isGrounded = player.CheckIfGrounded();
         isTouchingWall = player.CheckIfTouchingWall();
-        
     }
 
     public override void Enter()
@@ -50,17 +49,22 @@ public class PlayerTouchingWallState : PlayerState
         xInput = player.Input.MovementInput.x;
         yInput = player.Input.MovementInput.y;
         JumpInput = player.Input.JumpInput;
+        MouseInput = player.Input.MouseInput;
 
         if (isGrounded)
         {
             stateMachine.ChangeState(player.IdleState);
         }
-        else if (!isTouchingWall || JumpInput)// || xInput != player.FacingDirection)
+        else if (!isTouchingWall)// || xInput != player.FacingDirection)
         {
             stateMachine.ChangeState(player.InAirState);
         }
-
-        if (xInput == -player.FacingDirection) // to get off the wall
+        else if (isTouchingWall && JumpInput) //  && (isTouchingWall || isTouchingWallBack)
+        {
+            player.WallJumpState.DetermineWallJumpDirection(isTouchingWall);
+            stateMachine.ChangeState(player.WallJumpState);
+        }
+        else if (isTouchingWall && xInput == -player.FacingDirection) // to get off the wall if pressing the button opposite to the facing direction
         {
             xInputTime += Time.deltaTime;
             if (playerData.wallGrabOffSeconds <= xInputTime)

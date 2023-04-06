@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     public PlayerWallSlideState WallSlideState { get; private set; }
     public PlayerWallGrabState WallGrabState { get; private set; }
     public PlayerWallClimbState WallClimbState { get; private set; }
+    public PlayerWallJumpState WallJumpState { get; private set; }
+    public PlayerWireShootState WireShootState { get; private set; }
 
     #endregion
     public Rigidbody2D playerRigidBody { get; private set; }
@@ -48,6 +50,8 @@ public class PlayerController : MonoBehaviour
         WallSlideState = new PlayerWallSlideState(this, StateMachine, playerData, "wallSlide");
         WallGrabState = new PlayerWallGrabState(this, StateMachine, playerData, "wallGrab");
         WallClimbState = new PlayerWallClimbState(this, StateMachine, playerData, "wallClimb");
+        WallJumpState = new PlayerWallJumpState(this, StateMachine, playerData, "inAir");
+        WireShootState = new PlayerWireShootState(this, StateMachine, playerData, "shootWire");
     }
 
     private void Start()
@@ -65,6 +69,7 @@ public class PlayerController : MonoBehaviour
     {
         CurrentVelocity = playerRigidBody.velocity;
         StateMachine.CurrentState.LogicUpdate();
+        Debug.Log(CurrentVelocity);
     }
 
     private void FixedUpdate()
@@ -86,6 +91,20 @@ public class PlayerController : MonoBehaviour
         playerRigidBody.velocity = workspace;
         CurrentVelocity = workspace;
     }
+
+    public void SetWallJumpVelocity(float velocity, Vector2 angle, int direction)
+    {
+        angle.Normalize();
+        workspace.Set(angle.x * velocity * direction, angle.y * velocity);
+        playerRigidBody.velocity = workspace;
+        CurrentVelocity = workspace;
+    }
+
+    public void SetInAirXVelocity(float xInput)
+    {
+        playerRigidBody.AddForce(new Vector2(playerData.movementVelocity * xInput, 0f));
+    }
+
     #endregion
 
     #region Check Functions
@@ -108,11 +127,15 @@ public class PlayerController : MonoBehaviour
         return Physics2D.Raycast(wallCheck.position, Vector2.right * FacingDirection, playerData.wallCheckDistance, playerData.whatIsGround);
         // this will return true if anything conditioned above is detected, otherwise false
     }
-
+    public bool CheckIfTouchingWallBack()
+    {
+        return Physics2D.Raycast(wallCheck.position, Vector2.right * -FacingDirection, playerData.wallCheckDistance, playerData.whatIsGround);
+        // this will return true if anything conditioned above is detected, otherwise false
+    }
     #endregion
 
     #region Other Functions
-    
+
     private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
     private void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 
@@ -13,6 +14,11 @@ public class PlayerData : MonoBehaviour
 
     [Header("In Air State")]
     public float variableJumpHeightMultiplier = 0.5f;
+
+    [Header("WallJumpState")]
+    public float wallJumpVelocity = 8f;
+    public float wallJumpTime = 0.1f;
+    public Vector2 wallJumpAngle = new Vector2(1, 2);
 
     [Header("WallSlideState")]
     public float wallSlideVelocity = 3f;

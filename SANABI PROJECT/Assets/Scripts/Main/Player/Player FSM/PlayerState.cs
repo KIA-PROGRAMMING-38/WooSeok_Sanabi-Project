@@ -11,6 +11,7 @@ public class PlayerState
     protected bool isAnimationFinished;
     protected float startTime; // defines how long the player has been in the state
     private string animBoolName;
+    protected bool isExitingState; // to prevent executing scripts inbetween state changes inside the same SuperStates.
     public PlayerState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
     {
         this.player = player;
@@ -26,12 +27,14 @@ public class PlayerState
         player.ArmAnimator.SetBool(animBoolName, true);
         startTime = Time.time;
         isAnimationFinished = false;
+        isExitingState = false;
     }
 
     public virtual void Exit() // when exit the state
     {
         player.BodyAnimator.SetBool(animBoolName, false);
         player.ArmAnimator.SetBool(animBoolName, false);
+        isExitingState = true;
     }
 
     public virtual void LogicUpdate() // update for each frame

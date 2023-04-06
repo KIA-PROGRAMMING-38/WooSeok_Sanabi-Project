@@ -14,6 +14,9 @@ public class PlayerInput : MonoBehaviour
     public bool JumpInputStop { get; private set; }
     public bool JumpInput { get; private set; }
     public Vector2 MovementInput { get; private set; }
+    public bool DashInput { get; private set; }
+
+    public bool MouseInput { get; private set; }
 
     
     void Start()
@@ -30,10 +33,14 @@ public class PlayerInput : MonoBehaviour
         
         JumpInput = Input.GetButtonDown(JUMP);
         JumpInputStop = Input.GetButtonUp(JUMP);
+
+        DashInput = Input.GetKeyDown(KeyCode.LeftShift);
+        MouseInput = Input.GetMouseButtonDown(0);
         
     }
 
     public void UseJumpInput() => JumpInput = false; 
+    public void UseDashInput() => DashInput = false;
     
     
 }

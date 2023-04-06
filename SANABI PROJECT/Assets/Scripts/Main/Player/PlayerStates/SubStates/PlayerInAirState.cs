@@ -7,8 +7,11 @@ public class PlayerInAirState : PlayerState
     private bool isGrounded; // to check if it's grounded
     private bool isTouchingWall;
     private float xInput;
+    private bool JumpInput;
     private bool isJumping; // to check if still jumping
     private bool jumpInputStop; // to check if finger off space bar
+    public bool MouseInput;
+    
     public PlayerInAirState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -19,6 +22,7 @@ public class PlayerInAirState : PlayerState
 
         isGrounded = player.CheckIfGrounded();
         isTouchingWall = player.CheckIfTouchingWall();
+        
     }
 
     public override void Enter()
@@ -37,14 +41,17 @@ public class PlayerInAirState : PlayerState
 
         xInput = player.Input.MovementInput.x;
         jumpInputStop = player.Input.JumpInputStop;
+        JumpInput = player.Input.JumpInput;
+        MouseInput= player.Input.MouseInput;
 
         CheckJumpMultiplier();
 
-        if (isGrounded && player.CurrentVelocity.y < 0.01f)
+        if (isGrounded && player.CurrentVelocity.y < 0.01f) // if landed on ground
         {
             stateMachine.ChangeState(player.LandState);
         }
-        else if (isTouchingWall && xInput == player.FacingDirection && player.CurrentVelocity.y <= 0f) // if xInput is in the direction of the wall
+        
+        else if (isTouchingWall && xInput == player.FacingDirection) // if xInput is in the direction of the wall
         {
             stateMachine.ChangeState(player.WallGrabState);
         }
@@ -52,10 +59,10 @@ public class PlayerInAirState : PlayerState
         {
             player.CheckIfShouldFlip(xInput);
             player.SetVelocityX(playerData.movementVelocity * xInput);
+            // player.SetInAirXVelocity(xInput);
             player.BodyAnimator.SetFloat("yVelocity", player.CurrentVelocity.y);
             player.ArmAnimator.SetFloat("yVelocity", player.CurrentVelocity.y);
         }
-        
 
         FastFall();
         

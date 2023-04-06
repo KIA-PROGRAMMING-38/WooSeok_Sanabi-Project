@@ -60569,8 +60569,12 @@ MonoBehaviour:
   movementVelocity: 10
   jumpVelocity: 7.5
   variableJumpHeightMultiplier: 0.5
-  wallSlideVelocity: 5
-  wallClimbVelocity: 3
+  wallJumpVelocity: 8
+  wallJumpTime: 0.1
+  wallJumpAngle: {x: 1, y: 2}
+  wallSlideVelocity: 7
+  wallClimbVelocity: 4
+  wallGrabOffSeconds: 0.7
   groundCheckRadius: 0.3
   wallCheckDistance: 0.5
   whatIsGround:
