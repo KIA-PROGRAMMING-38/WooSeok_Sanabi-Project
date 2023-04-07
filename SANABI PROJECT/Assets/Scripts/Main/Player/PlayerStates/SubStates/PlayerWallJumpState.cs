@@ -12,7 +12,6 @@ public class PlayerWallJumpState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("Entered WallJump");
         player.SetWallJumpVelocity(playerData.wallJumpVelocity, playerData.wallJumpAngle, wallJumpDirection);
         player.CheckIfShouldFlip(wallJumpDirection);
     }
@@ -52,6 +51,5 @@ public class PlayerWallJumpState : PlayerAbilityState
     public override void Exit()
     {
         base.Exit();
-        Debug.Log("Exit WallJump");
     }
 }

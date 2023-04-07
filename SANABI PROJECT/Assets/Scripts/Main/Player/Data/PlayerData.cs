@@ -31,6 +31,9 @@ public class PlayerData : MonoBehaviour
     [Header("WallGrabState")]
     public float wallGrabOffSeconds = 0.7f;
 
+    [Header("WireShootState")]
+    public float wireLength = 10f;
+
     [Header("Check Variables")]
     public float groundCheckRadius = 0.3f;
     public float wallCheckDistance = 0.5f;

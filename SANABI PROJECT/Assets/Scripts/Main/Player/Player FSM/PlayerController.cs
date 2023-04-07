@@ -69,7 +69,6 @@ public class PlayerController : MonoBehaviour
     {
         CurrentVelocity = playerRigidBody.velocity;
         StateMachine.CurrentState.LogicUpdate();
-        Debug.Log(CurrentVelocity);
     }
 
     private void FixedUpdate()
