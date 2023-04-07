@@ -15,7 +15,7 @@ public class PlayerData : MonoBehaviour
     [Header("In Air State")]
     public float variableJumpHeightMultiplier = 0.5f;
     public float addedForce = 10f;
-    public float maxXVelocity = 10f;
+    public float XVelocityLimit = 10f;
 
     [Header("WallJumpState")]
     public float wallJumpVelocity = 8f;
@@ -33,6 +33,10 @@ public class PlayerData : MonoBehaviour
 
     [Header("WireShootState")]
     public float wireLength = 10f;
+    public float shootSpeed = 80f;
+
+    [Header("WireGrappledState")]
+    public float grappleAddedForce = 2f;
 
     [Header("Check Variables")]
     public float groundCheckRadius = 0.3f;

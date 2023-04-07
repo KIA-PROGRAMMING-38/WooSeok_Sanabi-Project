@@ -8,10 +8,13 @@ public class PlayerWireController : MonoBehaviour
     int normalWallLayerNumber;
     int hitNumber;
     RaycastHit2D[] _hits; // Array to store rayCast hits
-    Vector2 distanceVector; // 
+    public RaycastHit2D _hitTarget;
+    public Vector2 distanceVector;
+    public float angle;
     Camera mainCam;
     PlayerData playerData;
     public bool IsGrappled { get; private set; }
+    [SerializeField] private GrabController grabController;
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -24,10 +27,10 @@ public class PlayerWireController : MonoBehaviour
     void Update()
     {
         distanceVector = mainCam.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        angle = Mathf.Atan2(distanceVector.y, distanceVector.x) * Mathf.Rad2Deg;
         hitNumber = Physics2D.RaycastNonAlloc(transform.position, distanceVector.normalized, _hits, playerData.wireLength);
-        
-        
-        if (IsItHit())
+        IsGrappled = grabController.isGrappled;
+        if (IsItHit() && !IsGrappled)
         {
             DrawEnableLine();
         }
@@ -41,7 +44,8 @@ public class PlayerWireController : MonoBehaviour
     {
         if (2 <= hitNumber)
         {
-            if (_hits[1].collider.gameObject.layer == normalWallLayerNumber) // to exclude the SNB arm itself
+            _hitTarget = _hits[1];
+            if (_hitTarget.collider.gameObject.layer == normalWallLayerNumber) // to exclude the SNB arm itself
             {
                 return true;
             }
@@ -52,22 +56,14 @@ public class PlayerWireController : MonoBehaviour
     {
         lineRenderer.enabled = true;
         lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, _hits[1].point);
-        //lineRenderer.startColor = Color.blue;
-        //lineRenderer.endColor = Color.blue;
+        lineRenderer.SetPosition(1, _hitTarget.point);
     }
 
     public void DeleteEnableLine()
     {
         lineRenderer.enabled = false;
     }
-    private bool isGrappled()
-    {
-        IsGrappled = false;
-
-
-        return IsGrappled;
-    }
+    
 
 
 
