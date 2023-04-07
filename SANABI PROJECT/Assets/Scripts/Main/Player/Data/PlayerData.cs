@@ -14,6 +14,8 @@ public class PlayerData : MonoBehaviour
 
     [Header("In Air State")]
     public float variableJumpHeightMultiplier = 0.5f;
+    public float addedForce = 10f;
+    public float maxXVelocity = 10f;
 
     [Header("WallJumpState")]
     public float wallJumpVelocity = 8f;

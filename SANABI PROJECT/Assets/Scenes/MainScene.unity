@@ -60569,6 +60569,8 @@ MonoBehaviour:
   movementVelocity: 10
   jumpVelocity: 7.5
   variableJumpHeightMultiplier: 0.5
+  addedForce: 10
+  maxXVelocity: 10
   wallJumpVelocity: 8
   wallJumpTime: 0.1
   wallJumpAngle: {x: 1, y: 2}

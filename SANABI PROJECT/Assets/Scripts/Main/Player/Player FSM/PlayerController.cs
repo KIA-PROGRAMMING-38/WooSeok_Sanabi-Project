@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     private Animator[] Animators; // GetComponentInChildren 하면 자기꺼도 가져와서 걍 배열로 가져왔음
     public Animator BodyAnimator { get; private set; }
-    public Animator ArmAnimator { get; private set; }   
+    public Animator ArmAnimator { get; private set; }
     public PlayerInput Input { get; private set; }
 
     public PlayerData playerData;
@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform wallCheck;
 
     #region variables
-    public Vector2 CurrentVelocity { get; private set; }    
+    public Vector2 CurrentVelocity { get; private set; }
     private Vector2 workspace;
     public int FacingDirection { get; private set; }
     private int RightDirection = 1; // to avoid magicNumber
@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
         FacingDirection = RightDirection;
         Animators = GetComponentsInChildren<Animator>();
         BodyAnimator = Animators[0];
-        ArmAnimator = Animators[1];   
+        ArmAnimator = Animators[1];
         Input = GetComponent<PlayerInput>();
         StateMachine.Initialize(IdleState);
     }
@@ -102,7 +102,16 @@ public class PlayerController : MonoBehaviour
 
     public void SetInAirXVelocity(float xInput)
     {
-        playerRigidBody.AddForce(new Vector2(playerData.movementVelocity * xInput, 0f));
+        workspace.Set(playerData.addedForce * xInput, 0f);
+        playerRigidBody.AddForce(workspace);
+        CurrentVelocity = playerRigidBody.velocity;
+
+        if (playerData.maxXVelocity <= Mathf.Abs(CurrentVelocity.x))// velocity must be limited in this case
+        {
+            workspace.Set(playerData.maxXVelocity * xInput, CurrentVelocity.y);
+            playerRigidBody.velocity = workspace;
+            CurrentVelocity = workspace;
+        }
     }
 
     #endregion
@@ -114,6 +123,11 @@ public class PlayerController : MonoBehaviour
         {
             Flip();
         }
+    }
+
+    public void CheckIfGrappled()
+    {
+
     }
 
     public bool CheckIfGrounded()
