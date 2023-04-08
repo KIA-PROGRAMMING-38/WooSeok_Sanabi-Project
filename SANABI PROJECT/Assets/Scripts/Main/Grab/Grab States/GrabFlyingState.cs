@@ -16,7 +16,9 @@ public class GrabFlyingState : GrabState
     public override void Enter()
     {
         base.Enter();
-        grab.isGrabReturned = false;
+        grab.IsFlying = true;
+        grab.isGrappled = false;
+        grab.IsGrabReturned = false;
         grab.HitNoGrab = false;
         grab.HitNormal = false;
         grab.FlyGrab();
@@ -25,6 +27,7 @@ public class GrabFlyingState : GrabState
     public override void Exit()
     {
         base.Exit();
+        grab.IsFlying = false;
     }
 
     public override void LogicUpdate()

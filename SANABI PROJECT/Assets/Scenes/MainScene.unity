@@ -280,7 +280,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f19399d76bd228d47917fe34171ae873, type: 2}
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -58391,7 +58391,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: d2542945874acc84692dc89da17b5c4a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f5f31736c64eca846886978c52e98801, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -60094,7 +60094,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bbea3b9f1344b1547956cf055ef3d5a1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ebf669a5053e5a940ab85d651dedc976, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -60114,7 +60114,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1390056216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acd78e8242bd7c94da22fb74a4198246, type: 3}
+  m_Script: {fileID: 11500000, guid: bf7f34ad4f300a64bb02c103561ac750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   GrabReturnCollider: {fileID: 308494879}
@@ -60129,7 +60129,7 @@ Animator:
   m_GameObject: {fileID: 1390056216}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9b97f10348d995a4cb8e554dac6c0a53, type: 2}
+  m_Controller: {fileID: 9100000, guid: ba43eb9d1087c654b88f287d49975364, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -60747,7 +60747,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f19399d76bd228d47917fe34171ae873, type: 2}
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -60835,7 +60835,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1837626189}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 625c75eb982386e47a02946fad76737d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1326c905bc7f4214b9842b3a876d3574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   distanceVector: {x: 0, y: 0}
@@ -61056,7 +61056,8 @@ MonoBehaviour:
   wallClimbVelocity: 4
   wallGrabOffSeconds: 0.7
   wireLength: 10
-  shootSpeed: 80
+  shootSpeed: 10
+  grappleAddedForce: 2
   groundCheckRadius: 0.3
   wallCheckDistance: 0.5
   whatIsGround:

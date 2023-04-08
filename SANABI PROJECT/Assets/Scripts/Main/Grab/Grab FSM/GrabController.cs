@@ -5,12 +5,15 @@ using UnityEngine;
 public class GrabController : MonoBehaviour
 {
     public GrabStateMachine grabStateMachine { get; private set; }
+    
+    #region GrabStates
     public GrabIdleState IdleState { get; private set; }
     public GrabFlyingState FlyingState { get; private set; }
     public GrabGrabbedState GrabbedState { get; private set; }
     public GrabReturningState ReturningState { get; private set; }
+    #endregion
 
-
+    #region Components
     public PlayerData playerData { get; private set; }
     public Rigidbody2D grabRigid { get; private set; }
     public SpriteRenderer spriteRenderer { get; private set; }
@@ -21,11 +24,15 @@ public class GrabController : MonoBehaviour
     public TrailRenderer trailRenderer { get; private set; }
     public Animator Animator { get; private set; }
     public PlayerInput playerInput { get; private set; }
+    #endregion
 
+    #region Variables
     public bool HitNormal { get; set; }
     public bool HitNoGrab { get; set; }
     public float GrabMaxLength { get; private set; }
+    public bool IsFlying { get; set; }
     public bool isGrappled { get; set; }
+    public bool IsGrabReturned { get; set; }
 
     public int NormalWallLayerNumber { get; private set; }
     public int NoGrabWallLayerNumber { get; private set; }
@@ -34,11 +41,13 @@ public class GrabController : MonoBehaviour
     public Vector3 startPos { get; set; }
     public Vector2 CurrentVelocity { get; private set; }
     public Vector2 workSpace;
-    public bool isGrabReturned { get; set; }
+    
     public Vector2 flyDirection { get; private set; }
     public float flySpeed { get; private set; }
     public Quaternion flyRotation { get; private set; }
     private Vector2 chaseVector;
+    
+    #endregion
     private void Awake()
     {
         grabStateMachine = new GrabStateMachine();
@@ -134,7 +143,6 @@ public class GrabController : MonoBehaviour
 
     public void ReturnGrab()
     {
-        
         trailRenderer.enabled = false;
         workSpace.Set(-flyDirection.x * flySpeed, -flyDirection.y * flySpeed);
         grabRigid.velocity = workSpace;
@@ -156,7 +164,7 @@ public class GrabController : MonoBehaviour
 
     public bool CheckIfReturned()
     {
-        return isGrabReturned;
+        return IsGrabReturned;
     }
     
     private void OnCollisionEnter2D(Collision2D collision)
@@ -176,7 +184,7 @@ public class GrabController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("GrabReturn"))
         {
-            isGrabReturned = true;
+            IsGrabReturned = true;
             DeactivateGrab();
         }
     }

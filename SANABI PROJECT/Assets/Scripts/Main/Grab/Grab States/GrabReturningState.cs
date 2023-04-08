@@ -23,6 +23,7 @@ public class GrabReturningState : GrabState
     public override void Exit()
     {
         base.Exit();
+        grab.IsGrabReturned = true;
         grab.startPos = grab.GrabReturnCollider.transform.position;
     }
 

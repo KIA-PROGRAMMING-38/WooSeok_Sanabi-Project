@@ -19,8 +19,7 @@ public class GrabGrabbedState : GrabState
     public override void Enter()
     {
         base.Enter();
-        // holdPosition = grab.transform.position;
-        // holdRotation = grab.transform.rotation;
+        
         grab.isGrappled = true;
         grab.grabRigid.bodyType = RigidbodyType2D.Static;
     }
