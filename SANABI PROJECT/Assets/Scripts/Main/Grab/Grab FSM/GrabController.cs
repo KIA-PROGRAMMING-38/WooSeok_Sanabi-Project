@@ -45,8 +45,9 @@ public class GrabController : MonoBehaviour
     public Vector2 flyDirection { get; private set; }
     public float flySpeed { get; private set; }
     public Quaternion flyRotation { get; private set; }
-    private Vector2 chaseVector;
-    
+    private Vector2 ReturnPos;
+    Vector2 newDirection;
+
     #endregion
     private void Awake()
     {
@@ -81,6 +82,7 @@ public class GrabController : MonoBehaviour
     {
         CurrentVelocity = grabRigid.velocity;
         grabStateMachine.grabCurrentState.LogicUpdate();
+        Debug.Log(grabStateMachine.grabCurrentState);
     }
 
     private void FixedUpdate()
@@ -105,6 +107,7 @@ public class GrabController : MonoBehaviour
     }
     public void FlyGrab()
     {
+        
         ActivateGrab();
         transform.rotation = flyRotation;
         workSpace.Set(flyDirection.x * flySpeed, flyDirection.y * flySpeed);
@@ -152,15 +155,17 @@ public class GrabController : MonoBehaviour
     }
 
     
-    public void GrabChaseSNB()
+    public void CalculateNewDirection()
     {
-        chaseVector = GrabReturnCollider.transform.position;
-        workSpace.Set(chaseVector.x - transform.position.x, chaseVector.y - transform.position.y);
-        workSpace = workSpace.normalized * flySpeed;
-        grabRigid.velocity = workSpace;
         transform.rotation = flyRotation;
-        CurrentVelocity = workSpace;
+        ReturnPos = GrabReturnCollider.transform.position;
+        newDirection = (ReturnPos - (Vector2)transform.position).normalized;
+        workSpace.Set(newDirection.x, newDirection.y);
+        workSpace = workSpace * flySpeed;
+        grabRigid.velocity = workSpace;
+        CurrentVelocity = grabRigid.velocity;
     }
+    
 
     public bool CheckIfReturned()
     {

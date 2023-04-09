@@ -30,7 +30,7 @@ public class GrabReturningState : GrabState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        grab.GrabChaseSNB();
+        grab.CalculateNewDirection();
         if (grab.CheckIfReturned())
         {
             grabStateMachine.ChangeState(grab.IdleState);

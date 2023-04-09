@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GrabGrabbedState : GrabState
 {
-    Vector2 holdPosition;
-    Quaternion holdRotation;
     private bool mouseInputStop;
     public GrabGrabbedState(GrabController grab, GrabStateMachine grabStateMachine, PlayerData playerData, string animBoolName) : base(grab, grabStateMachine, playerData, animBoolName)
     {
