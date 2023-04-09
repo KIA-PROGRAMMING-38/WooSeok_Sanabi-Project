@@ -55,6 +55,10 @@ public class PlayerInAirState : PlayerState
         {
             stateMachine.ChangeState(player.WallGrabState);
         }
+        else if (MouseInput)
+        {
+            stateMachine.ChangeState(player.WireShootState);
+        }
         else
         {
             player.CheckIfShouldFlip(xInput);

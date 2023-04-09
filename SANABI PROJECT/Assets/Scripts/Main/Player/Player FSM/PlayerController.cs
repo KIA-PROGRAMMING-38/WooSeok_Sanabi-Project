@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public PlayerWallClimbState WallClimbState { get; private set; }
     public PlayerWallJumpState WallJumpState { get; private set; }
     public PlayerWireShootState WireShootState { get; private set; }
+    public PlayerWireGrappledState WireGrappledState { get; private set; }
 
     #endregion
     public Rigidbody2D playerRigidBody { get; private set; }
@@ -26,6 +27,10 @@ public class PlayerController : MonoBehaviour
     public Animator BodyAnimator { get; private set; }
     public Animator ArmAnimator { get; private set; }
     public PlayerInput Input { get; private set; }
+    public PlayerWireController WireController { get; private set; }
+    public GrabController GrabController { get; private set; }
+
+    public DistanceJoint2D Joint { get; private set; }
 
     public PlayerData playerData;
 
@@ -42,6 +47,9 @@ public class PlayerController : MonoBehaviour
     {
         StateMachine = new PlayerStateMachine();
         playerData = GetComponent<PlayerData>();
+        WireController = GetComponentInChildren<PlayerWireController>();
+        GrabController= GetComponentInChildren<GrabController>();   
+        Joint = GetComponent<DistanceJoint2D>();
         IdleState = new PlayerIdleState(this, StateMachine, playerData, "idle");
         RunState = new PlayerRunState(this, StateMachine, playerData, "run");
         JumpState = new PlayerJumpState(this, StateMachine, playerData, "inAir");
@@ -52,6 +60,7 @@ public class PlayerController : MonoBehaviour
         WallClimbState = new PlayerWallClimbState(this, StateMachine, playerData, "wallClimb");
         WallJumpState = new PlayerWallJumpState(this, StateMachine, playerData, "inAir");
         WireShootState = new PlayerWireShootState(this, StateMachine, playerData, "wireShoot");
+        WireGrappledState = new PlayerWireGrappledState(this, StateMachine, playerData, "wireGrappled");
     }
 
     private void Start()
@@ -69,7 +78,6 @@ public class PlayerController : MonoBehaviour
     {
         CurrentVelocity = playerRigidBody.velocity;
         StateMachine.CurrentState.LogicUpdate();
-        Debug.Log(CurrentVelocity);
     }
 
     private void FixedUpdate()
@@ -106,12 +114,19 @@ public class PlayerController : MonoBehaviour
         playerRigidBody.AddForce(workspace);
         CurrentVelocity = playerRigidBody.velocity;
 
-        if (playerData.maxXVelocity <= Mathf.Abs(CurrentVelocity.x))// velocity must be limited in this case
+        if (playerData.XVelocityLimit <= Mathf.Abs(CurrentVelocity.x))// velocity must be limited in this case
         {
-            workspace.Set(playerData.maxXVelocity * xInput, CurrentVelocity.y);
+            workspace.Set(playerData.XVelocityLimit * xInput, CurrentVelocity.y);
             playerRigidBody.velocity = workspace;
             CurrentVelocity = workspace;
         }
+    }
+
+    public void AddXVelocityWhenGrappled(float xInput)
+    {
+        workspace.Set(playerData.grappleAddedForce * xInput, 0f);
+        playerRigidBody.AddForce(workspace);
+        CurrentVelocity = playerRigidBody.velocity;
     }
 
     #endregion
@@ -122,6 +137,24 @@ public class PlayerController : MonoBehaviour
         if (xInput != 0 && xInput != FacingDirection)
         {
             Flip();
+        }
+    }
+
+    public void CheckIfShouldFlipForMouseInput(float xDirection)
+    {
+        if (0f < xDirection)
+        {
+            if (FacingDirection != RightDirection)
+            {
+                Flip();
+            }
+        }
+        else
+        {
+            if (FacingDirection != -RightDirection)
+            {
+                Flip();
+            }
         }
     }
 

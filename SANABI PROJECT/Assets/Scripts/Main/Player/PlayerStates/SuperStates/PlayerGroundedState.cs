@@ -48,11 +48,11 @@ public class PlayerGroundedState : PlayerState
         {
             stateMachine.ChangeState(player.InAirState);
         }
-        //else if (MouseInput)
-        //{
-        //    stateMachine.ChangeState(player.WireShootState);
-        //}
-        
+        else if (MouseInput)
+        {
+            stateMachine.ChangeState(player.WireShootState);
+        }
+
     }
 
     public override void PhysicsUpdate()
