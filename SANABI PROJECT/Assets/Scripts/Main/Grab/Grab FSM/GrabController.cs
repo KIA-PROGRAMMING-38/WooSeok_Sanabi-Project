@@ -5,27 +5,38 @@ using UnityEngine;
 public class GrabController : MonoBehaviour
 {
     public GrabStateMachine grabStateMachine { get; private set; }
+    
+    #region GrabStates
     public GrabIdleState IdleState { get; private set; }
     public GrabFlyingState FlyingState { get; private set; }
     public GrabGrabbedState GrabbedState { get; private set; }
     public GrabReturningState ReturningState { get; private set; }
+    #endregion
 
-
+    #region Components
     public PlayerData playerData { get; private set; }
     public Rigidbody2D grabRigid { get; private set; }
     public SpriteRenderer spriteRenderer { get; private set; }
-    public PlayerController playerController { get; private set; }  
     public CapsuleCollider2D capsuleCollider { get; private set; }
+
+    public PlayerWireController wireController;
     
     public BoxCollider2D GrabReturnCollider;
     public TrailRenderer trailRenderer { get; private set; }
     public Animator Animator { get; private set; }
     public PlayerInput playerInput { get; private set; }
 
+    public Transform playerTransform;
+    #endregion
+
+    #region Variables
     public bool HitNormal { get; set; }
     public bool HitNoGrab { get; set; }
     public float GrabMaxLength { get; private set; }
+    public bool IsFlying { get; set; }
     public bool isGrappled { get; set; }
+    public bool IsGrabReturned { get; set; }
+    public bool isMouseInput;
 
     public int NormalWallLayerNumber { get; private set; }
     public int NoGrabWallLayerNumber { get; private set; }
@@ -34,11 +45,9 @@ public class GrabController : MonoBehaviour
     public Vector3 startPos { get; set; }
     public Vector2 CurrentVelocity { get; private set; }
     public Vector2 workSpace;
-    public bool isGrabReturned { get; set; }
-    public Vector2 flyDirection { get; private set; }
-    public float flySpeed { get; private set; }
-    public Quaternion flyRotation { get; private set; }
-    private Vector2 chaseVector;
+    public Vector2 HoldPosition { get; set; }
+
+    #endregion
     private void Awake()
     {
         grabStateMachine = new GrabStateMachine();
@@ -53,7 +62,6 @@ public class GrabController : MonoBehaviour
     {
         grabRigid = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        playerController = GetComponentInParent<PlayerController>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         trailRenderer = GetComponentInChildren<TrailRenderer>();
         Animator = GetComponent<Animator>();
@@ -72,6 +80,7 @@ public class GrabController : MonoBehaviour
     {
         CurrentVelocity = grabRigid.velocity;
         grabStateMachine.grabCurrentState.LogicUpdate();
+        //Debug.Log($"현재 그랩상태 = {grabStateMachine.grabCurrentState}");
     }
 
     private void FixedUpdate()
@@ -79,48 +88,21 @@ public class GrabController : MonoBehaviour
         grabStateMachine.grabCurrentState.PhysicsUpdate();
     }
 
+    public void ConvertMouseInput(bool mouseInput)
+    {
+        if (mouseInput)
+        {
+            isMouseInput = true;
+        }
+        else
+        {
+            isMouseInput = false;
+        }
+    }
     
-    
-
-    public void ResetGrab()
+    public bool CheckIfMouseInput()
     {
-        GrabReturnCollider.enabled = false;
-        transform.position = startPos;
-        DeactivateGrab();
-    }
-    public void SetGrabVelocity(float throwSpeed, Vector2 targetDirection, Quaternion shootRotation)
-    {
-        flySpeed = throwSpeed;
-        flyDirection = targetDirection;
-        flyRotation = shootRotation;
-    }
-    public void FlyGrab()
-    {
-        ActivateGrab();
-        transform.rotation = flyRotation;
-        workSpace.Set(flyDirection.x * flySpeed, flyDirection.y * flySpeed);
-        grabRigid.velocity = workSpace;
-        CurrentVelocity = workSpace;
-    }
-
-    public void ActivateGrab()
-    {
-        capsuleCollider.enabled = true;
-        spriteRenderer.enabled = true;
-        grabRigid.bodyType = RigidbodyType2D.Dynamic;
-        grabRigid.gravityScale = 0f;
-        trailRenderer.enabled = true;
-    }
-
-    public void DeactivateGrab()
-    {
-        workSpace = Vector2.zero;
-        grabRigid.bodyType = RigidbodyType2D.Kinematic;
-        grabRigid.velocity = workSpace;
-        CurrentVelocity= workSpace;
-        capsuleCollider.enabled = false;
-        spriteRenderer.enabled = false;
-        grabRigid.gravityScale = 1f;
+        return isMouseInput;
     }
 
     public bool CheckIfTooFar()
@@ -132,31 +114,9 @@ public class GrabController : MonoBehaviour
         return false;
     }
 
-    public void ReturnGrab()
+    public bool CheckIfGrabReturned()
     {
-        
-        trailRenderer.enabled = false;
-        workSpace.Set(-flyDirection.x * flySpeed, -flyDirection.y * flySpeed);
-        grabRigid.velocity = workSpace;
-        CurrentVelocity = workSpace;
-        grabRigid.gravityScale = 0f;
-        
-    }
-
-    
-    public void GrabChaseSNB()
-    {
-        chaseVector = GrabReturnCollider.transform.position;
-        workSpace.Set(chaseVector.x - transform.position.x, chaseVector.y - transform.position.y);
-        workSpace = workSpace.normalized * flySpeed;
-        grabRigid.velocity = workSpace;
-        transform.rotation = flyRotation;
-        CurrentVelocity = workSpace;
-    }
-
-    public bool CheckIfReturned()
-    {
-        return isGrabReturned;
+        return IsGrabReturned;
     }
     
     private void OnCollisionEnter2D(Collision2D collision)
@@ -170,14 +130,14 @@ public class GrabController : MonoBehaviour
         {
             HitNoGrab = true;
         }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("GrabReturn"))
         {
-            isGrabReturned = true;
-            DeactivateGrab();
+            IsGrabReturned = true;
         }
     }
 }

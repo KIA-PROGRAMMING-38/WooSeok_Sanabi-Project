@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerWireState : PlayerState
 {
     public bool MouseInput;
-    public PlayerWireState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public bool isGrounded;
+    public PlayerWireState(SNBController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
 
@@ -29,6 +30,7 @@ public class PlayerWireState : PlayerState
         base.LogicUpdate();
 
         MouseInput = player.Input.MouseInput;
+        isGrounded = player.CheckIfGrounded();
     }
 
     public override void PhysicsUpdate()

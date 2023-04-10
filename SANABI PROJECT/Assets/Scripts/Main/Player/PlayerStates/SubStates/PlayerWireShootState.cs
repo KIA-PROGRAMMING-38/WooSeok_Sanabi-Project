@@ -7,7 +7,7 @@ public class PlayerWireShootState : PlayerAbilityState
     Vector2 holdPosition;
     Vector2 shootDirection;
     Quaternion shootRotation;
-    public PlayerWireShootState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerWireShootState(SNBController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
 
@@ -31,8 +31,9 @@ public class PlayerWireShootState : PlayerAbilityState
         base.Enter();
         holdPosition = player.transform.position;
         shootDirection = player.WireController.distanceVector.normalized;
-        shootRotation = Quaternion.Euler(0f, 0f, player.WireController.angle + 270f);
-        player.GrabController.SetGrabVelocity(playerData.shootSpeed, shootDirection, shootRotation);
+        //shootRotation = Quaternion.Euler(0f, 0f, player.WireController.angle + 270f);
+        //player.GrabController.SetGrabVelocity(playerData.shootSpeed, shootDirection, shootRotation);
+        player.GrabController.ConvertMouseInput(player.Input.MouseInput);
         player.CheckIfShouldFlipForMouseInput(shootDirection.x);
     }
 
@@ -50,7 +51,7 @@ public class PlayerWireShootState : PlayerAbilityState
             HoldPositionX();
         }
         
-        if (player.GrabController.CheckIfReturned())
+        if (player.GrabController.CheckIfGrabReturned())
         {
             stateMachine.ChangeState(player.IdleState);
         }
