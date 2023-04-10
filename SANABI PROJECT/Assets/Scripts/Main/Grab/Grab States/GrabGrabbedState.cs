@@ -4,43 +4,44 @@ using UnityEngine;
 
 public class GrabGrabbedState : GrabState
 {
-    private bool mouseInputStop;
+    Vector2 holdPosition;
+    Quaternion holdRotation;
     public GrabGrabbedState(GrabController grab, GrabStateMachine grabStateMachine, PlayerData playerData, string animBoolName) : base(grab, grabStateMachine, playerData, animBoolName)
     {
-    }
-
-    public override void DoChecks()
-    {
-        base.DoChecks();
     }
 
     public override void Enter()
     {
         base.Enter();
-        
+        GetPosAndRot();
+        grab.HoldPosition = holdPosition;
         grab.isGrappled = true;
-        grab.grabRigid.bodyType = RigidbodyType2D.Static;
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-        grab.grabRigid.bodyType = RigidbodyType2D.Dynamic;
-        grab.isGrappled = false;
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        mouseInputStop = grab.playerInput.MouseInputStop;
-        if (mouseInputStop)
+        HoldGrab();
+        if (!mouseInputHold)
         {
             grabStateMachine.ChangeState(grab.ReturningState);
         }
     }
 
-    public override void PhysicsUpdate()
+    public override void Exit()
     {
-        base.PhysicsUpdate();
+        base.Exit();
+        grab.isGrappled = false;
+    }
+    private void GetPosAndRot()
+    {
+        holdPosition = grab.transform.position;
+        holdRotation = grab.transform.rotation;
+    }
+
+    private void HoldGrab()
+    {
+        grab.transform.position = holdPosition;
+        grab.transform.rotation= holdRotation;
     }
 }

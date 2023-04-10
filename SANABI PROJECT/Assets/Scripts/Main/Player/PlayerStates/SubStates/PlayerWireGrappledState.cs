@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class PlayerWireGrappledState : PlayerWireState
 {
     // joint를 연결해줘야함
-    Vector2 playerArmPos;
-    Vector2 hitTargetPos;
-    public PlayerWireGrappledState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    private Vector2 playerArmPos;
+    private Vector2 hitTargetPos;
+    private Vector2 ArmRotateDistance;
+    private float ArmAngle;
+    public PlayerWireGrappledState(SNBController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
 
@@ -40,6 +43,7 @@ public class PlayerWireGrappledState : PlayerWireState
     public override void Exit()
     {
         base.Exit();
+        player.armTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
     public override void LogicUpdate()
@@ -48,12 +52,31 @@ public class PlayerWireGrappledState : PlayerWireState
 
         player.AddXVelocityWhenGrappled(player.Input.MovementInput.x);
 
-        if (player.Input.MouseInputStop)
+        ArmRotateTowardsAnchor();
+
+        if (!player.Input.MouseInputHold)
         {
             player.Joint.enabled = false;
-            stateMachine.ChangeState(player.InAirState);
+            if (isGrounded)
+            {
+                stateMachine.ChangeState(player.IdleState);
+            }
+            else if (!isGrounded)
+            {
+                stateMachine.ChangeState(player.InAirState);
+            }
         }
     }
+    
+    private void ArmRotateTowardsAnchor()
+    {
+        playerArmPos = player.WireController.gameObject.transform.position;
+        ArmRotateDistance = hitTargetPos - playerArmPos;
+        ArmAngle = Mathf.Atan2(ArmRotateDistance.y, ArmRotateDistance.x) * Mathf.Rad2Deg;
+        player.armTransform.rotation = Quaternion.Euler(0f, 0f, ArmAngle);
+    }
+
+    
 
     public override void PhysicsUpdate()
     {

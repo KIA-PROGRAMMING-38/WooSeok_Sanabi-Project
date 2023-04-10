@@ -8,32 +8,25 @@ public class GrabFlyingState : GrabState
     {
     }
 
-    public override void DoChecks()
-    {
-        base.DoChecks();
-    }
-
     public override void Enter()
     {
         base.Enter();
-        grab.IsFlying = true;
-        grab.isGrappled = false;
-        grab.IsGrabReturned = false;
-        grab.HitNoGrab = false;
-        grab.HitNormal = false;
-        grab.FlyGrab();
+        SetVariables();
+        ShootGrab();
     }
-
+    
     public override void Exit()
     {
         base.Exit();
+        grab.ConvertMouseInput(false);
+        grab.playerInput.UseWireShoot();
         grab.IsFlying = false;
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        grab.transform.rotation = grab.flyRotation; // i really didn't want to do this, but it keeps rotating after collision with nograp wall
+
         if (grab.HitNormal)
         {
             grabStateMachine.ChangeState(grab.GrabbedState);
@@ -47,5 +40,28 @@ public class GrabFlyingState : GrabState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+    }
+    private void SetVariables()
+    {
+        grab.IsFlying = true;
+        grab.isGrappled = false;
+        grab.IsGrabReturned = false;
+        grab.HitNoGrab = false;
+        grab.HitNormal = false;
+        grab.GrabReturnCollider.enabled = false;
+        grab.capsuleCollider.enabled = true;
+    }
+
+    private void SetGrabStatus()
+    {
+        grab.grabRigid.bodyType = RigidbodyType2D.Dynamic;
+        grab.grabRigid.gravityScale = 0f;
+        grab.spriteRenderer.enabled = true;
+        grab.trailRenderer.enabled = true;
+    }
+    private void ShootGrab()
+    {
+        SetGrabStatus();
+        grab.grabRigid.velocity = grab.transform.up * playerData.shootSpeed;
     }
 }

@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class GrabState 
+public class GrabState
 {
     protected GrabController grab;
     protected GrabStateMachine grabStateMachine;
     protected PlayerData playerData;
     private string animBoolName;
+    protected bool mouseInputHold;
 
     public GrabState(GrabController grab, GrabStateMachine grabStateMachine, PlayerData playerData, string animBoolName)
     {
@@ -30,7 +32,7 @@ public class GrabState
 
     public virtual void LogicUpdate()
     {
-
+        mouseInputHold = grab.playerInput.MouseInputHold;
     }
 
     public virtual void PhysicsUpdate()

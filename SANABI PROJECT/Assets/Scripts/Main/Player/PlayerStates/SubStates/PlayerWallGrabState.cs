@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerWallGrabState : PlayerTouchingWallState
 {
     private Vector2 holdPosition;
-    public PlayerWallGrabState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerWallGrabState(SNBController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
 

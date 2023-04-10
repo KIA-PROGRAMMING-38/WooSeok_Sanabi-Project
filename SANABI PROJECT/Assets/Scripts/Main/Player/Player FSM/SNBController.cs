@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class SNBController : MonoBehaviour
 {
     public PlayerStateMachine StateMachine { get; private set; }
 
@@ -28,8 +28,10 @@ public class PlayerController : MonoBehaviour
     public Animator ArmAnimator { get; private set; }
     public PlayerInput Input { get; private set; }
     public PlayerWireController WireController { get; private set; }
-    public GrabController GrabController { get; private set; }
+    //public GrabController GrabController { get; private set; }
+    public GrabController GrabController;
 
+    public Transform armTransform;
     public DistanceJoint2D Joint { get; private set; }
 
     public PlayerData playerData;
@@ -46,9 +48,9 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         StateMachine = new PlayerStateMachine();
-        playerData = GetComponent<PlayerData>();
+        playerData = GetComponentInParent<PlayerData>();
         WireController = GetComponentInChildren<PlayerWireController>();
-        GrabController= GetComponentInChildren<GrabController>();   
+        //GrabController= GetComponentInChildren<GrabController>();   
         Joint = GetComponent<DistanceJoint2D>();
         IdleState = new PlayerIdleState(this, StateMachine, playerData, "idle");
         RunState = new PlayerRunState(this, StateMachine, playerData, "run");
@@ -70,7 +72,7 @@ public class PlayerController : MonoBehaviour
         Animators = GetComponentsInChildren<Animator>();
         BodyAnimator = Animators[0];
         ArmAnimator = Animators[1];
-        Input = GetComponent<PlayerInput>();
+        Input = GetComponentInParent<PlayerInput>();
         StateMachine.Initialize(IdleState);
     }
 
@@ -190,7 +192,9 @@ public class PlayerController : MonoBehaviour
     private void Flip()
     {
         FacingDirection *= -1;
-        transform.Rotate(0.0f, 180f, 0.0f);
+        Vector3 newScale = Vector3.one;
+        newScale.x = FacingDirection;
+        transform.localScale = newScale;
     }
 
     #endregion
