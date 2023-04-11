@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Windows;
 using UnityEngine.XR;
@@ -29,7 +30,6 @@ public class SNBController : MonoBehaviour
     public Animator ArmAnimator { get; private set; }
     public PlayerInput Input { get; private set; }
     public PlayerWireController WireController { get; private set; }
-    //public GrabController GrabController { get; private set; }
     public GrabController GrabController;
 
     public Transform armTransform;
@@ -40,13 +40,27 @@ public class SNBController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform wallCheck;
 
+    public PlayerWireDashAfterImageSprite spritePrefab;
     #region variables
     public Vector2 CurrentVelocity { get; private set; }
     private Vector2 workspace;
     public int FacingDirection { get; private set; }
     private int RightDirection = 1; // to avoid magicNumber
+    
     private WaitForSeconds DashCooltime;
     private bool CanDash = true;
+    private Vector2 distanceVec;
+    private Vector2 perpendicularVec;
+    private Vector2 direction;
+    
+    public bool isDashing = false;
+    public float dashTime = 0.5f; // how long dash should take
+    private float dashTimeLeft = 0.3f;
+    private float lastImageXpos;
+    private float lastDash = -100f;
+
+    public ObjectPool<PlayerWireDashAfterImageSprite> WireDashPool;
+
     #endregion
     private void Awake()
     {
@@ -76,14 +90,17 @@ public class SNBController : MonoBehaviour
         BodyAnimator = Animators[0];
         ArmAnimator = Animators[1];
         Input = GetComponentInParent<PlayerInput>();
-        DashCooltime = new WaitForSeconds(playerData.DashCooltime);
+        DashCooltime = new WaitForSeconds(playerData.DashCoolDown);
+        WireDashPool = new ObjectPool<PlayerWireDashAfterImageSprite>(CreateWireDashSprite, OnGetSpriteFromPool, OnReturnSpriteToPool);
         StateMachine.Initialize(IdleState);
     }
 
+    
     private void Update()
     {
         CurrentVelocity = playerRigidBody.velocity;
         StateMachine.CurrentState.LogicUpdate();
+
     }
 
     private void FixedUpdate()
@@ -114,55 +131,95 @@ public class SNBController : MonoBehaviour
         CurrentVelocity = workspace;
     }
 
-    //public void SetInAirXVelocity(float xInput)
-    //{
-    //    workspace.Set(playerData.addedForce * xInput, 0f);
-    //    playerRigidBody.AddForce(workspace);
-        
-    //    if (playerData.XVelocityLimit <= Mathf.Abs(CurrentVelocity.x))// velocity must be limited in this case
-    //    {
-    //        workspace.Set(playerData.XVelocityLimit * xInput, CurrentVelocity.y);
-    //        playerRigidBody.velocity = workspace;
-    //    }
-
-    //    CurrentVelocity = playerRigidBody.velocity;
-    //}
-
 
     public void PlayerWireDash()
     {
         if (CanDash)
         {
             CanDash = false;
+            isDashing = true;
+            dashTimeLeft = dashTime;
+            lastDash = Time.time;
+            WireDashPool.GetFromPool();
+            lastImageXpos = transform.position.x;
             Input.UseDashInput();
             SetDashVelocity(Input.MovementInput.x);
             StartCoroutine(CountDashCooltime());
         }
     }
 
+    public void AfterImage()
+    {
+        if (isDashing)
+        {
+            if (dashTimeLeft > 0)
+            {
+                dashTimeLeft -= Time.deltaTime;
+
+                if (playerData.distanceBetweenImages < Mathf.Abs(transform.position.x - lastImageXpos))
+                {
+                    WireDashPool.GetFromPool();
+                    lastImageXpos = transform.position.x;
+                }
+            }
+
+            if (dashTimeLeft <= 0)
+            {
+                isDashing = false;
+            }
+        }
+    }
+
+    public PlayerWireDashAfterImageSprite CreateWireDashSprite()
+    {
+        PlayerWireDashAfterImageSprite sprite = Instantiate(spritePrefab);
+        sprite.WireDashPool = WireDashPool;
+        return sprite;
+    }
+
     public void PlayerWireDashStop()
     {
         StopCoroutine(CountDashCooltime());
         CanDash = true;
+        isDashing = false;
     }
-    
+
     private IEnumerator CountDashCooltime()
     {
         yield return DashCooltime;
         CanDash = true;
     }
-   
+
     public void SetDashVelocity(float xInput)
     {
-        if (xInput != 0)
+        if (transform.position.y < GrabController.HoldPosition.y)
         {
-            workspace.Set(playerData.DashForce * xInput + CurrentVelocity.x, CurrentVelocity.y);
+            distanceVec = (GrabController.HoldPosition - (Vector2)transform.position).normalized;
         }
         else
         {
-            workspace.Set(playerData.DashForce * FacingDirection + CurrentVelocity.x, CurrentVelocity.y);
+            distanceVec = ((Vector2)transform.position - GrabController.HoldPosition).normalized;
         }
-        
+       
+        perpendicularVec = Vector2.Perpendicular(distanceVec);
+
+        if (xInput == 0) // if no input
+        {
+            if (FacingDirection == RightDirection)
+            {
+                perpendicularVec *= -1;
+            }
+        }
+        else // if input detected
+        {
+            if (xInput == 1) // rightKey
+            {
+                perpendicularVec *= -1;
+            }
+        }
+
+        direction = (distanceVec + perpendicularVec).normalized;
+        workspace.Set(direction.x * playerData.DashForce, direction.y * playerData.DashForce);
         playerRigidBody.velocity = workspace;
         CurrentVelocity = playerRigidBody.velocity;
     }
@@ -239,6 +296,9 @@ public class SNBController : MonoBehaviour
         newScale.x = FacingDirection;
         transform.localScale = newScale;
     }
+
+    private void OnGetSpriteFromPool(PlayerWireDashAfterImageSprite sprite) => sprite.gameObject.SetActive(true);
+    private void OnReturnSpriteToPool(PlayerWireDashAfterImageSprite sprite) => sprite.gameObject.SetActive(false);
 
     #endregion
 }

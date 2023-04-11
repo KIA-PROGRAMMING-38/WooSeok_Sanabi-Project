@@ -19,7 +19,7 @@ public class PlayerData : MonoBehaviour
 
     [Header("WallJumpState")]
     public float wallJumpVelocity = 8f;
-    public float wallJumpTime = 0.1f;
+    public float wallJumpTime = 0.15f;
     public Vector2 wallJumpAngle = new Vector2(1, 2);
 
     [Header("WallSlideState")]
@@ -37,8 +37,9 @@ public class PlayerData : MonoBehaviour
 
     [Header("WireGrappledState")]
     public float grappleAddedForce = 2f;
-    public float DashCooltime = 2f;
-    public float DashForce = 15f;
+    public float DashCoolDown = 2f;
+    public float DashForce = 25f;
+    public float distanceBetweenImages = 0.1f;
 
     [Header("Check Variables")]
     public float groundCheckRadius = 0.3f;

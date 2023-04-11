@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro.EditorUtilities;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class PlayerWireGrappledState : PlayerWireState
 {
@@ -47,6 +48,8 @@ public class PlayerWireGrappledState : PlayerWireState
 
         ArmRotateTowardsAnchor();
 
+        
+
         MouseHoldInput = player.Input.MouseInputHold;
         DashInput = player.Input.DashInput;
         
@@ -55,7 +58,8 @@ public class PlayerWireGrappledState : PlayerWireState
             player.PlayerWireDash();
         }
 
-        
+        player.AfterImage();
+
         if (!MouseHoldInput)
         {
             player.Joint.enabled = false;

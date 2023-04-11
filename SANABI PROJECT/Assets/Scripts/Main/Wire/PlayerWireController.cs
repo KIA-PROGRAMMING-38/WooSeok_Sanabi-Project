@@ -59,9 +59,10 @@ public class PlayerWireController : MonoBehaviour
     {
         if (2 <= hitNumber)
         {
-            _hitTarget = _hits[1];
-            if (_hitTarget.collider.gameObject.layer == normalWallLayerNumber) // to exclude the SNB arm itself
+            // _hitTarget = _hits[1];
+            if (_hits[1].collider.gameObject.layer == normalWallLayerNumber) // to exclude the SNB arm itself
             {
+                _hitTarget = _hits[1];
                 return true;
             }
         }

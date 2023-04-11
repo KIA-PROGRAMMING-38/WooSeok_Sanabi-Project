@@ -55406,14 +55406,6 @@ Tilemap:
     m_Data: {fileID: 720389610, guid: 99e6b08f374a37242a36fded17b75f64, type: 3}
   - m_RefCount: 70
     m_Data: {fileID: 771636784, guid: 99e6b08f374a37242a36fded17b75f64, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 5482
     m_Data:
@@ -58519,8 +58511,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1390056217}
   - {fileID: 1937223192}
+  - {fileID: 1390056217}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -58550,8 +58542,9 @@ MonoBehaviour:
   wireLength: 10
   shootSpeed: 70
   grappleAddedForce: 2
-  DashCooltime: 2
-  DashForce: 15
+  DashCoolDown: 2
+  DashForce: 25
+  distanceBetweenImages: 0.1
   groundCheckRadius: 0.3
   wallCheckDistance: 0.5
   whatIsGround:
@@ -60191,7 +60184,7 @@ Transform:
   m_Children:
   - {fileID: 330672602}
   m_Father: {fileID: 1054605043}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1390056218
 SpriteRenderer:
@@ -61019,7 +61012,7 @@ GameObject:
   - component: {fileID: 1937223200}
   m_Layer: 9
   m_Name: SNB
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61041,7 +61034,7 @@ Transform:
   - {fileID: 1653334345}
   - {fileID: 308494878}
   m_Father: {fileID: 1054605043}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1937223193
 SpriteRenderer:
@@ -61180,6 +61173,9 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 012c0e10353446647bec70ff1134d69d, type: 2}
   groundCheck: {fileID: 705836913}
   wallCheck: {fileID: 1653334345}
+  spritePrefab: {fileID: 8539566929753386768, guid: 30da0e67fbdc9b44d9d01e2da2d1b927, type: 3}
+  isDashing: 0
+  dashTime: 1
 --- !u!232 &1937223200
 DistanceJoint2D:
   m_ObjectHideFlags: 0
