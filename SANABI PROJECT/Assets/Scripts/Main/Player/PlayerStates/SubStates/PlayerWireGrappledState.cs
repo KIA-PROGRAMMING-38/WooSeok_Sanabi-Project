@@ -10,18 +10,13 @@ public class PlayerWireGrappledState : PlayerWireState
     private Vector2 hitTargetPos;
     private Vector2 ArmRotateDistance;
     private float ArmAngle;
+    private bool MouseHoldInput;
+
+    private bool DashInput;
+    
+
     public PlayerWireGrappledState(SNBController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
-    }
-
-    public override void AnimationFinishTrigger()
-    {
-        base.AnimationFinishTrigger();
-    }
-
-    public override void AnimationTrigger()
-    {
-        base.AnimationTrigger();
     }
 
     public override void DoChecks()
@@ -32,18 +27,16 @@ public class PlayerWireGrappledState : PlayerWireState
     public override void Enter()
     {
         base.Enter();
-
-        playerArmPos = player.WireController.gameObject.transform.position;
-        hitTargetPos = player.WireController._hitTarget.point;
-        player.Joint.enabled = true;
-        player.Joint.distance = Vector2.Distance(hitTargetPos, playerArmPos);
-        player.Joint.connectedAnchor = hitTargetPos;
+        ConnectAnchor();
     }
+
+    
 
     public override void Exit()
     {
         base.Exit();
         player.armTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        player.PlayerWireDashStop();
     }
 
     public override void LogicUpdate()
@@ -54,7 +47,16 @@ public class PlayerWireGrappledState : PlayerWireState
 
         ArmRotateTowardsAnchor();
 
-        if (!player.Input.MouseInputHold)
+        MouseHoldInput = player.Input.MouseInputHold;
+        DashInput = player.Input.DashInput;
+        
+        if (DashInput)
+        {
+            player.PlayerWireDash();
+        }
+
+        
+        if (!MouseHoldInput)
         {
             player.Joint.enabled = false;
             if (isGrounded)
@@ -67,7 +69,11 @@ public class PlayerWireGrappledState : PlayerWireState
             }
         }
     }
-    
+
+    public override void PhysicsUpdate()
+    {
+        base.PhysicsUpdate();
+    }
     private void ArmRotateTowardsAnchor()
     {
         playerArmPos = player.WireController.gameObject.transform.position;
@@ -75,13 +81,13 @@ public class PlayerWireGrappledState : PlayerWireState
         ArmAngle = Mathf.Atan2(ArmRotateDistance.y, ArmRotateDistance.x) * Mathf.Rad2Deg;
         player.armTransform.rotation = Quaternion.Euler(0f, 0f, ArmAngle);
     }
-
-    
-
-    public override void PhysicsUpdate()
+    private void ConnectAnchor()
     {
-        base.PhysicsUpdate();
+        playerArmPos = player.WireController.gameObject.transform.position;
+        hitTargetPos = player.WireController._hitTarget.point;
+        player.Joint.enabled = true;
+        player.Joint.distance = Vector2.Distance(hitTargetPos, playerArmPos);
+        player.Joint.connectedAnchor = hitTargetPos;
     }
-
     
 }

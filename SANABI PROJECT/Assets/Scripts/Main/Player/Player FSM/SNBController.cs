@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Windows;
+using UnityEngine.XR;
 
 public class SNBController : MonoBehaviour
 {
@@ -11,7 +13,6 @@ public class SNBController : MonoBehaviour
     public PlayerRunState RunState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
     public PlayerInAirState InAirState { get; private set; }
-    // public PlayerFallState FallState { get; private set; }
     public PlayerLandState LandState { get; private set; }
     public PlayerWallSlideState WallSlideState { get; private set; }
     public PlayerWallGrabState WallGrabState { get; private set; }
@@ -44,14 +45,16 @@ public class SNBController : MonoBehaviour
     private Vector2 workspace;
     public int FacingDirection { get; private set; }
     private int RightDirection = 1; // to avoid magicNumber
+    private WaitForSeconds DashCooltime;
+    private bool CanDash = true;
     #endregion
     private void Awake()
     {
         StateMachine = new PlayerStateMachine();
         playerData = GetComponentInParent<PlayerData>();
         WireController = GetComponentInChildren<PlayerWireController>();
-        //GrabController= GetComponentInChildren<GrabController>();   
         Joint = GetComponent<DistanceJoint2D>();
+
         IdleState = new PlayerIdleState(this, StateMachine, playerData, "idle");
         RunState = new PlayerRunState(this, StateMachine, playerData, "run");
         JumpState = new PlayerJumpState(this, StateMachine, playerData, "inAir");
@@ -73,6 +76,7 @@ public class SNBController : MonoBehaviour
         BodyAnimator = Animators[0];
         ArmAnimator = Animators[1];
         Input = GetComponentInParent<PlayerInput>();
+        DashCooltime = new WaitForSeconds(playerData.DashCooltime);
         StateMachine.Initialize(IdleState);
     }
 
@@ -110,18 +114,57 @@ public class SNBController : MonoBehaviour
         CurrentVelocity = workspace;
     }
 
-    public void SetInAirXVelocity(float xInput)
-    {
-        workspace.Set(playerData.addedForce * xInput, 0f);
-        playerRigidBody.AddForce(workspace);
-        CurrentVelocity = playerRigidBody.velocity;
+    //public void SetInAirXVelocity(float xInput)
+    //{
+    //    workspace.Set(playerData.addedForce * xInput, 0f);
+    //    playerRigidBody.AddForce(workspace);
+        
+    //    if (playerData.XVelocityLimit <= Mathf.Abs(CurrentVelocity.x))// velocity must be limited in this case
+    //    {
+    //        workspace.Set(playerData.XVelocityLimit * xInput, CurrentVelocity.y);
+    //        playerRigidBody.velocity = workspace;
+    //    }
 
-        if (playerData.XVelocityLimit <= Mathf.Abs(CurrentVelocity.x))// velocity must be limited in this case
+    //    CurrentVelocity = playerRigidBody.velocity;
+    //}
+
+
+    public void PlayerWireDash()
+    {
+        if (CanDash)
         {
-            workspace.Set(playerData.XVelocityLimit * xInput, CurrentVelocity.y);
-            playerRigidBody.velocity = workspace;
-            CurrentVelocity = workspace;
+            CanDash = false;
+            Input.UseDashInput();
+            SetDashVelocity(Input.MovementInput.x);
+            StartCoroutine(CountDashCooltime());
         }
+    }
+
+    public void PlayerWireDashStop()
+    {
+        StopCoroutine(CountDashCooltime());
+        CanDash = true;
+    }
+    
+    private IEnumerator CountDashCooltime()
+    {
+        yield return DashCooltime;
+        CanDash = true;
+    }
+   
+    public void SetDashVelocity(float xInput)
+    {
+        if (xInput != 0)
+        {
+            workspace.Set(playerData.DashForce * xInput + CurrentVelocity.x, CurrentVelocity.y);
+        }
+        else
+        {
+            workspace.Set(playerData.DashForce * FacingDirection + CurrentVelocity.x, CurrentVelocity.y);
+        }
+        
+        playerRigidBody.velocity = workspace;
+        CurrentVelocity = playerRigidBody.velocity;
     }
 
     public void AddXVelocityWhenGrappled(float xInput)

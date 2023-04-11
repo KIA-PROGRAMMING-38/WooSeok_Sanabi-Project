@@ -47,6 +47,7 @@ public class GrabIdleState : GrabState
         grab.grabRigid.velocity = Vector2.zero;
         grab.transform.position = grab.startPos;
         grab.grabRigid.bodyType = RigidbodyType2D.Kinematic;
+        grab.trailRenderer.emitting= false;
     }
 
     private void GrabAttachedToBody()

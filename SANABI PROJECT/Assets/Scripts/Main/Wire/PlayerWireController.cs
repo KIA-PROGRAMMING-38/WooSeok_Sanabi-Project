@@ -85,17 +85,10 @@ public class PlayerWireController : MonoBehaviour
         lineRenderer.endColor = linkedColor;
     }
 
-
     public void DeleteEnableLine()
     {
         lineRenderer.enabled = false;
     }
     
 
-
-
-    public void FollowLine()
-    {
-
-    }
 }

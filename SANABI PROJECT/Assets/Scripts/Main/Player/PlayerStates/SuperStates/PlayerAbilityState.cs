@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerAbilityState : PlayerState
 {
-
     protected bool isAbilityDone;
     public bool isGrounded;
     public bool isGrappled;

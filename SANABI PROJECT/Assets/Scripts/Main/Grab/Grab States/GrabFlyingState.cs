@@ -57,7 +57,7 @@ public class GrabFlyingState : GrabState
         grab.grabRigid.bodyType = RigidbodyType2D.Dynamic;
         grab.grabRigid.gravityScale = 0f;
         grab.spriteRenderer.enabled = true;
-        grab.trailRenderer.enabled = true;
+        grab.trailRenderer.emitting = true;
     }
     private void ShootGrab()
     {

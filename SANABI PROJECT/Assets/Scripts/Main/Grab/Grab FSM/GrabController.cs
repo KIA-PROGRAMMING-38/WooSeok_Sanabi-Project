@@ -124,7 +124,6 @@ public class GrabController : MonoBehaviour
         if (collision.gameObject.layer == NormalWallLayerNumber)
         {
             HitNormal = true;
-            trailRenderer.enabled = false;
         }
         else if(collision.gameObject.layer == NoGrabWallLayerNumber || collision.gameObject.layer == MagmaLayerNumber)
         {
