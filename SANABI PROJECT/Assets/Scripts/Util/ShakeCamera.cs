@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShakeCamera : WholeSceneManager
+public class ShakeCamera : GameManager
 {
     [SerializeField] [Range (0.05f, 0.2f)]private float shakeTime = 0.1f;
     public float shakeIntensity { private get; set; }
@@ -13,7 +13,7 @@ public class ShakeCamera : WholeSceneManager
 
     private void Awake()
     {
-        shakeIntensity = WholeSceneManager.shakeIntensity;
+        shakeIntensity = GameManager.shakeIntensity;
     }
     private void Update()
     {

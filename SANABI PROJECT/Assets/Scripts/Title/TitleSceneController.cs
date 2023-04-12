@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TitleSceneController : WholeSceneManager
+public class TitleSceneController : GameManager
 {
     GameObject[] buttons;
     TitleButtonController buttonController;

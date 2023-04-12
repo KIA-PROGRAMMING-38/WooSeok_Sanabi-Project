@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerRunState : PlayerGroundedState
+public class PlayerWireGrappledIdleState : PlayerWireState
 {
-    public PlayerRunState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerWireGrappledIdleState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
-        
     }
 
     public override void DoChecks()
@@ -17,6 +16,7 @@ public class PlayerRunState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
+        hasGrabBeenDisabled = true;
     }
 
     public override void Exit()
@@ -27,11 +27,10 @@ public class PlayerRunState : PlayerGroundedState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        player.CheckIfShouldFlip(InputX);
-        player.SetVelocityX(playerData.runVelocity * InputX);
-        if (InputX == 0 && !isExitingState)
+
+        if (InputX != 0 && !isExitingState)
         {
-            stateMachine.ChangeState(player.IdleState);
+            stateMachine.ChangeState(player.WireGrappledWalkState);
         }
     }
 

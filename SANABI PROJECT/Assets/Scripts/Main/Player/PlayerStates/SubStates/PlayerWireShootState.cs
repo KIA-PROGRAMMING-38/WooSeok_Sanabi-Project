@@ -6,21 +6,30 @@ public class PlayerWireShootState : PlayerAbilityState
 {
     Vector2 holdPosition;
     Vector2 shootDirection;
-    public PlayerWireShootState(SNBController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerWireShootState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
+
+    public override void DoChecks()
+    {
+        base.DoChecks();
+
+    }
+
     public override void Enter()
     {
         base.Enter();
         holdPosition = player.transform.position;
-        shootDirection = player.WireController.distanceVector.normalized;
+        shootDirection = player.ArmController.distanceVector.normalized;
         player.GrabController.ConvertMouseInput(player.Input.MouseInput);
         player.CheckIfShouldFlipForMouseInput(shootDirection.x);
+        player.ArmController.ArmRotateTowardsCursor();
     }
 
     public override void Exit()
     {
         base.Exit();
+        player.armTransform.rotation = Quaternion.identity;
     }
 
     public override void LogicUpdate()
@@ -31,14 +40,24 @@ public class PlayerWireShootState : PlayerAbilityState
         {
             HoldPositionX();
         }
+
         
+
         if (player.GrabController.CheckIfGrabReturned())
         {
             stateMachine.ChangeState(player.IdleState);
         }
         else if (player.GrabController.isGrappled)
         {
-            stateMachine.ChangeState(player.WireGrappledState);
+            if (isGrounded)
+            {
+                stateMachine.ChangeState(player.WireGrappledIdleState);
+            }
+            else
+            {
+                stateMachine.ChangeState(player.WireGrappledInAirState);
+            }
+            
         }
 
     }

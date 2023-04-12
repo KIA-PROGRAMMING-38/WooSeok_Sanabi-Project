@@ -18,11 +18,11 @@ public class SettingImageController : MonoBehaviour, IColorChange
     {
         if (isHover)
         {
-            imageComponent.color = WholeSceneManager.hoverColor;
+            imageComponent.color = GameManager.hoverColor;
         }
         else
         {
-            imageComponent.color = WholeSceneManager.idleColor;
+            imageComponent.color = GameManager.idleColor;
         }
     }
 }

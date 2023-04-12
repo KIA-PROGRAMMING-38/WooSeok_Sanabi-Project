@@ -14,7 +14,7 @@ public class GrabGrabbedState : GrabState
     {
         base.Enter();
         GetPosAndRot();
-        grab.HoldPosition = holdPosition;
+        grab.AnchorPosition = holdPosition;
         grab.isGrappled = true;
     }
 

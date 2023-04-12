@@ -19,7 +19,7 @@ public class GrabController : MonoBehaviour
     public SpriteRenderer spriteRenderer { get; private set; }
     public CapsuleCollider2D capsuleCollider { get; private set; }
 
-    public PlayerWireController wireController;
+    public PlayerArmController wireController;
     
     public BoxCollider2D GrabReturnCollider;
     public TrailRenderer trailRenderer { get; private set; }
@@ -45,7 +45,7 @@ public class GrabController : MonoBehaviour
     public Vector3 startPos { get; set; }
     public Vector2 CurrentVelocity { get; private set; }
     public Vector2 workSpace;
-    public Vector2 HoldPosition { get; set; }
+    public Vector2 AnchorPosition { get; set; }
 
     #endregion
     private void Awake()

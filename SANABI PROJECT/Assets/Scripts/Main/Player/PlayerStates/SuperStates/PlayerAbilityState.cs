@@ -9,7 +9,7 @@ public class PlayerAbilityState : PlayerState
     public bool isGrappled;
     public bool MouseInput;
 
-    public PlayerAbilityState(SNBController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerAbilityState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
 

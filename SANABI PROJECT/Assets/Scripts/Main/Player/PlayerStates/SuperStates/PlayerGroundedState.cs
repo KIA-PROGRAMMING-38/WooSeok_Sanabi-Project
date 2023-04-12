@@ -10,7 +10,7 @@ public class PlayerGroundedState : PlayerState
     private bool isTouchingWall;
     public bool MouseInput;
 
-    public PlayerGroundedState(SNBController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerGroundedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
 
