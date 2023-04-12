@@ -9,7 +9,7 @@ public enum SceneNumber
     Exit,
     Boss
 }
-public class WholeSceneManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     public static Color idleColor = Color.white;
     public static Color hoverColor = new Color(255f, 0f, 178f); // «÷ «Œ≈©

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerWallClimbState : PlayerTouchingWallState
 {
-    public PlayerWallClimbState(SNBController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerWallClimbState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
 

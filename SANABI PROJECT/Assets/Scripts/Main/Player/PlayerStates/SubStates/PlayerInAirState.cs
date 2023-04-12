@@ -12,7 +12,7 @@ public class PlayerInAirState : PlayerState
     private bool jumpInputStop; // to check if finger off space bar
     public bool MouseInput;
 
-    public PlayerInAirState(SNBController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerInAirState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
 
@@ -62,9 +62,8 @@ public class PlayerInAirState : PlayerState
         else
         {
             player.CheckIfShouldFlip(xInput);
-            // player.SetVelocityX(playerData.movementVelocity * xInput);
 
-            player.SetInAirXVelocity(xInput);
+            player.SetVelocityX(playerData.runVelocity * xInput);
 
 
             player.BodyAnimator.SetFloat("yVelocity", player.CurrentVelocity.y);

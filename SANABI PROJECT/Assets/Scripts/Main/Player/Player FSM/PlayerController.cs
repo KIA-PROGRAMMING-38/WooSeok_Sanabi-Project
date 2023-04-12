@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using UnityEngine.Windows;
+using UnityEngine.XR;
 
-public class SNBController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public PlayerStateMachine StateMachine { get; private set; }
 
@@ -11,47 +14,58 @@ public class SNBController : MonoBehaviour
     public PlayerRunState RunState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
     public PlayerInAirState InAirState { get; private set; }
-    // public PlayerFallState FallState { get; private set; }
     public PlayerLandState LandState { get; private set; }
     public PlayerWallSlideState WallSlideState { get; private set; }
     public PlayerWallGrabState WallGrabState { get; private set; }
     public PlayerWallClimbState WallClimbState { get; private set; }
     public PlayerWallJumpState WallJumpState { get; private set; }
     public PlayerWireShootState WireShootState { get; private set; }
-    public PlayerWireGrappledState WireGrappledState { get; private set; }
-
+    public PlayerWireState WireGrappledState { get; private set; }
+    public PlayerWireGrappledWalkState WireGrappledWalkState { get; private set; }
+    public PlayerWireGrappledInAirState WireGrappledInAirState { get; private set; }
+    public PlayerWireGrappledIdleState WireGrappledIdleState { get; private set; }
     #endregion
-    public Rigidbody2D playerRigidBody { get; private set; }
 
-    private Animator[] Animators; // GetComponentInChildren 하면 자기꺼도 가져와서 걍 배열로 가져왔음
+    public Rigidbody2D playerRigidBody { get; private set; }
     public Animator BodyAnimator { get; private set; }
     public Animator ArmAnimator { get; private set; }
     public PlayerInput Input { get; private set; }
-    public PlayerWireController WireController { get; private set; }
-    //public GrabController GrabController { get; private set; }
+    public PlayerArmController ArmController { get; private set; }
+
     public GrabController GrabController;
 
     public Transform armTransform;
-    public DistanceJoint2D Joint { get; private set; }
 
     public PlayerData playerData;
 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform wallCheck;
 
+    public PlayerAfterImage spritePrefab;
     #region variables
     public Vector2 CurrentVelocity { get; private set; }
     private Vector2 workspace;
     public int FacingDirection { get; private set; }
     private int RightDirection = 1; // to avoid magicNumber
+
+    private WaitForSeconds DashCooltime;
+    private bool CanDash = true;
+    private Vector2 distanceVec;
+    private Vector2 perpendicularVec;
+    private Vector2 direction;
+
+    public bool isDashing = false;
+    private float dashTimeLeft;
+
+    private ObjectPool<PlayerAfterImage> WireDashPool;
+
     #endregion
     private void Awake()
     {
         StateMachine = new PlayerStateMachine();
         playerData = GetComponentInParent<PlayerData>();
-        WireController = GetComponentInChildren<PlayerWireController>();
-        //GrabController= GetComponentInChildren<GrabController>();   
-        Joint = GetComponent<DistanceJoint2D>();
+        ArmController = GameObject.FindGameObjectWithTag("Arm").GetComponent<PlayerArmController>();
+
         IdleState = new PlayerIdleState(this, StateMachine, playerData, "idle");
         RunState = new PlayerRunState(this, StateMachine, playerData, "run");
         JumpState = new PlayerJumpState(this, StateMachine, playerData, "inAir");
@@ -62,24 +76,34 @@ public class SNBController : MonoBehaviour
         WallClimbState = new PlayerWallClimbState(this, StateMachine, playerData, "wallClimb");
         WallJumpState = new PlayerWallJumpState(this, StateMachine, playerData, "inAir");
         WireShootState = new PlayerWireShootState(this, StateMachine, playerData, "wireShoot");
-        WireGrappledState = new PlayerWireGrappledState(this, StateMachine, playerData, "wireGrappled");
+        WireGrappledState = new PlayerWireState(this, StateMachine, playerData, "wireGrappled");
+        WireGrappledWalkState = new PlayerWireGrappledWalkState(this, StateMachine, playerData, "wireGrappledWalk");
+        WireGrappledInAirState = new PlayerWireGrappledInAirState(this, StateMachine, playerData, "wireGrappledInAir");
+        WireGrappledIdleState = new PlayerWireGrappledIdleState(this, StateMachine, playerData, "wireGrappledIdle");
     }
 
     private void Start()
     {
         playerRigidBody = GetComponent<Rigidbody2D>();
         FacingDirection = RightDirection;
-        Animators = GetComponentsInChildren<Animator>();
-        BodyAnimator = Animators[0];
-        ArmAnimator = Animators[1];
+        //Animators = GetComponentsInChildren<Animator>();
+        BodyAnimator = GetComponent<Animator>();
+        ArmAnimator = GameObject.FindGameObjectWithTag("Arm").GetComponent<Animator>();
         Input = GetComponentInParent<PlayerInput>();
+        DashCooltime = new WaitForSeconds(playerData.DashCoolDown);
+        WireDashPool = new ObjectPool<PlayerAfterImage>(CreateWireDashSprite, OnGetSpriteFromPool, OnReturnSpriteToPool);
         StateMachine.Initialize(IdleState);
     }
 
+    Vector2 LastVelocity;
+    public Vector2 VelocityDif;
     private void Update()
     {
         CurrentVelocity = playerRigidBody.velocity;
+        VelocityDif = CurrentVelocity - LastVelocity;
         StateMachine.CurrentState.LogicUpdate();
+        LastVelocity = CurrentVelocity;
+        Debug.Log(FacingDirection);
     }
 
     private void FixedUpdate()
@@ -102,6 +126,13 @@ public class SNBController : MonoBehaviour
         CurrentVelocity = workspace;
     }
 
+    public void SetVelocityAll(float velocityX, float velocityY)
+    {
+        workspace.Set(velocityX, velocityY);
+        playerRigidBody.velocity = workspace;
+        CurrentVelocity = workspace;
+    }
+
     public void SetWallJumpVelocity(float velocity, Vector2 angle, int direction)
     {
         angle.Normalize();
@@ -110,18 +141,96 @@ public class SNBController : MonoBehaviour
         CurrentVelocity = workspace;
     }
 
-    public void SetInAirXVelocity(float xInput)
-    {
-        workspace.Set(playerData.addedForce * xInput, 0f);
-        playerRigidBody.AddForce(workspace);
-        CurrentVelocity = playerRigidBody.velocity;
 
-        if (playerData.XVelocityLimit <= Mathf.Abs(CurrentVelocity.x))// velocity must be limited in this case
+    public void PlayerWireDash()
+    {
+        if (CanDash)
         {
-            workspace.Set(playerData.XVelocityLimit * xInput, CurrentVelocity.y);
-            playerRigidBody.velocity = workspace;
-            CurrentVelocity = workspace;
+            CanDash = false;
+            isDashing = true;
+            dashTimeLeft = playerData.DashTime;
+            Input.UseDashInput();
+            SetDashVelocity(Input.MovementInput.x);
+            StartCoroutine(CountDashCooltime());
         }
+    }
+
+    public void AfterImage()
+    {
+        if (isDashing)
+        {
+            if (dashTimeLeft > 0)
+            {
+                dashTimeLeft -= Time.deltaTime;
+                WireDashPool.GetFromPool();
+            }
+            else
+            {
+                isDashing = false;
+            }
+        }
+    }
+
+    public PlayerAfterImage CreateWireDashSprite()
+    {
+        PlayerAfterImage sprite = Instantiate(spritePrefab);
+        sprite.WireDashPool = WireDashPool;
+        return sprite;
+    }
+
+    public void PlayerWireDashStop()
+    {
+        StopCoroutine(CountDashCooltime());
+        CanDash = true;
+    }
+
+    private IEnumerator CountDashCooltime()
+    {
+        yield return DashCooltime;
+        CanDash = true;
+    }
+
+    public void SetDashVelocity(float xInput)
+    {
+        if (transform.position.y < GrabController.AnchorPosition.y)
+        {
+            distanceVec = (GrabController.AnchorPosition - (Vector2)transform.position).normalized;
+        }
+        else
+        {
+            distanceVec = ((Vector2)transform.position - GrabController.AnchorPosition).normalized;
+        }
+
+        perpendicularVec = Vector2.Perpendicular(distanceVec);
+
+        if (xInput == 0) // if no input
+        {
+            if (FacingDirection == RightDirection)
+            {
+                perpendicularVec *= -1;
+            }
+        }
+        else // if input detected
+        {
+            if (xInput == 1) // rightKey
+            {
+                perpendicularVec *= -1;
+            }
+        }
+
+        direction = (distanceVec + perpendicularVec).normalized;
+        
+        if (0 < CurrentVelocity.x * Input.MovementInput.x) // it's in the same direction
+        {
+            workspace.Set((direction.x * playerData.DashForce + CurrentVelocity.x), (direction.y * playerData.DashForce + CurrentVelocity.y));
+        }
+        else // opposite direction
+        {
+            workspace.Set(direction.x * playerData.DashForce, direction.y * playerData.DashForce);
+        }
+        
+        playerRigidBody.velocity = workspace;
+        CurrentVelocity = playerRigidBody.velocity;
     }
 
     public void AddXVelocityWhenGrappled(float xInput)
@@ -144,26 +253,24 @@ public class SNBController : MonoBehaviour
 
     public void CheckIfShouldFlipForMouseInput(float xDirection)
     {
-        if (0f < xDirection)
+        if (0f < xDirection) // if shoot right
         {
-            if (FacingDirection != RightDirection)
+            if (FacingDirection == -RightDirection) // if looking left
             {
                 Flip();
+                //FlipForMouse();
             }
         }
-        else
+        else // if shoot left
         {
-            if (FacingDirection != -RightDirection)
+            if (FacingDirection == RightDirection) // If looking right
             {
                 Flip();
+                //FlipForMouse();
             }
         }
     }
 
-    public void CheckIfGrappled()
-    {
-
-    }
 
     public bool CheckIfGrounded()
     {
@@ -176,11 +283,7 @@ public class SNBController : MonoBehaviour
         return Physics2D.Raycast(wallCheck.position, Vector2.right * FacingDirection, playerData.wallCheckDistance, playerData.whatIsGround);
         // this will return true if anything conditioned above is detected, otherwise false
     }
-    public bool CheckIfTouchingWallBack()
-    {
-        return Physics2D.Raycast(wallCheck.position, Vector2.right * -FacingDirection, playerData.wallCheckDistance, playerData.whatIsGround);
-        // this will return true if anything conditioned above is detected, otherwise false
-    }
+
     #endregion
 
     #region Other Functions
@@ -195,7 +298,14 @@ public class SNBController : MonoBehaviour
         Vector3 newScale = Vector3.one;
         newScale.x = FacingDirection;
         transform.localScale = newScale;
+        armTransform.localScale = newScale;
+        //transform.Rotate(0f, 180f, 0f);
+        //armTransform.Rotate(0f, 180f, 0f);
     }
+
+
+    private void OnGetSpriteFromPool(PlayerAfterImage sprite) => sprite.gameObject.SetActive(true);
+    private void OnReturnSpriteToPool(PlayerAfterImage sprite) => sprite.gameObject.SetActive(false);
 
     #endregion
 }

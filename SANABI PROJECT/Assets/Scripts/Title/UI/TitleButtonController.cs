@@ -33,12 +33,12 @@ public class TitleButtonController : TitleSceneController, IPointerEnterHandler,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        textComponent.color = WholeSceneManager.hoverColor;
+        textComponent.color = GameManager.hoverColor;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        textComponent.color = WholeSceneManager.idleColor;
+        textComponent.color = GameManager.idleColor;
     }
 
     private void OnEnable()

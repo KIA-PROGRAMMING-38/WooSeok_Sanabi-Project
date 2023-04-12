@@ -56,7 +56,7 @@ public class GrabReturningState : GrabState
 
     private void SetGrabStatus()
     {
-        grab.trailRenderer.enabled = false;
+        grab.trailRenderer.emitting= false;
         grab.GrabReturnCollider.enabled = true;
         grab.grabRigid.velocity = Vector3.zero;
     }

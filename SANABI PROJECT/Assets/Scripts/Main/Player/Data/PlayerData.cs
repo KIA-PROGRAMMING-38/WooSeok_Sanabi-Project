@@ -6,8 +6,11 @@ using UnityEngine;
 
 public class PlayerData : MonoBehaviour
 {
+    [Header("Walk State")]
+    public float walkVelocity = 2f;
+
     [Header("Run State")]
-    public float movementVelocity = 10f;
+    public float runVelocity = 10f;
 
     [Header("Jump State")]
     public float jumpVelocity = 10f;
@@ -19,14 +22,14 @@ public class PlayerData : MonoBehaviour
 
     [Header("WallJumpState")]
     public float wallJumpVelocity = 8f;
-    public float wallJumpTime = 0.1f;
+    public float wallJumpTime = 0.15f;
     public Vector2 wallJumpAngle = new Vector2(1, 2);
 
     [Header("WallSlideState")]
-    public float wallSlideVelocity = 3f;
+    public float wallSlideVelocity = 11f;
 
     [Header("WallClimbState")]
-    public float wallClimbVelocity = 2f;
+    public float wallClimbVelocity = 6f;
 
     [Header("WallGrabState")]
     public float wallGrabOffSeconds = 0.7f;
@@ -37,9 +40,14 @@ public class PlayerData : MonoBehaviour
 
     [Header("WireGrappledState")]
     public float grappleAddedForce = 2f;
+    
+    [Header("Dash")]
+    public float DashCoolDown = 2f;
+    public float DashForce = 25f;
+    public float DashTime = 0.3f;
 
     [Header("Check Variables")]
-    public float groundCheckRadius = 0.3f;
+    public float groundCheckRadius = 0.1f;
     public float wallCheckDistance = 0.5f;
     public LayerMask whatIsGround;
     private void Start()

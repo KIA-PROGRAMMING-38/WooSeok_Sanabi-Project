@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerWallSlideState : PlayerTouchingWallState
 {
 
-    public PlayerWallSlideState(SNBController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerWallSlideState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
 

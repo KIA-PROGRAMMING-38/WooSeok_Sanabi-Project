@@ -17,11 +17,11 @@ public class SettingTextController : MonoBehaviour, IColorChange
     {
         if (isHover)
         {
-            textComponent.color = WholeSceneManager.hoverColor;
+            textComponent.color = GameManager.hoverColor;
         }
         else
         {
-            textComponent.color = WholeSceneManager.idleColor;
+            textComponent.color = GameManager.idleColor;
         }
     }
 }

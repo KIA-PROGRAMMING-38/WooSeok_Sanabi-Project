@@ -17,6 +17,6 @@ public class SettingSliderController : MonoBehaviour
 
     void Update()
     {
-        WholeSceneManager.shakeIntensity = slider.value;
+        GameManager.shakeIntensity = slider.value;
     }
 }

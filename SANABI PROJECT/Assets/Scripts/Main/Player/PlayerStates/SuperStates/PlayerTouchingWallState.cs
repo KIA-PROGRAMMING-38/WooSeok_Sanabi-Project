@@ -11,7 +11,7 @@ public class PlayerTouchingWallState : PlayerState
     protected bool JumpInput;
     protected float xInputTime; // how long input X is pressed for
     public bool MouseInput;
-    public PlayerTouchingWallState(SNBController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public PlayerTouchingWallState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
 
