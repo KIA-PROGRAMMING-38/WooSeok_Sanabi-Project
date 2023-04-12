@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     public Animator ArmAnimator { get; private set; }
     public PlayerInput Input { get; private set; }
     public PlayerArmController ArmController { get; private set; }
+
     public GrabController GrabController;
 
     public Transform armTransform;
@@ -102,6 +103,7 @@ public class PlayerController : MonoBehaviour
         VelocityDif = CurrentVelocity - LastVelocity;
         StateMachine.CurrentState.LogicUpdate();
         LastVelocity = CurrentVelocity;
+        Debug.Log(FacingDirection);
     }
 
     private void FixedUpdate()
@@ -120,6 +122,13 @@ public class PlayerController : MonoBehaviour
     public void SetVelocityY(float velocity)
     {
         workspace.Set(CurrentVelocity.x, velocity);
+        playerRigidBody.velocity = workspace;
+        CurrentVelocity = workspace;
+    }
+
+    public void SetVelocityAll(float velocityX, float velocityY)
+    {
+        workspace.Set(velocityX, velocityY);
         playerRigidBody.velocity = workspace;
         CurrentVelocity = workspace;
     }
@@ -238,26 +247,26 @@ public class PlayerController : MonoBehaviour
     {
         if (xInput != 0 && xInput != FacingDirection)
         {
-            FlipForMove();
+            Flip();
         }
     }
 
     public void CheckIfShouldFlipForMouseInput(float xDirection)
     {
-        if (0f < xDirection)
+        if (0f < xDirection) // if shoot right
         {
-            if (FacingDirection != RightDirection)
+            if (FacingDirection == -RightDirection) // if looking left
             {
-                //FlipForMove();
-                FlipForMouse();
+                Flip();
+                //FlipForMouse();
             }
         }
-        else
+        else // if shoot left
         {
-            if (FacingDirection != -RightDirection)
+            if (FacingDirection == RightDirection) // If looking right
             {
-                //FlipForMove();
-                FlipForMouse();
+                Flip();
+                //FlipForMouse();
             }
         }
     }
@@ -283,22 +292,17 @@ public class PlayerController : MonoBehaviour
     private void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
 
 
-    private void FlipForMove()
+    private void Flip()
     {
         FacingDirection *= -1;
         Vector3 newScale = Vector3.one;
         newScale.x = FacingDirection;
         transform.localScale = newScale;
         armTransform.localScale = newScale;
+        //transform.Rotate(0f, 180f, 0f);
+        //armTransform.Rotate(0f, 180f, 0f);
     }
 
-    private void FlipForMouse()
-    {
-        FacingDirection *= -1;
-        Vector3 newScale = Vector3.one;
-        newScale.x = FacingDirection;
-        transform.localScale = newScale;
-    }
 
     private void OnGetSpriteFromPool(PlayerAfterImage sprite) => sprite.gameObject.SetActive(true);
     private void OnReturnSpriteToPool(PlayerAfterImage sprite) => sprite.gameObject.SetActive(false);

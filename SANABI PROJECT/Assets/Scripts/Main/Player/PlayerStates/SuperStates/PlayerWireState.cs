@@ -11,6 +11,7 @@ public class PlayerWireState : PlayerState
     public bool MouseInput;
     public bool isGrounded;
     protected bool hasGrabBeenDisabled;
+    protected Quaternion initialArmRotation;
 
     public PlayerWireState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
@@ -24,6 +25,7 @@ public class PlayerWireState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        initialArmRotation = player.armTransform.rotation;
         if (!hasGrabBeenDisabled)
         {
             player.ArmController.ConnectAnchor();
@@ -34,7 +36,7 @@ public class PlayerWireState : PlayerState
     public override void Exit()
     {
         base.Exit();
-        player.armTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        player.armTransform.rotation = initialArmRotation;
         player.PlayerWireDashStop();
     }
 

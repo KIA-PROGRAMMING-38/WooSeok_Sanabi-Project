@@ -61303,6 +61303,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277d9ee053d43f941bcb32355add514b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSR: {fileID: 1937223193}
+  armSR: {fileID: 1837626191}
   GrabController: {fileID: 1390056219}
   armTransform: {fileID: 1837626190}
   playerData: {fileID: 11400000, guid: 012c0e10353446647bec70ff1134d69d, type: 2}

@@ -17,6 +17,7 @@ public class PlayerWireGrappledIdleState : PlayerWireState
     {
         base.Enter();
         hasGrabBeenDisabled = true;
+        
     }
 
     public override void Exit()
@@ -27,6 +28,8 @@ public class PlayerWireGrappledIdleState : PlayerWireState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        player.SetVelocityAll(0f, 0f);
 
         if (InputX != 0 && !isExitingState)
         {
