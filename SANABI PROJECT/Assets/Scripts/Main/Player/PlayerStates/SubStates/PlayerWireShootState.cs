@@ -7,6 +7,9 @@ public class PlayerWireShootState : PlayerAbilityState
     Vector2 holdPosition;
     Vector2 shootDirection;
     private Quaternion initialArmRotation;
+    private float cameraShakeTime;
+    private float cameraShakeIntensity;
+
     public PlayerWireShootState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -14,19 +17,21 @@ public class PlayerWireShootState : PlayerAbilityState
     public override void DoChecks()
     {
         base.DoChecks();
-
+        cameraShakeTime = player.camShake.shootShakeTime;
+        cameraShakeIntensity = player.camShake.shootShakeIntensity;
     }
 
     public override void Enter()
     {
         base.Enter();
         holdPosition = player.transform.position;
-        
+        //isAbilityDone = true;
         shootDirection = player.ArmController.distanceVector.normalized;
         player.GrabController.ConvertMouseInput(player.Input.MouseInput);
         player.CheckIfShouldFlipForMouseInput(shootDirection.x);
         initialArmRotation = player.armTransform.rotation;
         player.ArmController.ArmRotateTowardsCursor();
+        player.camShake.TurnOnShake(cameraShakeTime, cameraShakeIntensity);
 
     }
 

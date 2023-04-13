@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Windows;
 using UnityEngine.XR;
 
@@ -24,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public PlayerWireGrappledWalkState WireGrappledWalkState { get; private set; }
     public PlayerWireGrappledInAirState WireGrappledInAirState { get; private set; }
     public PlayerWireGrappledIdleState WireGrappledIdleState { get; private set; }
+    public PlayerDamagedState DamagedState { get; private set; }
     #endregion
 
     public Rigidbody2D playerRigidBody { get; private set; }
@@ -38,15 +41,31 @@ public class PlayerController : MonoBehaviour
 
     public PlayerData playerData;
 
+    public PlayerHealth playerHealth;
+
+    public ShakeCamera camShake;
+
+    public CameraFollow camFollow;
+
+    public GameManager gameManager;
+
+    public TimeSlow timeSlower;
+
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform wallCheck;
 
     public PlayerAfterImage spritePrefab;
+
     #region variables
     public Vector2 CurrentVelocity { get; private set; }
     private Vector2 workspace;
     public int FacingDirection { get; private set; }
     private int RightDirection = 1; // to avoid magicNumber
+
+    private int MagmaLayerNumber;
+    private bool isPlayerDamaged;
+    private float damageTimer;
+    
 
     private WaitForSeconds DashCooltime;
     private bool CanDash = true;
@@ -65,6 +84,9 @@ public class PlayerController : MonoBehaviour
         StateMachine = new PlayerStateMachine();
         playerData = GetComponentInParent<PlayerData>();
         ArmController = GameObject.FindGameObjectWithTag("Arm").GetComponent<PlayerArmController>();
+        camShake = Camera.main.GetComponent<ShakeCamera>();
+        camFollow = Camera.main.GetComponent<CameraFollow>();
+        gameManager = new GameManager();
 
         IdleState = new PlayerIdleState(this, StateMachine, playerData, "idle");
         RunState = new PlayerRunState(this, StateMachine, playerData, "run");
@@ -80,6 +102,7 @@ public class PlayerController : MonoBehaviour
         WireGrappledWalkState = new PlayerWireGrappledWalkState(this, StateMachine, playerData, "wireGrappledWalk");
         WireGrappledInAirState = new PlayerWireGrappledInAirState(this, StateMachine, playerData, "wireGrappledInAir");
         WireGrappledIdleState = new PlayerWireGrappledIdleState(this, StateMachine, playerData, "wireGrappledIdle");
+        DamagedState = new PlayerDamagedState(this, StateMachine, playerData, "damaged");
     }
 
     private void Start()
@@ -92,18 +115,21 @@ public class PlayerController : MonoBehaviour
         Input = GetComponentInParent<PlayerInput>();
         DashCooltime = new WaitForSeconds(playerData.DashCoolDown);
         WireDashPool = new ObjectPool<PlayerAfterImage>(CreateWireDashSprite, OnGetSpriteFromPool, OnReturnSpriteToPool);
+        playerHealth = new PlayerHealth(playerData.playerHP);
+        MagmaLayerNumber = LayerMask.NameToLayer("Magma");
         StateMachine.Initialize(IdleState);
+
+       
     }
 
-    Vector2 LastVelocity;
-    public Vector2 VelocityDif;
     private void Update()
     {
         CurrentVelocity = playerRigidBody.velocity;
-        VelocityDif = CurrentVelocity - LastVelocity;
         StateMachine.CurrentState.LogicUpdate();
-        LastVelocity = CurrentVelocity;
-        Debug.Log(FacingDirection);
+        //Debug.Log(damageTimer);
+        //Debug.Log($"현재 플레이어 hp = {playerHealth.GetCurrentHp()}");
+        //Debug.Log(CurrentVelocity);
+        Debug.Log(isPlayerDamaged);
     }
 
     private void FixedUpdate()
@@ -284,6 +310,37 @@ public class PlayerController : MonoBehaviour
         // this will return true if anything conditioned above is detected, otherwise false
     }
 
+    public void ResetDamageState()
+    {
+        isPlayerDamaged = false;
+        ArmController.IsDamaged = isPlayerDamaged;
+    }
+    
+
+    public bool CheckIfDamaged()
+    {
+        return isPlayerDamaged;
+    }
+
+    public void StartDamageTimer()
+    {
+        ResetDamageTimer();
+        CountDamageTimer();
+    }
+
+    private void ResetDamageTimer()
+    {
+        damageTimer = 0f;
+    }
+    private void CountDamageTimer()
+    {
+        damageTimer += Time.deltaTime;
+        if (playerData.damageResetTime <= damageTimer)
+        {
+            // hp recovery should be activated
+        }
+    }
+    
     #endregion
 
     #region Other Functions
@@ -308,4 +365,14 @@ public class PlayerController : MonoBehaviour
     private void OnReturnSpriteToPool(PlayerAfterImage sprite) => sprite.gameObject.SetActive(false);
 
     #endregion
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == MagmaLayerNumber)
+        {
+            isPlayerDamaged= true;
+            ArmController.IsDamaged = isPlayerDamaged;
+        }
+    }
+
 }

@@ -8,9 +8,10 @@ public class PlayerWireState : PlayerState
     protected bool MouseHoldInput;
     protected bool DashInput;
     protected float InputX;
-    public bool MouseInput;
-    public bool isGrounded;
+    protected bool MouseInput;
+    protected bool isGrounded;
     protected bool hasGrabBeenDisabled;
+    protected bool isDamaged;
     protected Quaternion initialArmRotation;
 
     public PlayerWireState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
@@ -20,6 +21,8 @@ public class PlayerWireState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
+        isGrounded = player.CheckIfGrounded();
+        isDamaged= player.CheckIfDamaged();
     }
 
     public override void Enter()
@@ -47,7 +50,7 @@ public class PlayerWireState : PlayerState
         DashInput = player.Input.DashInput;
         InputX = player.Input.MovementInput.x;
         MouseInput = player.Input.MouseInput;
-        isGrounded = player.CheckIfGrounded();
+        //isGrounded = player.CheckIfGrounded();
 
         player.ArmController.ArmRotateTowardsAnchor();
 
@@ -72,6 +75,12 @@ public class PlayerWireState : PlayerState
             {
                 stateMachine.ChangeState(player.InAirState);
             }
+        }
+        else if (isDamaged)
+        {
+            hasGrabBeenDisabled = false;
+            player.ArmController.DisconnectAnchor();
+            stateMachine.ChangeState(player.DamagedState);
         }
     }
 

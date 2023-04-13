@@ -5,9 +5,11 @@ using UnityEngine;
 public class PlayerAbilityState : PlayerState
 {
     protected bool isAbilityDone;
-    public bool isGrounded;
-    public bool isGrappled;
-    public bool MouseInput;
+    protected bool isGrounded;
+    protected bool isGrappled;
+    protected bool MouseInput;
+    protected bool isDamaged;
+
 
     public PlayerAbilityState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
@@ -17,6 +19,7 @@ public class PlayerAbilityState : PlayerState
     {
         base.DoChecks();
         isGrounded = player.CheckIfGrounded();
+        isDamaged= player.CheckIfDamaged();
     }
 
     public override void Enter()
@@ -46,7 +49,11 @@ public class PlayerAbilityState : PlayerState
                 stateMachine.ChangeState(player.InAirState);
             }
         }
-        
+
+        if (isDamaged)
+        {
+            stateMachine.ChangeState(player.DamagedState);
+        }
     }
 
     public override void PhysicsUpdate()

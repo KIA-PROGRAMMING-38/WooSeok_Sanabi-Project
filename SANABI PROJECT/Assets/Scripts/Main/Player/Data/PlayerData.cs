@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class PlayerData : MonoBehaviour
 {
+    [Header("PlayerStatus")]
+    public int playerHP = 4;
+
     [Header("Walk State")]
     public float walkVelocity = 2f;
 
@@ -16,39 +19,46 @@ public class PlayerData : MonoBehaviour
     public float jumpVelocity = 10f;
 
     [Header("In Air State")]
-    public float variableJumpHeightMultiplier = 0.5f;
+    [Range(0f, 1f)]public float variableJumpHeightMultiplier = 0.5f;
     public float addedForce = 10f;
     public float XVelocityLimit = 10f;
 
-    [Header("WallJumpState")]
+    [Header("WallJump State")]
     public float wallJumpVelocity = 8f;
-    public float wallJumpTime = 0.15f;
+    [Range(0f, 0.5f)] public float wallJumpTime = 0.15f;
     public Vector2 wallJumpAngle = new Vector2(1, 2);
 
-    [Header("WallSlideState")]
+    [Header("WallSlide State")]
     public float wallSlideVelocity = 11f;
 
-    [Header("WallClimbState")]
+    [Header("WallClimb State")]
     public float wallClimbVelocity = 6f;
 
-    [Header("WallGrabState")]
-    public float wallGrabOffSeconds = 0.7f;
+    [Header("WallGrab State")]
+    [Range(0f, 1f)] public float wallGrabOffSeconds = 0.7f;
 
-    [Header("WireShootState")]
+    [Header("WireShoot State")]
     public float wireLength = 10f;
     public float shootSpeed = 80f;
 
-    [Header("WireGrappledState")]
+    [Header("WireGrappled State")]
     public float grappleAddedForce = 2f;
-    
+
+    [Header("Damaged State")]
+    public float damageResetTime = 8f;
+    public float damagedJumpVelocity = 8f;
+    [Range(0f, 1f)] public float invincibleTime = 0.6f;
+    [Range(0f, 0.5f)] public float slowTime = 0.05f;
+    [Range(0f, 1f)] public float timeScale = 0.2f;
+
     [Header("Dash")]
     public float DashCoolDown = 2f;
     public float DashForce = 25f;
-    public float DashTime = 0.3f;
+    [Range(0f, 1f)] public float DashTime = 0.3f;
 
     [Header("Check Variables")]
-    public float groundCheckRadius = 0.1f;
-    public float wallCheckDistance = 0.5f;
+    [Range(0f, 0.3f)] public float groundCheckRadius = 0.1f;
+    [Range(0f, 0.7f)] public float wallCheckDistance = 0.5f;
     public LayerMask whatIsGround;
     private void Start()
     {
