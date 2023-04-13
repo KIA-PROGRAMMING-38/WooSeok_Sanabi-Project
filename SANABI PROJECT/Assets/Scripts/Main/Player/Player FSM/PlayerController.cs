@@ -129,7 +129,6 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(damageTimer);
         //Debug.Log($"현재 플레이어 hp = {playerHealth.GetCurrentHp()}");
         //Debug.Log(CurrentVelocity);
-        Debug.Log(isPlayerDamaged);
     }
 
     private void FixedUpdate()
