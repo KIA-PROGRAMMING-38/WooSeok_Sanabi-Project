@@ -10,7 +10,8 @@ public class PlayerInAirState : PlayerState
     private bool JumpInput;
     private bool isJumping; // to check if still jumping
     private bool jumpInputStop; // to check if finger off space bar
-    public bool MouseInput;
+    private bool MouseInput;
+    private bool isDamaged;
 
     public PlayerInAirState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
@@ -22,6 +23,7 @@ public class PlayerInAirState : PlayerState
 
         isGrounded = player.CheckIfGrounded();
         isTouchingWall = player.CheckIfTouchingWall();
+        isDamaged = player.CheckIfDamaged();    
 
     }
 
@@ -43,6 +45,7 @@ public class PlayerInAirState : PlayerState
         jumpInputStop = player.Input.JumpInputStop;
         JumpInput = player.Input.JumpInput;
         MouseInput = player.Input.MouseInput;
+        
 
         CheckJumpMultiplier();
 
@@ -59,10 +62,13 @@ public class PlayerInAirState : PlayerState
         {
             stateMachine.ChangeState(player.WireShootState);
         }
+        else if (isDamaged)
+        {
+            stateMachine.ChangeState(player.DamagedState);
+        }
         else
         {
             player.CheckIfShouldFlip(xInput);
-
             player.SetVelocityX(playerData.runVelocity * xInput);
 
 

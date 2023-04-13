@@ -10,7 +10,9 @@ public class PlayerTouchingWallState : PlayerState
     protected float yInput;
     protected bool JumpInput;
     protected float xInputTime; // how long input X is pressed for
-    public bool MouseInput;
+    protected bool MouseInput;
+    protected bool isDamaged;
+
     public PlayerTouchingWallState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -31,6 +33,7 @@ public class PlayerTouchingWallState : PlayerState
 
         isGrounded = player.CheckIfGrounded();
         isTouchingWall = player.CheckIfTouchingWall();
+        isDamaged= player.CheckIfDamaged();
     }
 
     public override void Enter()
@@ -76,6 +79,10 @@ public class PlayerTouchingWallState : PlayerState
         else if (MouseInput)
         {
             stateMachine.ChangeState(player.WireShootState);
+        }
+        else if (isDamaged)
+        {
+            stateMachine.ChangeState(player.DamagedState);
         }
     }
 

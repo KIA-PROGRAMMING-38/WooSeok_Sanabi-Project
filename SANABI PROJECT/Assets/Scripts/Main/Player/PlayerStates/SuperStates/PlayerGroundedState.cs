@@ -8,7 +8,8 @@ public class PlayerGroundedState : PlayerState
     private bool JumpInput;
     private bool isGrounded;
     private bool isTouchingWall;
-    public bool MouseInput;
+    protected bool MouseInput;
+    protected bool isDamaged;
 
     public PlayerGroundedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
@@ -20,6 +21,7 @@ public class PlayerGroundedState : PlayerState
 
         isGrounded = player.CheckIfGrounded();
         isTouchingWall= player.CheckIfTouchingWall();
+        isDamaged= player.CheckIfDamaged();
     }
 
     public override void Enter()
@@ -51,6 +53,10 @@ public class PlayerGroundedState : PlayerState
         else if (MouseInput)
         {
             stateMachine.ChangeState(player.WireShootState);
+        }
+        else if (isDamaged)
+        {
+            stateMachine.ChangeState(player.DamagedState);
         }
 
     }
