@@ -12,12 +12,15 @@ public class HPRobotDamagedState : HPRobotState
     public override void DoChecks()
     {
         base.DoChecks();
+        
     }
 
     public override void Enter()
     {
         base.Enter();
         //damageEnterTime = startTime; why does this not work....????????
+        playerHealth.OnDead -= HPRobotDie;
+        playerHealth.OnDead += HPRobotDie;
     }
 
     public override void Exit()
@@ -36,5 +39,8 @@ public class HPRobotDamagedState : HPRobotState
         base.PhysicsUpdate();
     }
 
-    
+    private void HPRobotDie()
+    {
+        hpRobotController.gameObject.SetActive(false);
+    }
 }

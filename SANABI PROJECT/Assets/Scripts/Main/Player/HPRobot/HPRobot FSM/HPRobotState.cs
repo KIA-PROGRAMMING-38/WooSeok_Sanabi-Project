@@ -10,9 +10,12 @@ public class HPRobotState
 
     protected string animBoolName;
     protected float startTime;
+
     protected float damageEnterTime;
     protected bool isExitingState;
     protected bool isPlayerDamaged;
+    protected bool isPlayerDead;
+
     protected int playerMaxHP;
     protected int playerCurrentHP;
     protected string playerHPName = "playerHP";
@@ -51,7 +54,7 @@ public class HPRobotState
     public virtual void LogicUpdate()
     {
         isPlayerDamaged = hpRobotController.IsPlayerDamaged;
-        
+        isPlayerDead = playerHealth.CheckIfDead();
     }
 
     public virtual void PhysicsUpdate()
@@ -63,6 +66,7 @@ public class HPRobotState
     {
         playerCurrentHP = playerHealth.GetCurrentHp();
         playerMaxHP = playerHealth.GetMaxHp();
+        
     }
 
     public void UpdateHP(int hp)

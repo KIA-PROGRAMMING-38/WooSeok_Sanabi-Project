@@ -9,10 +9,8 @@ public class HPRobotController : MonoBehaviour
     public PlayerController playerController;
     public HPRobotStateMachine StateMachine { get; private set; }
     public Animator animator { get; private set; }
-
-    //public PlayerHealth playerHealth;
-
     public PlayerHealth playerHealth { get; private set; }
+
     #region States
     public HPRobotIdleState IdleState { get; private set; }
     public HPRobotDamagedState DamagedState { get; private set; }
@@ -20,6 +18,7 @@ public class HPRobotController : MonoBehaviour
     public HPRobotRecovery RecoveryState { get; private set; }
     public HPRobotRecoveryIdleState RecoveryIdleState { get; private set; }
     public HPRobotTransitionToIdleState TransitionToIdleState { get; private set;}
+    
 
     #endregion
 
@@ -77,6 +76,7 @@ public class HPRobotController : MonoBehaviour
         RecoveryState = new HPRobotRecovery(this, StateMachine, playerHealth, "recovery");
         RecoveryIdleState = new HPRobotRecoveryIdleState(this, StateMachine, playerHealth, "recoveryIdle");
         TransitionToIdleState = new HPRobotTransitionToIdleState(this, StateMachine, playerHealth, "transitionToIdle");
+        
 
         StateMachine.Initialize(IdleState);
     }

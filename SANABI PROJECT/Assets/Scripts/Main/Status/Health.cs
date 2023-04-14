@@ -7,6 +7,11 @@ public class Health : MonoBehaviour, IDamagable
 {
     private int maxHP;
     private int currentHP;
+    private bool isDead;
+    public virtual bool CheckIfDead()
+    {
+        return isDead;
+    }
     public virtual void Die()
     {
         

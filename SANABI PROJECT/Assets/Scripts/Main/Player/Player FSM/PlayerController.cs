@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public PlayerWireGrappledInAirState WireGrappledInAirState { get; private set; }
     public PlayerWireGrappledIdleState WireGrappledIdleState { get; private set; }
     public PlayerDamagedState DamagedState { get; private set; }
+    public PlayerDeadState DeadState { get; private set; }
     #endregion
 
     public Rigidbody2D playerRigidBody { get; private set; }
@@ -106,7 +107,7 @@ public class PlayerController : MonoBehaviour
         WireGrappledInAirState = new PlayerWireGrappledInAirState(this, StateMachine, playerData, "wireGrappledInAir");
         WireGrappledIdleState = new PlayerWireGrappledIdleState(this, StateMachine, playerData, "wireGrappledIdle");
         DamagedState = new PlayerDamagedState(this, StateMachine, playerData, "damaged");
-
+        DeadState = new PlayerDeadState(this, StateMachine, playerData, "dead");
         
     }
 
