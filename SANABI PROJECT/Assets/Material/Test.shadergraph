@@ -316,20 +316,6 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
-                    "m_Id": "c0d8b79e52fe43c8bfe2b48733f8a8dc"
-                },
-                "m_SlotId": 0
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "a3599b798ec34dacbc912c1dfb6596cc"
-                },
-                "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
                     "m_Id": "dcf593754d8d4fd89b01c776b8584742"
                 },
                 "m_SlotId": 3
@@ -337,6 +323,20 @@
             "m_InputSlot": {
                 "m_Node": {
                     "m_Id": "ab49d119ae1c4dd0b90b01576e52e6ca"
+                },
+                "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "f805745fe3d042c787be55fe7a028773"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "a3599b798ec34dacbc912c1dfb6596cc"
                 },
                 "m_SlotId": 0
             }
@@ -2474,10 +2474,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 380.0000305175781,
-            "y": 97.49999237060547,
-            "width": 105.00009155273438,
-            "height": 33.99994659423828
+            "x": 537.5999145507813,
+            "y": 178.39999389648438,
+            "width": 104.800048828125,
+            "height": 33.59999084472656
         }
     },
     "m_Slots": [
@@ -2816,7 +2816,7 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"5d5d03cb74b96c5489f4488105e474bb\",\"type\":3}}",
+        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"34bc6d7b060a3f342ad9904d70b90370\",\"type\":3}}",
         "m_Guid": ""
     },
     "isMainTexture": false,

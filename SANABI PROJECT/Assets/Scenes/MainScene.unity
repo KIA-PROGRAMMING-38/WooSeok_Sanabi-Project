@@ -58648,6 +58648,7 @@ GameObject:
   - component: {fileID: 1054605043}
   - component: {fileID: 1054605045}
   - component: {fileID: 1054605044}
+  - component: {fileID: 1054605046}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -58686,6 +58687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHP: 4
+  PlayerTakeDamage: 1
   walkVelocity: 2
   runVelocity: 10
   jumpVelocity: 7
@@ -58726,6 +58728,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bfb9ca5150765141a6a32de507cc61b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1054605046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054605042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aea7ce2075c550849af390af9b6bb77a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 1054605044}
 --- !u!1 &1287496431
 GameObject:
   m_ObjectHideFlags: 0
@@ -60545,8 +60560,9 @@ GameObject:
   - component: {fileID: 1647074860}
   - component: {fileID: 1647074861}
   - component: {fileID: 1647074862}
+  - component: {fileID: 1647074863}
   m_Layer: 0
-  m_Name: HpFollow
+  m_Name: HpRobot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60613,10 +60629,10 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.11, y: 0.19}
+  m_Size: {x: 2.25, y: 1.96875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &1647074862
@@ -60631,11 +60647,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: def584bdf7221cf4a93a68fd3cb3c578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 1937223198}
   targetPos: {fileID: 1882246883}
-  material: {fileID: 2100000, guid: c82e83a97aa820f4b890c94b49de9814, type: 2}
   followSpeed: 0.2
+  material: {fileID: 2100000, guid: c82e83a97aa820f4b890c94b49de9814, type: 2}
   glowCoolTime: 0.25
   multiplyFactor: 20
+--- !u!95 &1647074863
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647074859}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6f1a901b203373e44b89f2d644984d34, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1653334344
 GameObject:
   m_ObjectHideFlags: 0
@@ -61429,8 +61467,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GrabController: {fileID: 1390056219}
+  HPBarController: {fileID: 1647074862}
   armTransform: {fileID: 1837626190}
   playerData: {fileID: 11400000, guid: 012c0e10353446647bec70ff1134d69d, type: 2}
+  playerHealth: {fileID: 0}
   camShake: {fileID: 0}
   camFollow: {fileID: 0}
   gameManager: {fileID: 0}

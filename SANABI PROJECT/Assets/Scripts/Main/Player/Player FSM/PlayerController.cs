@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
 
     public GrabController GrabController;
 
+    public HPBarController HPBarController;
+
     public Transform armTransform;
 
     public PlayerData playerData;
@@ -87,6 +89,7 @@ public class PlayerController : MonoBehaviour
         camShake = Camera.main.GetComponent<ShakeCamera>();
         camFollow = Camera.main.GetComponent<CameraFollow>();
         gameManager = new GameManager();
+        playerHealth = GetComponentInParent<PlayerHealth>();
 
         IdleState = new PlayerIdleState(this, StateMachine, playerData, "idle");
         RunState = new PlayerRunState(this, StateMachine, playerData, "run");
@@ -103,22 +106,26 @@ public class PlayerController : MonoBehaviour
         WireGrappledInAirState = new PlayerWireGrappledInAirState(this, StateMachine, playerData, "wireGrappledInAir");
         WireGrappledIdleState = new PlayerWireGrappledIdleState(this, StateMachine, playerData, "wireGrappledIdle");
         DamagedState = new PlayerDamagedState(this, StateMachine, playerData, "damaged");
+
+        
     }
 
     private void Start()
     {
         playerRigidBody = GetComponent<Rigidbody2D>();
         FacingDirection = RightDirection;
+        
         //Animators = GetComponentsInChildren<Animator>();
         BodyAnimator = GetComponent<Animator>();
         ArmAnimator = GameObject.FindGameObjectWithTag("Arm").GetComponent<Animator>();
         Input = GetComponentInParent<PlayerInput>();
         DashCooltime = new WaitForSeconds(playerData.DashCoolDown);
         WireDashPool = new ObjectPool<PlayerAfterImage>(CreateWireDashSprite, OnGetSpriteFromPool, OnReturnSpriteToPool);
-        playerHealth = new PlayerHealth(playerData.playerHP);
+        
         MagmaLayerNumber = LayerMask.NameToLayer("Magma");
         StateMachine.Initialize(IdleState);
 
+        //Debug.Log($"플레이어컨트롤러에서의 ID = {playerHealth.GetInstanceID()}");
        
     }
 
@@ -312,7 +319,9 @@ public class PlayerController : MonoBehaviour
     public void ResetDamageState()
     {
         isPlayerDamaged = false;
-        ArmController.IsDamaged = isPlayerDamaged;
+        ArmController.IsPlayerDamaged = isPlayerDamaged;
+        HPBarController.IsPlayerDamaged = isPlayerDamaged;
+        
     }
     
 
@@ -370,7 +379,8 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.layer == MagmaLayerNumber)
         {
             isPlayerDamaged= true;
-            ArmController.IsDamaged = isPlayerDamaged;
+            ArmController.IsPlayerDamaged = isPlayerDamaged;
+            HPBarController.IsPlayerDamaged= isPlayerDamaged;
         }
     }
 
