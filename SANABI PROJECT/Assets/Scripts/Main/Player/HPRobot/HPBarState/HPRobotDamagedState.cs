@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HPBarRecovery : HPBarState
+public class HPRobotDamagedState : HPRobotState
 {
-    public HPBarRecovery(HPBarController follow, HPBarStateMachine statemachine, PlayerHealth playerHealth, string animboolname) : base(follow, statemachine, playerHealth, animboolname)
+    public HPRobotDamagedState(HPRobotController follow, HPRobotStateMachine statemachine, PlayerHealth playerHealth, string animboolname) : base(follow, statemachine, playerHealth, animboolname)
     {
+        
     }
 
     public override void DoChecks()
@@ -16,6 +17,7 @@ public class HPBarRecovery : HPBarState
     public override void Enter()
     {
         base.Enter();
+        //damageEnterTime = startTime; why does this not work....????????
     }
 
     public override void Exit()
@@ -26,10 +28,13 @@ public class HPBarRecovery : HPBarState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
     }
+
+    
 }

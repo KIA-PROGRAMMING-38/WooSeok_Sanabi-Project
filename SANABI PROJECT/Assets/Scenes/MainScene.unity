@@ -58688,6 +58688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHP: 4
   PlayerTakeDamage: 1
+  PlayerHPRecoverStrength: 1
   walkVelocity: 2
   runVelocity: 10
   jumpVelocity: 7
@@ -58741,6 +58742,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 1054605044}
+  recoveryCooltime: 8
+  recoverStrength: 0
+  transitionCooltime: 3
+  invicibleTime: 0
 --- !u!1 &1287496431
 GameObject:
   m_ObjectHideFlags: 0
@@ -60629,7 +60634,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.25, y: 1.96875}
+  m_Size: {x: 2.25, y: 1.8125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0

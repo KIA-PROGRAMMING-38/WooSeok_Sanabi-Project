@@ -2,23 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HPBarDamagedState : HPBarState
+public class HPRobotIdleState : HPRobotState
 {
-    public bool isAnimationDone;
-    public HPBarDamagedState(HPBarController follow, HPBarStateMachine statemachine, PlayerHealth playerHealth, string animboolname) : base(follow, statemachine, playerHealth, animboolname)
+    
+    public HPRobotIdleState(HPRobotController follow, HPRobotStateMachine statemachine, PlayerHealth playerHealth, string animboolname) : base(follow, statemachine, playerHealth, animboolname)
     {
-        
     }
 
     public override void DoChecks()
     {
         base.DoChecks();
+        
     }
 
     public override void Enter()
     {
         base.Enter();
-        //hpBarController.animator.SetInteger(playerHPName, playerCurrentHP);
+        //hpBarController.animator.SetInteger(playerHPName, playerMaxHP);
+
     }
 
     public override void Exit()
@@ -29,7 +30,10 @@ public class HPBarDamagedState : HPBarState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-
+        if (isPlayerDamaged && !isExitingState)
+        {
+            stateMachine.ChangeState(hpRobotController.DamagedState);
+        }
     }
 
     public override void PhysicsUpdate()
@@ -38,4 +42,5 @@ public class HPBarDamagedState : HPBarState
     }
 
     
+
 }

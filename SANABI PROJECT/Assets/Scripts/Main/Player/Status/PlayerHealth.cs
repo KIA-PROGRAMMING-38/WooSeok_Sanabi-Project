@@ -11,17 +11,20 @@ public class PlayerHealth : Health
     private int playerMaxHP;
     private int playerCurHP;
     public float recoveryCooltime = 8f;
+    public int recoverStrength;
     public float transitionCooltime = 3f;
+    public float invicibleTime;
     private bool isPlayerInvincible;
 
     public event Action<int> OnChangedHP;
-    public event Action<int> OnIdleHP;
+    public event Action<int> OnResetHP;
+    public event Action<int> OnRecoverHP;
 
     private void OnEnable()
     {
         playerCurHP = playerMaxHP = playerData.playerHP;
-        OnIdleHP?.Invoke(playerMaxHP);
-        
+        invicibleTime = playerData.invincibleTime;
+        recoverStrength = playerData.PlayerHPRecoverStrength;
     }
 
     private void Update()
@@ -36,7 +39,11 @@ public class PlayerHealth : Health
         OnChangedHP?.Invoke(playerCurHP);
         
     }
-
+    public override void RecoverHP()
+    {
+        playerCurHP += recoverStrength;
+        OnRecoverHP?.Invoke(playerCurHP);
+    }
     public override void Die()
     {
        
@@ -44,7 +51,7 @@ public class PlayerHealth : Health
     public override void ResetToMaxHP()
     {
         playerCurHP = playerMaxHP;
-        OnIdleHP?.Invoke(playerMaxHP);
+        OnResetHP?.Invoke(playerMaxHP);
     }
     public override int GetCurrentHp()
     {

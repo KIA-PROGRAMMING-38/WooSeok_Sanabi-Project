@@ -36,4 +36,9 @@ public class Health : MonoBehaviour, IDamagable
     {
         return maxHP;
     }
+
+    public virtual void RecoverHP()
+    {
+
+    }
 }

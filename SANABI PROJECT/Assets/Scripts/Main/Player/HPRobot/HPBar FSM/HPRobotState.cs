@@ -2,23 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HPBarState 
+public class HPRobotState 
 {
-    protected HPBarController hpBarController;
-    protected HPBarStateMachine stateMachine;
+    protected HPRobotController hpRobotController;
+    protected HPRobotStateMachine stateMachine;
     protected PlayerHealth playerHealth;
 
     protected string animBoolName;
     protected float startTime;
+    protected float damageEnterTime;
     protected bool isExitingState;
     protected bool isPlayerDamaged;
     protected int playerMaxHP;
     protected int playerCurrentHP;
     protected string playerHPName = "playerHP";
     
-    public HPBarState(HPBarController follow, HPBarStateMachine statemachine, PlayerHealth playerHealth, string animboolname)
+    public HPRobotState(HPRobotController follow, HPRobotStateMachine statemachine, PlayerHealth playerHealth, string animboolname)
     {
-        this.hpBarController = follow;
+        this.hpRobotController = follow;
         this.stateMachine = statemachine;
         this.playerHealth = playerHealth;
         this.animBoolName = animboolname;
@@ -33,7 +34,7 @@ public class HPBarState
     {
         DoChecks();
         
-        hpBarController.animator.SetBool(animBoolName, true);
+        hpRobotController.animator.SetBool(animBoolName, true);
         startTime = Time.time;
         isExitingState = false;
         //playerHealth.OnChangedHP -= UpdateHP;
@@ -43,13 +44,14 @@ public class HPBarState
 
     public virtual void Exit()
     {
-        hpBarController.animator.SetBool(animBoolName, false);
+        hpRobotController.animator.SetBool(animBoolName, false);
         isExitingState = true;
     }
 
     public virtual void LogicUpdate()
     {
-        isPlayerDamaged = hpBarController.IsPlayerDamaged;
+        isPlayerDamaged = hpRobotController.IsPlayerDamaged;
+        
     }
 
     public virtual void PhysicsUpdate()
@@ -59,18 +61,17 @@ public class HPBarState
 
     public virtual void DoChecks()
     {
-        
         playerCurrentHP = playerHealth.GetCurrentHp();
         playerMaxHP = playerHealth.GetMaxHp();
     }
 
     public void UpdateHP(int hp)
     {
-        hpBarController.animator.SetInteger(playerHPName, hp);
+        hpRobotController.animator.SetInteger(playerHPName, hp);
     }
 
     private void ResetHP(int playerMaxHp)
     {
-        hpBarController.animator.SetInteger(playerHPName, playerMaxHp);
+        hpRobotController.animator.SetInteger(playerHPName, playerMaxHp);
     }
 }

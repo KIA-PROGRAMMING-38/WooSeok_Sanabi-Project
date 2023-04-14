@@ -1,26 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class HPBarController : MonoBehaviour
+public class HPRobotController : MonoBehaviour
 {
     public PlayerController playerController;
-    public HPBarStateMachine StateMachine { get; private set; }
+    public HPRobotStateMachine StateMachine { get; private set; }
     public Animator animator { get; private set; }
 
     //public PlayerHealth playerHealth;
 
     public PlayerHealth playerHealth { get; private set; }
     #region States
-    public HPBarIdleState IdleState { get; private set; }
-    public HPBarDamagedState DamagedState { get; private set; }
-    public HPBarWaitForRecoveryState WaitForRecoveryState { get; private set; }
-    public HPBarRecovery RecoveryState { get; private set; }
-    public HPBarRecoveryIdleState RecoveryIdleState { get; private set; }
-    public HPBarTransitionToIdleState TransitionToIdleState { get; private set;}
+    public HPRobotIdleState IdleState { get; private set; }
+    public HPRobotDamagedState DamagedState { get; private set; }
+    public HPRobotWaitForRecoveryState WaitForRecoveryState { get; private set; }
+    public HPRobotRecovery RecoveryState { get; private set; }
+    public HPRobotRecoveryIdleState RecoveryIdleState { get; private set; }
+    public HPRobotTransitionToIdleState TransitionToIdleState { get; private set;}
 
     #endregion
+
+    //public event Action<int> OnRecoveryAnimationDone;
 
     #region FollowPlayer
     [SerializeField] private Transform targetPos;
@@ -45,7 +48,7 @@ public class HPBarController : MonoBehaviour
     #endregion
     private void Awake()
     {
-        StateMachine = new HPBarStateMachine();
+        StateMachine = new HPRobotStateMachine();
         animator = GetComponent<Animator>();
         
         //playerHealth = playerController.GetComponentInParent<PlayerHealth>();
@@ -68,12 +71,12 @@ public class HPBarController : MonoBehaviour
         StartCoroutine(StartGlowing());
 
 
-        IdleState = new HPBarIdleState(this, StateMachine, playerHealth, "idle");
-        DamagedState = new HPBarDamagedState(this, StateMachine, playerHealth, "damaged");
-        WaitForRecoveryState = new HPBarWaitForRecoveryState(this, StateMachine, playerHealth, "waitForRecovery");
-        RecoveryState = new HPBarRecovery(this, StateMachine, playerHealth, "recovery");
-        RecoveryIdleState = new HPBarRecoveryIdleState(this, StateMachine, playerHealth, "recoveryIdle");
-        TransitionToIdleState = new HPBarTransitionToIdleState(this, StateMachine, playerHealth, "transitionToIdle");
+        IdleState = new HPRobotIdleState(this, StateMachine, playerHealth, "idle");
+        DamagedState = new HPRobotDamagedState(this, StateMachine, playerHealth, "damaged");
+        WaitForRecoveryState = new HPRobotWaitForRecoveryState(this, StateMachine, playerHealth, "waitForRecovery");
+        RecoveryState = new HPRobotRecovery(this, StateMachine, playerHealth, "recovery");
+        RecoveryIdleState = new HPRobotRecoveryIdleState(this, StateMachine, playerHealth, "recoveryIdle");
+        TransitionToIdleState = new HPRobotTransitionToIdleState(this, StateMachine, playerHealth, "transitionToIdle");
 
         StateMachine.Initialize(IdleState);
     }
@@ -122,5 +125,11 @@ public class HPBarController : MonoBehaviour
     public void ChangeToIdleState()
     {
         StateMachine.ChangeState(IdleState);
+    }
+
+    public void RecoverHP()
+    {
+        playerHealth.RecoverHP();
+        //OnRecoveryAnimationDone?.Invoke(playerHealth.GetCurrentHp());
     }
 }

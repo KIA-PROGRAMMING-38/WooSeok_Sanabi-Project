@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HPBarTransitionToIdleState : HPBarState
+public class HPRobotTransitionToIdleState : HPRobotState
 {
-    public HPBarTransitionToIdleState(HPBarController follow, HPBarStateMachine statemachine, PlayerHealth playerHealth, string animboolname) : base(follow, statemachine, playerHealth, animboolname)
+    public HPRobotTransitionToIdleState(HPRobotController follow, HPRobotStateMachine statemachine, PlayerHealth playerHealth, string animboolname) : base(follow, statemachine, playerHealth, animboolname)
     {
     }
 

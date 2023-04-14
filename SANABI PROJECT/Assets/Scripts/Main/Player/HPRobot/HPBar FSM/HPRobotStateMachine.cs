@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class HPBarStateMachine
+public class HPRobotStateMachine
 {
-    public HPBarState CurrentState { get; private set; }
+    public HPRobotState CurrentState { get; private set; }
 
-    public void Initialize(HPBarState startingState)
+    public void Initialize(HPRobotState startingState)
     {
         CurrentState= startingState;
         CurrentState.Enter();
     }
 
-    public void ChangeState(HPBarState newState)
+    public void ChangeState(HPRobotState newState)
     {
         CurrentState.Exit();
         CurrentState = newState;

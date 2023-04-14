@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     public GrabController GrabController;
 
-    public HPBarController HPBarController;
+    public HPRobotController HPBarController;
 
     public Transform armTransform;
 
