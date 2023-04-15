@@ -41,7 +41,11 @@ public class PlayerDamagedState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        player.playerHealth.TakeDamage(1); // got to change magic number
+        player.playerHealth.OnDead -= ChangeToDeadState;
+        player.playerHealth.OnDead += ChangeToDeadState;
+
+        player.playerHealth.TakeDamage(playerData.PlayerTakeDamage); // got to change magic number
+        
         damagedJumpDirection = Vector2.up + Vector2.right; // (1, 1)
         invincibleTime = playerData.invincibleTime;
         DamagedJumpBack(player.FacingDirection);
@@ -85,5 +89,10 @@ public class PlayerDamagedState : PlayerState
     {
         damagedJumpDirection.x = -FacingDirection * damagedJumpDirection.x;
         player.SetVelocityAll(damagedJumpDirection.x * playerData.damagedJumpVelocity, damagedJumpDirection.y * playerData.damagedJumpVelocity);
+    }
+
+    private void ChangeToDeadState()
+    {
+        stateMachine.ChangeState(player.DeadState);
     }
 }

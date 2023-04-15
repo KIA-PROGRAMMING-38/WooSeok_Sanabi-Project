@@ -7,6 +7,9 @@ using UnityEngine.Rendering.Universal;
 public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private Transform playerTransform;
+    [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private GameObject backGround;
+    [SerializeField] private GameObject mainGround;
     private ShakeCamera camShake;
     private Vector3 offSet;
 
@@ -18,6 +21,8 @@ public class CameraFollow : MonoBehaviour
     [SerializeField][Range(0f, 0.4f)] private float ColorChangeTime = 0.07f;
     private bool isColorChange;
     private WaitForSeconds colorChangeTime;
+    private bool isPlayerDead;
+    Vector2 referenceVelocity = Vector2.zero;   
 
     private void Awake()
     {
@@ -27,9 +32,12 @@ public class CameraFollow : MonoBehaviour
     }
     private void Start()
     {
+        playerHealth.OnDead -= WatchPlayerDie;
+        playerHealth.OnDead += WatchPlayerDie;
         offSet = transform.position - playerTransform.position;
         initialColor = bloom.tint.value;
         colorChangeTime = new WaitForSeconds(ColorChangeTime);
+        isPlayerDead = playerHealth.CheckIfDead();
     }
 
     private void Update()
@@ -43,7 +51,12 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.position = playerTransform.position + offSet + camShake.shakeMovePosition; // 카메라가 흔들리는 만큼 추가로 이동해줌
+        if (!isPlayerDead)
+        {
+            transform.position = playerTransform.position + offSet + camShake.shakeMovePosition; // 카메라가 흔들리는 만큼 추가로 이동해줌
+        }
+        
+        
     }
 
     private void TryChangeColor()
@@ -64,5 +77,17 @@ public class CameraFollow : MonoBehaviour
         isColorChange = true;
     }
     
+    private void WatchPlayerDie()
+    {
+        SlowCameraMove();
+        Camera.main.orthographicSize = 3f;
+        backGround.gameObject.SetActive(false);
+        mainGround.gameObject.SetActive(false);
+        Camera.main.backgroundColor = Color.black;
+    }
 
+    private void SlowCameraMove()
+    {
+        transform.position = Vector2.SmoothDamp(transform.position, playerTransform.position, ref referenceVelocity, 3f);
+    }
 }

@@ -8,6 +8,8 @@ public class PlayerData : MonoBehaviour
 {
     [Header("PlayerStatus")]
     public int playerHP = 4;
+    public int PlayerTakeDamage = 1;
+    public int PlayerHPRecoverStrength = 1;
 
     [Header("Walk State")]
     public float walkVelocity = 2f;

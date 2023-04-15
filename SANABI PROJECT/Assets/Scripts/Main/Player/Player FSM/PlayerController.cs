@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public PlayerWireGrappledInAirState WireGrappledInAirState { get; private set; }
     public PlayerWireGrappledIdleState WireGrappledIdleState { get; private set; }
     public PlayerDamagedState DamagedState { get; private set; }
+    public PlayerDeadState DeadState { get; private set; }
     #endregion
 
     public Rigidbody2D playerRigidBody { get; private set; }
@@ -36,6 +37,8 @@ public class PlayerController : MonoBehaviour
     public PlayerArmController ArmController { get; private set; }
 
     public GrabController GrabController;
+
+    public HPRobotController HPBarController;
 
     public Transform armTransform;
 
@@ -87,6 +90,7 @@ public class PlayerController : MonoBehaviour
         camShake = Camera.main.GetComponent<ShakeCamera>();
         camFollow = Camera.main.GetComponent<CameraFollow>();
         gameManager = new GameManager();
+        playerHealth = GetComponentInParent<PlayerHealth>();
 
         IdleState = new PlayerIdleState(this, StateMachine, playerData, "idle");
         RunState = new PlayerRunState(this, StateMachine, playerData, "run");
@@ -103,22 +107,26 @@ public class PlayerController : MonoBehaviour
         WireGrappledInAirState = new PlayerWireGrappledInAirState(this, StateMachine, playerData, "wireGrappledInAir");
         WireGrappledIdleState = new PlayerWireGrappledIdleState(this, StateMachine, playerData, "wireGrappledIdle");
         DamagedState = new PlayerDamagedState(this, StateMachine, playerData, "damaged");
+        DeadState = new PlayerDeadState(this, StateMachine, playerData, "dead");
+        
     }
 
     private void Start()
     {
         playerRigidBody = GetComponent<Rigidbody2D>();
         FacingDirection = RightDirection;
+        
         //Animators = GetComponentsInChildren<Animator>();
         BodyAnimator = GetComponent<Animator>();
         ArmAnimator = GameObject.FindGameObjectWithTag("Arm").GetComponent<Animator>();
         Input = GetComponentInParent<PlayerInput>();
         DashCooltime = new WaitForSeconds(playerData.DashCoolDown);
         WireDashPool = new ObjectPool<PlayerAfterImage>(CreateWireDashSprite, OnGetSpriteFromPool, OnReturnSpriteToPool);
-        playerHealth = new PlayerHealth(playerData.playerHP);
+        
         MagmaLayerNumber = LayerMask.NameToLayer("Magma");
         StateMachine.Initialize(IdleState);
 
+        //Debug.Log($"플레이어컨트롤러에서의 ID = {playerHealth.GetInstanceID()}");
        
     }
 
@@ -129,7 +137,6 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(damageTimer);
         //Debug.Log($"현재 플레이어 hp = {playerHealth.GetCurrentHp()}");
         //Debug.Log(CurrentVelocity);
-        Debug.Log(isPlayerDamaged);
     }
 
     private void FixedUpdate()
@@ -313,7 +320,9 @@ public class PlayerController : MonoBehaviour
     public void ResetDamageState()
     {
         isPlayerDamaged = false;
-        ArmController.IsDamaged = isPlayerDamaged;
+        ArmController.IsPlayerDamaged = isPlayerDamaged;
+        HPBarController.IsPlayerDamaged = isPlayerDamaged;
+        
     }
     
 
@@ -371,7 +380,8 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.layer == MagmaLayerNumber)
         {
             isPlayerDamaged= true;
-            ArmController.IsDamaged = isPlayerDamaged;
+            ArmController.IsPlayerDamaged = isPlayerDamaged;
+            HPBarController.IsPlayerDamaged= isPlayerDamaged;
         }
     }
 
