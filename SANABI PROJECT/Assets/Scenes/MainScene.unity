@@ -60519,6 +60519,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 1937223192}
+  playerHealth: {fileID: 1054605046}
+  backGround: {fileID: 284718778}
+  mainGround: {fileID: 1717841929}
   ColorChangeTime: 0.07
 --- !u!114 &1444619817
 MonoBehaviour:

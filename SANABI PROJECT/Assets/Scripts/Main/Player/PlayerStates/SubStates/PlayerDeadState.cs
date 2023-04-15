@@ -43,5 +43,6 @@ public class PlayerDeadState : PlayerState
         player.transform.position = holdPosition;
         player.SetVelocityX(0);
         player.SetVelocityY(0);
+        player.playerRigidBody.gravityScale = 0f;
     }
 }
