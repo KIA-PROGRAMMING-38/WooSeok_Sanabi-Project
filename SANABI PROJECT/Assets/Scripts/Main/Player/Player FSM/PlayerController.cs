@@ -294,7 +294,11 @@ public class PlayerController : MonoBehaviour
     #region Check Functions
     public void CheckIfShouldFlip(float xInput)
     {
-        if (xInput != 0 && xInput != FacingDirection)
+        //if (xInput != 0 && xInput != FacingDirection)
+        //{
+        //    Flip();
+        //}
+        if (xInput != 0 && xInput * FacingDirection < 0f)
         {
             Flip();
         }
@@ -346,24 +350,24 @@ public class PlayerController : MonoBehaviour
         return isPlayerDamaged;
     }
 
-    public void StartDamageTimer()
-    {
-        ResetDamageTimer();
-        CountDamageTimer();
-    }
+    //public void StartDamageTimer()
+    //{
+    //    ResetDamageTimer();
+    //    CountDamageTimer();
+    //}
 
-    private void ResetDamageTimer()
-    {
-        damageTimer = 0f;
-    }
-    private void CountDamageTimer()
-    {
-        damageTimer += Time.deltaTime;
-        if (playerData.damageResetTime <= damageTimer)
-        {
-            // hp recovery should be activated
-        }
-    }
+    //private void ResetDamageTimer()
+    //{
+    //    damageTimer = 0f;
+    //}
+    //private void CountDamageTimer()
+    //{
+    //    damageTimer += Time.deltaTime;
+    //    if (playerData.damageResetTime <= damageTimer)
+    //    {
+    //        // hp recovery should be activated
+    //    }
+    //}
     
     private void ChangeToInAirState()
     {
