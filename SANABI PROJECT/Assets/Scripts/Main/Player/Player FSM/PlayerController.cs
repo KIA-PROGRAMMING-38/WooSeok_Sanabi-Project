@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -28,6 +29,8 @@ public class PlayerController : MonoBehaviour
     public PlayerWireGrappledIdleState WireGrappledIdleState { get; private set; }
     public PlayerDamagedState DamagedState { get; private set; }
     public PlayerDeadState DeadState { get; private set; }
+    public PlayerDamagedDashState DamagedDashState { get; private set; }
+    
     #endregion
 
     public Rigidbody2D playerRigidBody { get; private set; }
@@ -75,12 +78,13 @@ public class PlayerController : MonoBehaviour
     private Vector2 distanceVec;
     private Vector2 perpendicularVec;
     private Vector2 direction;
+    private Vector2 DamagedDirection;
 
     public bool isDashing = false;
     private float dashTimeLeft;
 
     private ObjectPool<PlayerAfterImage> WireDashPool;
-
+    public event Action OnDamagedDash;
     #endregion
     private void Awake()
     {
@@ -108,7 +112,7 @@ public class PlayerController : MonoBehaviour
         WireGrappledIdleState = new PlayerWireGrappledIdleState(this, StateMachine, playerData, "wireGrappledIdle");
         DamagedState = new PlayerDamagedState(this, StateMachine, playerData, "damaged");
         DeadState = new PlayerDeadState(this, StateMachine, playerData, "dead");
-        
+        DamagedDashState = new PlayerDamagedDashState(this, StateMachine, playerData, "damagedDash");
     }
 
     private void Start()
@@ -272,6 +276,18 @@ public class PlayerController : MonoBehaviour
         playerRigidBody.AddForce(workspace);
         CurrentVelocity = playerRigidBody.velocity;
     }
+    
+    public void SetDamagedDashVelocity(float inputX, float inputY, float damagedDashForce)
+    {
+        workspace.Set(inputX, inputY);
+        workspace = workspace.normalized * damagedDashForce;
+        DamagedDirection = workspace;
+    }
+
+    public Vector2 GetDamagedDashVelocity()
+    {
+        return DamagedDirection;
+    }
 
     #endregion
 
@@ -322,7 +338,6 @@ public class PlayerController : MonoBehaviour
         isPlayerDamaged = false;
         ArmController.IsPlayerDamaged = isPlayerDamaged;
         HPBarController.IsPlayerDamaged = isPlayerDamaged;
-        
     }
     
 
@@ -350,6 +365,48 @@ public class PlayerController : MonoBehaviour
         }
     }
     
+    private void ChangeToInAirState()
+    {
+        OnDamagedDash?.Invoke();
+    }
+
+    public void CheckIfShouldRotate(float xInput, float yInput)
+    {
+        float rotationAngle = 45f;
+        // should consider that this function will be called after CheckIfShouldFlip()
+        if (1f <= yInput) // if pressed Up
+        {
+            if (1f <= xInput)
+            {
+                transform.Rotate(0f, 0f, rotationAngle);
+            }
+            else if (xInput <= -1f)
+            {
+                transform.Rotate(0f, 0f, -rotationAngle);
+            }
+            else
+            {
+                transform.Rotate(0f, 0f, rotationAngle * 2);
+            }
+        }
+        else if (yInput <= -1f) // if pressed Down
+        {
+            if (1f <= xInput)
+            {
+                transform.Rotate(0f, 0f, -rotationAngle);
+            }
+            else if (xInput <= -1f)
+            {
+                transform.Rotate(0f, 0f, +rotationAngle);
+            }
+            else
+            {
+                transform.Rotate(0f, 0f, rotationAngle * 2);
+            }
+        }
+        
+    }
+
     #endregion
 
     #region Other Functions

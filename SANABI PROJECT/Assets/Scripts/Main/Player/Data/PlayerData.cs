@@ -53,10 +53,14 @@ public class PlayerData : MonoBehaviour
     [Range(0f, 0.5f)] public float slowTime = 0.05f;
     [Range(0f, 1f)] public float timeScale = 0.2f;
 
-    [Header("Dash")]
+    [Header("SwingDash")]
     public float DashCoolDown = 2f;
     public float DashForce = 25f;
     [Range(0f, 1f)] public float DashTime = 0.3f;
+
+    [Header("DamagedDash")]
+    public float damagedDashVelocity = 15f;
+
 
     [Header("Check Variables")]
     [Range(0f, 0.3f)] public float groundCheckRadius = 0.1f;

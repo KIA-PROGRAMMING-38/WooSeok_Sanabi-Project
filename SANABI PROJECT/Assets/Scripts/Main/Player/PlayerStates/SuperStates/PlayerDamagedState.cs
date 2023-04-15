@@ -13,6 +13,11 @@ public class PlayerDamagedState : PlayerState
     private float cameraShakeIntensity;
     private float slowTime;
     private float slowIntensity;
+
+    private float InputX;
+    private float InputY;
+    private bool JumpInput;
+    private bool isTryingToDash;
     public PlayerDamagedState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -35,6 +40,7 @@ public class PlayerDamagedState : PlayerState
         cameraShakeIntensity = player.camShake.damagedShakeIntensity;
         slowTime = playerData.slowTime;
         slowIntensity = playerData.timeScale;
+        
     }
 
     
@@ -64,6 +70,12 @@ public class PlayerDamagedState : PlayerState
     {
         base.LogicUpdate();
 
+        InputX = player.Input.MovementInput.x;
+        InputY = player.Input.MovementInput.y;
+        JumpInput = player.Input.JumpInput;
+
+        CheckIfTryingToDamagedDash();
+
         elapsedTime += Time.deltaTime;
         if (invincibleTime <= elapsedTime) 
         {
@@ -78,6 +90,12 @@ public class PlayerDamagedState : PlayerState
             }
         }
 
+        if (isTryingToDash)
+        {
+            isTryingToDash = false; // test code got to delete later
+            player.SetDamagedDashVelocity(InputX, InputY, playerData.damagedDashVelocity);
+            stateMachine.ChangeState(player.DamagedDashState);
+        }
     }
 
     public override void PhysicsUpdate()
@@ -89,6 +107,14 @@ public class PlayerDamagedState : PlayerState
     {
         damagedJumpDirection.x = -FacingDirection * damagedJumpDirection.x;
         player.SetVelocityAll(damagedJumpDirection.x * playerData.damagedJumpVelocity, damagedJumpDirection.y * playerData.damagedJumpVelocity);
+    }
+
+    private void CheckIfTryingToDamagedDash()
+    {
+        if ((InputX != 0 || InputY != 0) && JumpInput)
+        {
+            isTryingToDash = true;
+        }
     }
 
     private void ChangeToDeadState()

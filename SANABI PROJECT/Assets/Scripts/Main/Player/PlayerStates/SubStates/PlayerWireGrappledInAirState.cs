@@ -31,6 +31,7 @@ public class PlayerWireGrappledInAirState : PlayerWireState
 
         if (DashInput)
         {
+            player.Input.UseDashInput();
             player.PlayerWireDash();
         }
 

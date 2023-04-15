@@ -52,6 +52,7 @@ public class PlayerGroundedState : PlayerState
         }
         else if (MouseInput)
         {
+            player.Input.UseJumpInput();
             stateMachine.ChangeState(player.WireShootState);
         }
         else if (isDamaged)

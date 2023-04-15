@@ -47,8 +47,6 @@ AnimationClip:
       value: {fileID: 21300000, guid: 34bc6d7b060a3f342ad9904d70b90370, type: 3}
     - time: 1.0833334
       value: {fileID: 21300000, guid: 822c44da72b67cb449a718a56bb94b8d, type: 3}
-    - time: 1.1666666
-      value: {fileID: 21300000, guid: d62b16c0449bcb04ebe9941f8aae5038, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -82,13 +80,12 @@ AnimationClip:
     - {fileID: 21300000, guid: 5e97f28f08bd74241a009e49d3e5338e, type: 3}
     - {fileID: 21300000, guid: 34bc6d7b060a3f342ad9904d70b90370, type: 3}
     - {fileID: 21300000, guid: 822c44da72b67cb449a718a56bb94b8d, type: 3}
-    - {fileID: 21300000, guid: d62b16c0449bcb04ebe9941f8aae5038, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.25
+    m_StopTime: 1.1666667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -108,7 +105,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 1.25
+  - time: 1.1666666
     functionName: ChangeToIdleState
     data: 
     objectReferenceParameter: {fileID: 0}

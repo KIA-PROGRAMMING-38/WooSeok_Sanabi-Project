@@ -44,7 +44,6 @@ public class PlayerInput : MonoBehaviour
 
     public void UseJumpInput() => JumpInput = false; 
     public void UseDashInput() => DashInput = false;
-
     public void UseWireShoot() => MouseInput = false;
     
     
