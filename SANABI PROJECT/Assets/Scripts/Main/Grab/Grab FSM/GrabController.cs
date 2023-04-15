@@ -58,7 +58,7 @@ public class GrabController : MonoBehaviour
         GrabbedState = new GrabGrabbedState(this, grabStateMachine, playerData, "grabbed");
         ReturningState = new GrabReturningState(this, grabStateMachine, playerData, "returning");
     }
-    void Start()
+    private void Start()
     {
         grabRigid = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -76,7 +76,7 @@ public class GrabController : MonoBehaviour
         GrabMaxLength = playerData.wireLength;
     }
 
-    void Update()
+    private void Update()
     {
         CurrentVelocity = grabRigid.velocity;
         grabStateMachine.grabCurrentState.LogicUpdate();

@@ -12,6 +12,7 @@ TagManager:
   - ImageContain
   - GrabReturn
   - Arm
+  - Turret
   layers:
   - Default
   - TransparentFX
