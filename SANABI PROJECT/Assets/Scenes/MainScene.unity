@@ -58712,6 +58712,7 @@ MonoBehaviour:
   DashCoolDown: 2
   DashForce: 25
   DashTime: 0.5
+  damagedDashVelocity: 15
   groundCheckRadius: 0.1
   wallCheckDistance: 0.5
   whatIsGround:

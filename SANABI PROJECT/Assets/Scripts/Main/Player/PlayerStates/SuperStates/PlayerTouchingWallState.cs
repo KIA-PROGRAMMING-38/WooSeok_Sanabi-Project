@@ -64,6 +64,7 @@ public class PlayerTouchingWallState : PlayerState
         }
         else if (isTouchingWall && JumpInput) //  && (isTouchingWall || isTouchingWallBack)
         {
+            player.Input.UseJumpInput();
             player.WallJumpState.DetermineWallJumpDirection(isTouchingWall);
             stateMachine.ChangeState(player.WallJumpState);
         }
@@ -78,6 +79,7 @@ public class PlayerTouchingWallState : PlayerState
         }
         else if (MouseInput)
         {
+            player.Input.UseWireShoot();
             stateMachine.ChangeState(player.WireShootState);
         }
         else if (isDamaged)

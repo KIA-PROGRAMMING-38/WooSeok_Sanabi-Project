@@ -12,6 +12,7 @@ public class PlayerState
     protected float startTime; // defines how long the player has been in the state
     private string animBoolName;
     protected bool isExitingState; // to prevent executing scripts inbetween state changes inside the same SuperStates.
+
     public PlayerState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
     {
         this.player = player;
