@@ -70,6 +70,9 @@ public class PlayerController : MonoBehaviour
 
     private int MagmaLayerNumber;
     private bool isPlayerDamaged;
+    private bool isPlayerInvincible;
+    private float playerInvincibleTime;
+    private WaitForSeconds playerInvincibleWaitTime;
     private float damageTimer;
     
 
@@ -126,6 +129,8 @@ public class PlayerController : MonoBehaviour
         Input = GetComponentInParent<PlayerInput>();
         DashCooltime = new WaitForSeconds(playerData.DashCoolDown);
         WireDashPool = new ObjectPool<PlayerAfterImage>(CreateWireDashSprite, OnGetSpriteFromPool, OnReturnSpriteToPool);
+        playerInvincibleTime = playerData.invincibleTime;
+        playerInvincibleWaitTime = new WaitForSeconds(playerInvincibleTime);
         
         MagmaLayerNumber = LayerMask.NameToLayer("Magma");
         StateMachine.Initialize(IdleState);
@@ -138,6 +143,7 @@ public class PlayerController : MonoBehaviour
     {
         CurrentVelocity = playerRigidBody.velocity;
         StateMachine.CurrentState.LogicUpdate();
+        Debug.Log($"플레이어무적상태 = {isPlayerInvincible}");
         //Debug.Log(damageTimer);
         //Debug.Log($"현재 플레이어 hp = {playerHealth.GetCurrentHp()}");
         //Debug.Log(CurrentVelocity);
@@ -350,26 +356,15 @@ public class PlayerController : MonoBehaviour
         return isPlayerDamaged;
     }
 
-    //public void StartDamageTimer()
-    //{
-    //    ResetDamageTimer();
-    //    CountDamageTimer();
-    //}
-
-    //private void ResetDamageTimer()
-    //{
-    //    damageTimer = 0f;
-    //}
-    //private void CountDamageTimer()
-    //{
-    //    damageTimer += Time.deltaTime;
-    //    if (playerData.damageResetTime <= damageTimer)
-    //    {
-    //        // hp recovery should be activated
-    //    }
-    //}
     
-    private void ChangeToInAirState()
+    public IEnumerator MakeInvincible()
+    {
+        isPlayerInvincible= true;
+        yield return playerInvincibleWaitTime;
+        isPlayerInvincible = false;
+        
+    }
+    private void ChangeToInAirState() // to be called from animation frames as event
     {
         OnDamagedDash?.Invoke();
     }
@@ -440,10 +435,22 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.layer == MagmaLayerNumber)
         {
-            isPlayerDamaged= true;
-            ArmController.IsPlayerDamaged = isPlayerDamaged;
-            HPBarController.IsPlayerDamaged= isPlayerDamaged;
+            if (!isPlayerInvincible)
+            {
+                StartCoroutine(MakeInvincible());
+                isPlayerDamaged = true;
+                ArmController.IsPlayerDamaged = isPlayerDamaged;
+                HPBarController.IsPlayerDamaged = isPlayerDamaged;
+            }
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("TurretSpawnArea"))
+        {
+            Debug.Log("터렛 생성 지역에 들어왔음");
+
+        }
+    }
 }

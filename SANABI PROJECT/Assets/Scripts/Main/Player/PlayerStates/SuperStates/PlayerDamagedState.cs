@@ -8,7 +8,7 @@ public class PlayerDamagedState : PlayerState
     protected bool isGrounded;
     protected Vector2 damagedJumpDirection;
     protected float elapsedTime;
-    protected float invincibleTime;
+    protected float damagedOutTime;
     private float cameraShakeTime;
     private float cameraShakeIntensity;
     private float slowTime;
@@ -53,7 +53,7 @@ public class PlayerDamagedState : PlayerState
         player.playerHealth.TakeDamage(playerData.PlayerTakeDamage); // got to change magic number
         
         damagedJumpDirection = Vector2.up + Vector2.right; // (1, 1)
-        invincibleTime = playerData.invincibleTime;
+        damagedOutTime = playerData.damagedOutTime;
         DamagedJumpBack(player.FacingDirection);
         player.camShake.TurnOnShake(cameraShakeTime, cameraShakeIntensity);
         player.camFollow.ChangeColor();
@@ -77,7 +77,7 @@ public class PlayerDamagedState : PlayerState
         CheckIfTryingToDamagedDash();
 
         elapsedTime += Time.deltaTime;
-        if (invincibleTime <= elapsedTime) 
+        if (damagedOutTime <= elapsedTime) 
         {
             elapsedTime = 0f;
             if (isGrounded)

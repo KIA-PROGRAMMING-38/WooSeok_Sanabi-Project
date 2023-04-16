@@ -13,6 +13,7 @@ TagManager:
   - GrabReturn
   - Arm
   - Turret
+  - TurretSpawnArea
   layers:
   - Default
   - TransparentFX

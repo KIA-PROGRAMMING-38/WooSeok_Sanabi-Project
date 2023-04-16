@@ -28,7 +28,7 @@ public class PlayerHealth : Health
     private void OnEnable()
     {
         playerCurHP = playerMaxHP = playerData.playerHP;
-        invicibleTime = playerData.invincibleTime;
+        invicibleTime = playerData.damagedOutTime;
         recoverStrength = playerData.PlayerHPRecoverStrength;
     }
 
