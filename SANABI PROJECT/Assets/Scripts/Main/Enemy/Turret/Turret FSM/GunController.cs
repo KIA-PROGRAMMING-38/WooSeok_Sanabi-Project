@@ -91,4 +91,13 @@ public class GunController : MonoBehaviour
         Gun.SetActive(true);
     }
 
+    public Vector2 GetGunTipPosition()
+    {
+        return gunTipTransform.position;
+    }
+
+    public Quaternion GetGunTipRotation()
+    {
+        return gunTipTransform.rotation;
+    }
 }

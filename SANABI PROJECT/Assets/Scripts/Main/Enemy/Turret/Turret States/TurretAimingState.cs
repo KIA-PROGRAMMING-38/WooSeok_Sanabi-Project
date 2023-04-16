@@ -26,8 +26,8 @@ public class TurretAimingState : TurretState
     public override void Exit()
     {
         base.Exit();
-        turretController.StopAiming();
         turretController.gunController.StopRotationAndAim();
+        turretController.StopAiming();
     }
 
     public override void LogicUpdate()

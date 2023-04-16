@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 111782585}
+  - component: {fileID: 111782586}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -157,6 +158,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &111782586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111782584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecfc15e3677a6ec4086af98d270a0388, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &284718778
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,7 +430,7 @@ GameObject:
   - component: {fileID: 526508919}
   m_Layer: 3
   m_Name: NormalWall
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56234,7 +56247,7 @@ GameObject:
   - component: {fileID: 681794634}
   m_Layer: 7
   m_Name: NoGrabWall
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58695,7 +58708,6 @@ GameObject:
   - component: {fileID: 705182182}
   - component: {fileID: 705182183}
   - component: {fileID: 705182184}
-  - component: {fileID: 705182185}
   - component: {fileID: 705182186}
   m_Layer: 0
   m_Name: Body
@@ -58784,18 +58796,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunController: {fileID: 854181993}
---- !u!114 &705182185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 705182181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecfc15e3677a6ec4086af98d270a0388, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  aimTime: 1.5
+  bulletPrefab: {fileID: 8646306871348025627, guid: 9a8246202a62a084587903b69ecb5d0a, type: 3}
+  minRandomAngle: 5
+  maxRandomAngle: 10
+  shootGapTime: 0.05
+  shotBulletMaxNumber: 15
+  cooldownTime: 0.5
 --- !u!95 &705182186
 Animator:
   serializedVersion: 5
@@ -59196,7 +59203,7 @@ GameObject:
   - component: {fileID: 1287496433}
   m_Layer: 6
   m_Name: Magma
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

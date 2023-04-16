@@ -16,11 +16,15 @@ public class TurretCooldownState : TurretState
     public override void Enter()
     {
         base.Enter();
+        turretController.OnFinishedCooldown -= ChangeToAimingState;
+        turretController.OnFinishedCooldown += ChangeToAimingState;
+        turretController.WaitUntilCooldown();
     }
 
     public override void Exit()
     {
         base.Exit();
+        turretController.StopCooldown();
     }
 
     public override void LogicUpdate()
@@ -31,5 +35,10 @@ public class TurretCooldownState : TurretState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+    }
+
+    private void ChangeToAimingState()
+    {
+        stateMachine.ChangeState(turretController.AimingState);
     }
 }
