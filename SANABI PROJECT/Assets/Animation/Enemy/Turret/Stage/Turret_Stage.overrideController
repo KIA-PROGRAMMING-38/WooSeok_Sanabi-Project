@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Turret_Stage
+  m_Controller: {fileID: 9100000, guid: bad9c3e26bcfa3543abebf1c5cfd2a20, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 0d9c8a3b35a1c6e458b8fc554932d282, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: df04b620055df504dbd3f58cbe7a4fd0, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: edee47f0b0a17944cbd6ba9fac240f2c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: df04b620055df504dbd3f58cbe7a4fd0, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6b1137ddcfb810348afe806595bbde1a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: df04b620055df504dbd3f58cbe7a4fd0, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b4c4411efcaf1dc40a5d39e7b29937c1, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: dd35717c863ec214cb6f8935c0a18fa0, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 7c038b43d6b8c304fb6ebfd1bde3e1ec, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: df04b620055df504dbd3f58cbe7a4fd0, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 06584b042ec58b84287d9a29ba62852b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: df04b620055df504dbd3f58cbe7a4fd0, type: 2}

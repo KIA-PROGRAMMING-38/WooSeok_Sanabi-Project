@@ -73,7 +73,8 @@ public class PlayerWireState : PlayerState
             }
             else if (!isGrounded)
             {
-                stateMachine.ChangeState(player.InAirState);
+                //stateMachine.ChangeState(player.InAirState);
+                stateMachine.ChangeState(player.RollingState);
             }
         }
         else if (isDamaged)

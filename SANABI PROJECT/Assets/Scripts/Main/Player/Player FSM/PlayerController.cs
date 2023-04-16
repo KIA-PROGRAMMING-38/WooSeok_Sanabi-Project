@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     public PlayerDamagedState DamagedState { get; private set; }
     public PlayerDeadState DeadState { get; private set; }
     public PlayerDamagedDashState DamagedDashState { get; private set; }
+    public PlayerRollingState RollingState { get; private set; }
     
     #endregion
 
@@ -116,6 +117,7 @@ public class PlayerController : MonoBehaviour
         DamagedState = new PlayerDamagedState(this, StateMachine, playerData, "damaged");
         DeadState = new PlayerDeadState(this, StateMachine, playerData, "dead");
         DamagedDashState = new PlayerDamagedDashState(this, StateMachine, playerData, "damagedDash");
+        RollingState = new PlayerRollingState(this, StateMachine, playerData, "rolling");
     }
 
     private void Start()
@@ -143,8 +145,7 @@ public class PlayerController : MonoBehaviour
     {
         CurrentVelocity = playerRigidBody.velocity;
         StateMachine.CurrentState.LogicUpdate();
-        Debug.Log($"플레이어무적상태 = {isPlayerInvincible}");
-        //Debug.Log(damageTimer);
+        
         //Debug.Log($"현재 플레이어 hp = {playerHealth.GetCurrentHp()}");
         //Debug.Log(CurrentVelocity);
     }

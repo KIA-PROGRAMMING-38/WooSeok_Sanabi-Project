@@ -44,9 +44,14 @@ public class TurretController : MonoBehaviour
         StateMachine.CurrentState.LogicUpdate();
     }
 
-
     private void FixedUpdate()
     {
         StateMachine.CurrentState.PhysicsUpdate();
     }
+
+    public void ChangeToAimingState()
+    {
+        StateMachine.ChangeState(AimingState);
+    }
+
 }
