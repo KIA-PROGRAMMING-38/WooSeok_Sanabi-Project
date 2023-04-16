@@ -7,13 +7,15 @@ public class GunController : MonoBehaviour
     [SerializeField] private GameObject Gun;
     [SerializeField] private Transform targetTransform;
     [SerializeField] private Transform gunTipTransform;
+    [SerializeField] private TurretData turretData;
     private int platformLayerMask;
     private LineRenderer aimLineRenderer;
     private Vector2 targetDistance;
     private Vector2 gunTipDistance;
     private float rotateAngle;
-    [SerializeField] float rotateSpeed = 150f;
-    
+    //[SerializeField] float rotateSpeed = 150f;
+    private float rotateSpeed;
+
     RaycastHit2D hit;
 
 
@@ -27,6 +29,7 @@ public class GunController : MonoBehaviour
     {
         platformLayerMask = (1 << LayerMask.NameToLayer("NormalWall")) | (1 << LayerMask.NameToLayer("NoGrabWall") | (1 << LayerMask.NameToLayer("Magma")));
         Gun.SetActive(false);
+        rotateSpeed = turretData.rotateSpeed;
         _startRotationAndAim = StartRotationAndAim();
     }
 

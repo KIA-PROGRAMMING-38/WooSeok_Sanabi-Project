@@ -170,6 +170,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecfc15e3677a6ec4086af98d270a0388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aimTime: 1.5
+  minRandomAngle: 5
+  maxRandomAngle: 10
+  rotateSpeed: 150
+  shootGapTime: 0.05
+  shotBulletMaxNumber: 15
+  bulletVelocity: 15
+  cooldownTime: 0.5
 --- !u!1 &284718778
 GameObject:
   m_ObjectHideFlags: 0
@@ -58796,13 +58804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunController: {fileID: 854181993}
-  aimTime: 1.5
   bulletPrefab: {fileID: 8646306871348025627, guid: 9a8246202a62a084587903b69ecb5d0a, type: 3}
-  minRandomAngle: 5
-  maxRandomAngle: 10
-  shootGapTime: 0.05
-  shotBulletMaxNumber: 15
-  cooldownTime: 0.5
 --- !u!95 &705182186
 Animator:
   serializedVersion: 5
@@ -58947,7 +58949,7 @@ MonoBehaviour:
   Gun: {fileID: 580248797}
   targetTransform: {fileID: 1937223192}
   gunTipTransform: {fileID: 991779821}
-  rotateSpeed: 150
+  turretData: {fileID: 111782586}
 --- !u!1 &883634469
 GameObject:
   m_ObjectHideFlags: 0

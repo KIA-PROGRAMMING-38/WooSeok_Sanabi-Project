@@ -24,13 +24,17 @@ public class TurretController : MonoBehaviour
 
     public IEnumerator _StayAiming;
     private WaitForSeconds _aimTime;
-    [SerializeField] private float aimTime = 1.5f;
+    //[SerializeField] private float aimTime = 1.5f;
+    private float aimTime;
     public ObjectPool<TurretBullet> turretBulletPool { get; private set; }
     public TurretBullet bulletPrefab;
 
-    [SerializeField][Range(5f, 10f)] private float minRandomAngle = 5f;
-    [SerializeField][Range(10f, 20f)] private float maxRandomAngle = 10f;
-    [SerializeField][Range(0.01f, 0.1f)] private float shootGapTime = 0.05f;
+    //[SerializeField][Range(5f, 10f)] private float minRandomAngle = 5f;
+    //[SerializeField][Range(10f, 20f)] private float maxRandomAngle = 10f;
+    //[SerializeField][Range(0.01f, 0.1f)] private float shootGapTime = 0.05f;
+    private float minRandomAngle;
+    private float maxRandomAngle;
+    private float shootGapTime;
     private float randomShootAngle;
     private Vector3 rotation;
     private Quaternion bulletRotation;
@@ -38,11 +42,13 @@ public class TurretController : MonoBehaviour
     private IEnumerator _ShootMultipleBullets;
 
     private int shotBulletNumber;
-    [SerializeField] private int shotBulletMaxNumber = 15;
+    //[SerializeField] private int shotBulletMaxNumber = 15;
+    private int shotBulletMaxNumber;
     public event Action OnFinishedShooting;
 
     private WaitForSeconds _cooldownTime;
-    [SerializeField] private float cooldownTime = 0.5f;
+    //[SerializeField] private float cooldownTime = 0.5f;
+    private float cooldownTime;
     private IEnumerator _WaitForCooldown;
 
     public event Action OnFinishedCooldown;
@@ -65,6 +71,7 @@ public class TurretController : MonoBehaviour
     private void Start()
     {
         turretBulletPool = new ObjectPool<TurretBullet>(CreateBullet, OnGetBulletFromPool, OnReturnBulletToPool);
+        SetVariables();
         _shootGapTime = new WaitForSeconds(shootGapTime);
         _cooldownTime = new WaitForSeconds(cooldownTime);
 
@@ -93,7 +100,7 @@ public class TurretController : MonoBehaviour
 
     public void StartAiming()
     {
-        //StartCoroutine(_StayAiming); 왜 최적화 하니까 2번째에서부터는 인식을 못하지
+        //StartCoroutine(_StayAiming); //왜 최적화 하니까 2번째에서부터는 인식을 못하지
         StartCoroutine(StayAiming());
     }
 
@@ -175,6 +182,16 @@ public class TurretController : MonoBehaviour
     {
         //StopCoroutine(_WaitForCooldown);
         StopCoroutine(WaitForCooldown());
+    }
+
+    private void SetVariables()
+    {
+        aimTime = turretData.aimTime;
+        minRandomAngle = turretData.minRandomAngle;
+        maxRandomAngle = turretData.maxRandomAngle;
+        shootGapTime = turretData.shootGapTime;
+        shotBulletMaxNumber = turretData.shotBulletMaxNumber;
+        cooldownTime = turretData.cooldownTime;
     }
 
     private void OnGetBulletFromPool(TurretBullet bullet) => bullet.gameObject.SetActive(true);

@@ -7,7 +7,8 @@ public class TurretBullet : MonoBehaviour
     public Rigidbody2D bulletRigidbody { private get; set; }
     public ObjectPool<TurretBullet> bulletPool { private get; set; }
 
-    [SerializeField] private float bulletVelocity = 15f;
+    [SerializeField] [Range(10f, 20f)] private float bulletVelocity = 15f;
+    
 
     private void Awake()
     {
