@@ -18,12 +18,19 @@ public class TurretController : MonoBehaviour
 
     #endregion
     public Animator Animator { get; private set; }
+    
+    public GunController gunController;
+
+    public IEnumerator _aimStart;
+    private WaitForSeconds _aimTime;
+    [SerializeField] private float aimTime = 1.5f;
 
     private void Awake()
     {
         StateMachine = new TurretStateMachine();
         turretData = GetComponent<TurretData>();
         Animator = GetComponent<Animator>();
+        
 
         PopUpState = new TurretPopUpState(this, StateMachine, turretData, "popUp");
         CooldownState = new TurretCooldownState(this, StateMachine, turretData, "cooldown");
@@ -36,6 +43,8 @@ public class TurretController : MonoBehaviour
 
     private void Start()
     {
+        _aimStart = StayAiming();
+        _aimTime = new WaitForSeconds(aimTime);
         StateMachine.Initialize(PopUpState);
     }
 
@@ -52,6 +61,23 @@ public class TurretController : MonoBehaviour
     public void ChangeToAimingState()
     {
         StateMachine.ChangeState(AimingState);
+        gunController.ShowGun();
+    }
+
+    public void StartAiming()
+    {
+        StartCoroutine(_aimStart);
+    }
+
+    public void StopAiming()
+    {
+        StopCoroutine(_aimStart);
+    }
+
+    private IEnumerator StayAiming()
+    {
+        yield return _aimTime;
+        StateMachine.ChangeState(ShootState);
     }
 
 }
