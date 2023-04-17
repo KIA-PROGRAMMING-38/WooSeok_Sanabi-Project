@@ -62,6 +62,14 @@ public class PlayerData : MonoBehaviour
     [Header("DamagedDash")]
     public float damagedDashVelocity = 15f;
 
+    [Header("ApproachDash")]
+    public float approachDashVelocity = 100f;
+
+    [Header("ExecuteHold")]
+    public float executeHoldMaxTime = 5f;
+
+    [Header("ExecuteDash")]
+    public float executeDashVelocity = 20f;
 
     [Header("Check Variables")]
     [Range(0f, 0.3f)] public float groundCheckRadius = 0.1f;

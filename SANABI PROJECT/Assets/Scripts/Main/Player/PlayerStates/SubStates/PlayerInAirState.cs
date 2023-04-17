@@ -21,9 +21,9 @@ public class PlayerInAirState : PlayerState
     {
         base.DoChecks();
 
-        isGrounded = player.CheckIfGrounded();
-        isTouchingWall = player.CheckIfTouchingWall();
-        isDamaged = player.CheckIfDamaged();    
+        isGrounded = playerController.CheckIfGrounded();
+        isTouchingWall = playerController.CheckIfTouchingWall();
+        isDamaged = playerController.CheckIfDamaged();    
 
     }
 
@@ -41,39 +41,39 @@ public class PlayerInAirState : PlayerState
     {
         base.LogicUpdate();
 
-        xInput = player.Input.MovementInput.x;
-        jumpInputStop = player.Input.JumpInputStop;
-        JumpInput = player.Input.JumpInput;
-        MouseInput = player.Input.MouseInput;
+        xInput = playerController.Input.MovementInput.x;
+        jumpInputStop = playerController.Input.JumpInputStop;
+        JumpInput = playerController.Input.JumpInput;
+        MouseInput = playerController.Input.MouseInput;
         
 
         CheckJumpMultiplier();
 
-        if (isGrounded && player.CurrentVelocity.y < 0.01f) // if landed on ground
+        if (isGrounded && playerController.CurrentVelocity.y < 0.01f) // if landed on ground
         {
-            stateMachine.ChangeState(player.LandState);
+            stateMachine.ChangeState(playerController.LandState);
         }
 
-        else if (isTouchingWall && xInput == player.FacingDirection) // if xInput is in the direction of the wall
+        else if (isTouchingWall && xInput == playerController.FacingDirection) // if xInput is in the direction of the wall
         {
-            stateMachine.ChangeState(player.WallGrabState);
+            stateMachine.ChangeState(playerController.WallGrabState);
         }
         else if (MouseInput)
         {
-            stateMachine.ChangeState(player.WireShootState);
+            stateMachine.ChangeState(playerController.WireShootState);
         }
         else if (isDamaged)
         {
-            stateMachine.ChangeState(player.DamagedState);
+            stateMachine.ChangeState(playerController.DamagedState);
         }
         else
         {
-            player.CheckIfShouldFlip(xInput);
-            player.SetVelocityX(playerData.runVelocity * xInput);
+            playerController.CheckIfShouldFlip(xInput);
+            playerController.SetVelocityX(playerData.runVelocity * xInput);
 
 
-            player.BodyAnimator.SetFloat("yVelocity", player.CurrentVelocity.y);
-            player.ArmAnimator.SetFloat("yVelocity", player.CurrentVelocity.y);
+            playerController.BodyAnimator.SetFloat("yVelocity", playerController.CurrentVelocity.y);
+            playerController.ArmAnimator.SetFloat("yVelocity", playerController.CurrentVelocity.y);
         }
 
         FastFall();
@@ -88,13 +88,13 @@ public class PlayerInAirState : PlayerState
 
     private void FastFall()
     {
-        if (player.CurrentVelocity.y < 0f)
+        if (playerController.CurrentVelocity.y < 0f)
         {
-            player.playerRigidBody.gravityScale = 1.5f;
+            playerController.playerRigidBody.gravityScale = 1.5f;
         }
         else
         {
-            player.playerRigidBody.gravityScale = 1.0f;
+            playerController.playerRigidBody.gravityScale = 1.0f;
         }
     }
     private void CheckJumpMultiplier()
@@ -103,10 +103,10 @@ public class PlayerInAirState : PlayerState
         {
             if (jumpInputStop) // if finger off the jump button
             {
-                player.SetVelocityY(player.CurrentVelocity.y * playerData.variableJumpHeightMultiplier); // decrease the jump velocity(which is upwards)
+                playerController.SetVelocityY(playerController.CurrentVelocity.y * playerData.variableJumpHeightMultiplier); // decrease the jump velocity(which is upwards)
                 isJumping = false;
             }
-            else if (player.CurrentVelocity.y <= 0f) // it's not jumping but rather falling
+            else if (playerController.CurrentVelocity.y <= 0f) // it's not jumping but rather falling
             {
                 isJumping = false;
             }

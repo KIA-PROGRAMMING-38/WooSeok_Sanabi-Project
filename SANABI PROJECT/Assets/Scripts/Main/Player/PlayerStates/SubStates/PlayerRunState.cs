@@ -27,11 +27,11 @@ public class PlayerRunState : PlayerGroundedState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        player.CheckIfShouldFlip(InputX);
-        player.SetVelocityX(playerData.runVelocity * InputX);
+        playerController.CheckIfShouldFlip(InputX);
+        playerController.SetVelocityX(playerData.runVelocity * InputX);
         if (InputX == 0 && !isExitingState)
         {
-            stateMachine.ChangeState(player.IdleState);
+            stateMachine.ChangeState(playerController.IdleState);
         }
     }
 

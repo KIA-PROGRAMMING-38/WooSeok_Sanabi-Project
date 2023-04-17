@@ -6,7 +6,7 @@ public class TurretData : MonoBehaviour
 {
     [Header("Aiming State")]
     public float aimTime = 1.5f;
-    [Range(5f, 10f)] public float minRandomAngle = 5f;
+    [Range(0f, 10f)] public float minRandomAngle = 1f;
     [Range(10f, 20f)] public float maxRandomAngle = 10f;
     [Range(150f, 200f)] public float rotateSpeed = 150f;
 

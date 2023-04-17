@@ -31,18 +31,25 @@ public class PlayerController : MonoBehaviour
     public PlayerDeadState DeadState { get; private set; }
     public PlayerDamagedDashState DamagedDashState { get; private set; }
     public PlayerRollingState RollingState { get; private set; }
+    public PlayerApproachDash ApproachDash { get; private set; }
+    public PlayerExecuteHolded ExecuteHolded { get; private set; }
+    public PlayerExecuteDash ExecuteDash { get; private set; }
     
     #endregion
 
     public Rigidbody2D playerRigidBody { get; private set; }
     public Animator BodyAnimator { get; private set; }
     public Animator ArmAnimator { get; private set; }
+
+    public Animator ExecuteDashIconAnimator;
     public PlayerInput Input { get; private set; }
     public PlayerArmController ArmController { get; private set; }
 
     public GrabController GrabController;
 
     public HPRobotController HPBarController;
+
+    public ExecuteDashIconController ExecuteDashIconController;
 
     public Transform armTransform;
 
@@ -89,6 +96,14 @@ public class PlayerController : MonoBehaviour
 
     private ObjectPool<PlayerAfterImage> WireDashPool;
     public event Action OnDamagedDash;
+    public event Action OnApproachDashToTurret;
+    public event Action OnExecuteDash;
+
+    private float executeHoldMaxTime;
+    private WaitForSeconds _executeHoldMaxTime;
+    private IEnumerator _HoldOnToTurret;
+
+    public event Action OffTurret;
     #endregion
     private void Awake()
     {
@@ -118,6 +133,9 @@ public class PlayerController : MonoBehaviour
         DeadState = new PlayerDeadState(this, StateMachine, playerData, "dead");
         DamagedDashState = new PlayerDamagedDashState(this, StateMachine, playerData, "damagedDash");
         RollingState = new PlayerRollingState(this, StateMachine, playerData, "rolling");
+        ApproachDash = new PlayerApproachDash(this, StateMachine, playerData, "approachDash");
+        ExecuteHolded = new PlayerExecuteHolded(this, StateMachine, playerData, "executeHolded");
+        ExecuteDash = new PlayerExecuteDash(this, StateMachine, playerData, "executeDash");
     }
 
     private void Start()
@@ -128,12 +146,17 @@ public class PlayerController : MonoBehaviour
         //Animators = GetComponentsInChildren<Animator>();
         BodyAnimator = GetComponent<Animator>();
         ArmAnimator = GameObject.FindGameObjectWithTag("Arm").GetComponent<Animator>();
+        ExecuteDashIconController = GetComponentInChildren<ExecuteDashIconController>();
+
         Input = GetComponentInParent<PlayerInput>();
         DashCooltime = new WaitForSeconds(playerData.DashCoolDown);
         WireDashPool = new ObjectPool<PlayerAfterImage>(CreateWireDashSprite, OnGetSpriteFromPool, OnReturnSpriteToPool);
         playerInvincibleTime = playerData.invincibleTime;
         playerInvincibleWaitTime = new WaitForSeconds(playerInvincibleTime);
-        
+        executeHoldMaxTime = playerData.executeHoldMaxTime;
+        _executeHoldMaxTime = new WaitForSeconds(executeHoldMaxTime);
+        _HoldOnToTurret = HoldOnToTurret();
+
         MagmaLayerNumber = LayerMask.NameToLayer("Magma");
         StateMachine.Initialize(IdleState);
 
@@ -191,12 +214,35 @@ public class PlayerController : MonoBehaviour
         if (CanDash)
         {
             CanDash = false;
-            isDashing = true;
+            //isDashing = true;
+            PlayerIsDash(true);
             dashTimeLeft = playerData.DashTime;
             Input.UseDashInput();
             SetDashVelocity(Input.MovementInput.x);
             StartCoroutine(CountDashCooltime());
         }
+    }
+
+    public void PlayerApproachDash()
+    {
+        if (CanDash)
+        {
+            CanDash = false;
+            PlayerIsDash(true);
+            dashTimeLeft = playerData.DashTime;
+            Input.UseDashInput();
+            StartCoroutine(CountDashCooltime());
+        }
+    }
+    
+    public void TurretHasBeenReleased()
+    {
+        OffTurret?.Invoke();
+    }
+
+    public void PlayerIsDash(bool isPlayerDashing)
+    {
+        isDashing = isPlayerDashing;
     }
 
     public void AfterImage()
@@ -210,7 +256,8 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                isDashing = false;
+                //isDashing = false;
+                PlayerIsDash(false);
             }
         }
     }
@@ -275,6 +322,28 @@ public class PlayerController : MonoBehaviour
         
         playerRigidBody.velocity = workspace;
         CurrentVelocity = playerRigidBody.velocity;
+    }
+
+    public void StartExecuteHolded()
+    {
+        StartCoroutine(_HoldOnToTurret);
+    }
+
+    public void StopExecuteHolded()
+    {
+        StopCoroutine(_HoldOnToTurret);
+    }
+
+    private IEnumerator HoldOnToTurret()
+    {
+        while (true)
+        {
+            yield return _executeHoldMaxTime;
+            StateMachine.ChangeState(ExecuteDash);
+            StopCoroutine(_HoldOnToTurret);
+            yield return null;
+        }
+        
     }
 
     public void AddXVelocityWhenGrappled(float xInput)
@@ -370,6 +439,11 @@ public class PlayerController : MonoBehaviour
         OnDamagedDash?.Invoke();
     }
 
+    private void ChangeToRollingState()
+    {
+        OnExecuteDash?.Invoke();
+    }
+
     public void CheckIfShouldRotate(float xInput, float yInput)
     {
         float rotationAngle = 45f;
@@ -444,6 +518,9 @@ public class PlayerController : MonoBehaviour
                 HPBarController.IsPlayerDamaged = isPlayerDamaged;
             }
         }
+        
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -453,5 +530,11 @@ public class PlayerController : MonoBehaviour
             Debug.Log("ÅÍ·¿ »ý¼º Áö¿ª¿¡ µé¾î¿ÔÀ½");
 
         }
+        else if (collision.gameObject.CompareTag("Turret"))
+        {
+            Debug.Log("ÅÍ·¿ÀÌ¶û ºÎµúÇûÀ½");
+            OnApproachDashToTurret?.Invoke();
+        }
+
     }
 }

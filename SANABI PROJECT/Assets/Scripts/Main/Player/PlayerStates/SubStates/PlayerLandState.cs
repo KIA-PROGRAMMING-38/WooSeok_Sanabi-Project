@@ -16,7 +16,7 @@ public class PlayerLandState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        player.SetVelocityX(0f);
+        playerController.SetVelocityX(0f);
     }
 
     public override void Exit()
@@ -32,11 +32,11 @@ public class PlayerLandState : PlayerGroundedState
         {
             if (InputX != 0)
             {
-                stateMachine.ChangeState(player.RunState);
+                stateMachine.ChangeState(playerController.RunState);
             }
             else if (isAnimationFinished)
             {
-                stateMachine.ChangeState(player.IdleState);
+                stateMachine.ChangeState(playerController.IdleState);
             }
         }
         

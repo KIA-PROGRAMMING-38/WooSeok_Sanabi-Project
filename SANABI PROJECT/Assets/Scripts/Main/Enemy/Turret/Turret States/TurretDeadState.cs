@@ -19,6 +19,8 @@ public class TurretDeadState : TurretState
     public override void Enter()
     {
         base.Enter();
+        turretController.DisableCollider();
+        turretController.SpreadBrokenParts();
     }
 
     public override void Exit()

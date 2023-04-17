@@ -17,15 +17,15 @@ public class PlayerRollingState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
-        isGrounded = player.CheckIfGrounded();
-        isDamaged = player.CheckIfDamaged();
+        isGrounded = playerController.CheckIfGrounded();
+        isDamaged = playerController.CheckIfDamaged();
     }
 
     public override void Enter()
     {
         base.Enter();
-        player.OnDamagedDash -= ChangeToInAirState;
-        player.OnDamagedDash += ChangeToInAirState;
+        playerController.OnDamagedDash -= ChangeToInAirState;
+        playerController.OnDamagedDash += ChangeToInAirState;
     }
 
     public override void Exit()
@@ -37,29 +37,29 @@ public class PlayerRollingState : PlayerState
     {
         base.LogicUpdate();
 
-        xInput = player.Input.MovementInput.x;
-        MouseInput = player.Input.MouseInput;
+        xInput = playerController.Input.MovementInput.x;
+        MouseInput = playerController.Input.MouseInput;
 
-        if (isGrounded && player.CurrentVelocity.y < 0.01f) // if landed on ground
+        if (isGrounded && playerController.CurrentVelocity.y < 0.01f) // if landed on ground
         {
-            stateMachine.ChangeState(player.LandState);
+            stateMachine.ChangeState(playerController.LandState);
         }
         else if (isDamaged)
         {
-            stateMachine.ChangeState(player.DamagedState);
+            stateMachine.ChangeState(playerController.DamagedState);
         }
         else if (MouseInput)
         {
-            stateMachine.ChangeState(player.WireShootState);
+            stateMachine.ChangeState(playerController.WireShootState);
         }
         else
         {
-            player.CheckIfShouldFlip(xInput);
-            player.SetVelocityX(playerData.runVelocity * xInput);
+            playerController.CheckIfShouldFlip(xInput);
+            playerController.SetVelocityX(playerData.runVelocity * xInput);
 
 
-            player.BodyAnimator.SetFloat("yVelocity", player.CurrentVelocity.y);
-            player.ArmAnimator.SetFloat("yVelocity", player.CurrentVelocity.y);
+            playerController.BodyAnimator.SetFloat("yVelocity", playerController.CurrentVelocity.y);
+            playerController.ArmAnimator.SetFloat("yVelocity", playerController.CurrentVelocity.y);
         }
 
         FastFall();
@@ -72,17 +72,17 @@ public class PlayerRollingState : PlayerState
 
     private void ChangeToInAirState() // to be called as animation event at the end of animation frames
     {
-        stateMachine.ChangeState(player.InAirState);
+        stateMachine.ChangeState(playerController.InAirState);
     }
     private void FastFall()
     {
-        if (player.CurrentVelocity.y < 0f)
+        if (playerController.CurrentVelocity.y < 0f)
         {
-            player.playerRigidBody.gravityScale = 1.5f;
+            playerController.playerRigidBody.gravityScale = 1.5f;
         }
         else
         {
-            player.playerRigidBody.gravityScale = 1.0f;
+            playerController.playerRigidBody.gravityScale = 1.0f;
         }
     }
 }

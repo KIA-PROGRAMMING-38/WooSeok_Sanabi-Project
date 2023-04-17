@@ -5,6 +5,7 @@ using UnityEngine;
 public class TurretState
 {
     protected TurretController turretController;
+    
     protected TurretStateMachine stateMachine;
     protected TurretData turretData;
     private string animBoolName;
@@ -25,7 +26,12 @@ public class TurretState
     public virtual void Enter()
     {
         DoChecks();
-        turretController.Animator.SetBool(animBoolName, true);
+        turretController.BodyAnimator.SetBool(animBoolName, true);
+        turretController.GunAnimator.SetBool(animBoolName, true);
+        turretController.StageAnimator.SetBool(animBoolName, true);
+
+        turretController.grabController.OnGrabTurret -= ChangeToTurretExecuteHoldedState;
+        turretController.grabController.OnGrabTurret += ChangeToTurretExecuteHoldedState;
     }
 
     public virtual void LogicUpdate()
@@ -40,6 +46,15 @@ public class TurretState
 
     public virtual void Exit()
     {
-        turretController.Animator.SetBool(animBoolName, false);
+        turretController.BodyAnimator.SetBool(animBoolName, false);
+        turretController.GunAnimator.SetBool(animBoolName, false);
+        //turretController.StageAnimator.SetBool(animBoolName, false); // no need to falsify it
+
+        turretController.grabController.OnGrabTurret -= ChangeToTurretExecuteHoldedState;
+    }
+
+    private void ChangeToTurretExecuteHoldedState()
+    {
+        stateMachine.ChangeState(turretController.ExecuteHoldedState);
     }
 }

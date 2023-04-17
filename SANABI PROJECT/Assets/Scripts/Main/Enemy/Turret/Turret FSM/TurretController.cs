@@ -18,20 +18,22 @@ public class TurretController : MonoBehaviour
     public TurretDeadState DeadState { get; private set; }
 
     #endregion
-    public Animator Animator { get; private set; }
+    public Animator BodyAnimator { get; private set; }
+    public Animator GunAnimator;
+    public Animator StageAnimator;
+    private BoxCollider2D turretCollider;
 
+    public PlayerController playerController;
     public GunController gunController;
+    public GrabController grabController;
 
     public IEnumerator _StayAiming;
     private WaitForSeconds _aimTime;
-    //[SerializeField] private float aimTime = 1.5f;
     private float aimTime;
     public ObjectPool<TurretBullet> turretBulletPool { get; private set; }
     public TurretBullet bulletPrefab;
 
-    //[SerializeField][Range(5f, 10f)] private float minRandomAngle = 5f;
-    //[SerializeField][Range(10f, 20f)] private float maxRandomAngle = 10f;
-    //[SerializeField][Range(0.01f, 0.1f)] private float shootGapTime = 0.05f;
+
     private float minRandomAngle;
     private float maxRandomAngle;
     private float shootGapTime;
@@ -51,12 +53,17 @@ public class TurretController : MonoBehaviour
     private float cooldownTime;
     private IEnumerator _WaitForCooldown;
 
+    private bool isTurretGrabbed;
     public event Action OnFinishedCooldown;
+
+    public ObjectPool<TurretBrokenParts> brokenPartsObjectPool { get; private set; }
+    [SerializeField] TurretBrokenParts[] brokenPartsPrefabs;
+    [SerializeField] private int howManyBrokenParts = 10;
     private void Awake()
     {
         StateMachine = new TurretStateMachine();
         turretData = GetComponentInParent<TurretData>();
-        Animator = GetComponent<Animator>();
+        BodyAnimator = GetComponent<Animator>();
 
 
         PopUpState = new TurretPopUpState(this, StateMachine, turretData, "popUp");
@@ -71,7 +78,11 @@ public class TurretController : MonoBehaviour
     private void Start()
     {
         turretBulletPool = new ObjectPool<TurretBullet>(CreateBullet, OnGetBulletFromPool, OnReturnBulletToPool);
+        brokenPartsObjectPool = new ObjectPool<TurretBrokenParts>(CreateBrokenParts, OnGetBrokenPartsFromPool, OnReturnBrokenPartsToPool);
+        turretCollider = GetComponent<BoxCollider2D>();
         SetVariables();
+        grabController.OnGrabTurret -= TurretHasBeenGrabbed;
+        grabController.OnGrabTurret += TurretHasBeenGrabbed;
         _shootGapTime = new WaitForSeconds(shootGapTime);
         _cooldownTime = new WaitForSeconds(cooldownTime);
 
@@ -82,9 +93,26 @@ public class TurretController : MonoBehaviour
         StateMachine.Initialize(PopUpState);
     }
 
+    public void DisableCollider()
+    {
+        turretCollider.enabled = false;
+    }
+
+    private void TurretHasBeenGrabbed()
+    {
+        isTurretGrabbed = true;
+    }
+
+    private void GrabOffTurret()
+    {
+        isTurretGrabbed = false;
+    }
+
     private void Update()
     {
         StateMachine.CurrentState.LogicUpdate();
+
+
     }
 
     private void FixedUpdate()
@@ -94,26 +122,34 @@ public class TurretController : MonoBehaviour
 
     public void ChangeToAimingState()
     {
-        StateMachine.ChangeState(AimingState);
-        gunController.ShowGun();
+        if (!isTurretGrabbed)
+        {
+            StateMachine.ChangeState(AimingState);
+        }
     }
 
     public void StartAiming()
     {
-        //StartCoroutine(_StayAiming); //왜 최적화 하니까 2번째에서부터는 인식을 못하지
-        StartCoroutine(StayAiming());
+        StartCoroutine(_StayAiming); //왜 최적화 하니까 2번째에서부터는 인식을 못하지
+        //StartCoroutine(StayAiming());
     }
 
     public void StopAiming()
     {
-        //StopCoroutine(_StayAiming);
-        StopCoroutine(StayAiming());
+        StopCoroutine(_StayAiming);
+        //StopCoroutine(StayAiming());
     }
 
     private IEnumerator StayAiming()
     {
-        yield return _aimTime;
-        StateMachine.ChangeState(ShootState);
+        while (true)
+        {
+            yield return _aimTime;
+            StateMachine.ChangeState(ShootState);
+
+            StopCoroutine(_StayAiming);
+            yield return null;
+        }
     }
 
     private TurretBullet CreateBullet()
@@ -123,15 +159,22 @@ public class TurretController : MonoBehaviour
         return createdBullet;
     }
 
+    private TurretBrokenParts CreateBrokenParts()
+    {
+        TurretBrokenParts createdParts = Instantiate(brokenPartsPrefabs[UnityEngine.Random.Range(0, brokenPartsPrefabs.Length)]);
+        createdParts.brokenPartsPool = brokenPartsObjectPool;
+        return createdParts;
+    }
 
-
-    //public void ShootBullet()
-    //{
-    //    TurretBullet newBullet = turretBulletPool.GetFromPool();
-    //    newBullet.transform.position = gunController.GetGunTipPosition();
-    //    newBullet.transform.rotation = gunController.GetGunTipRotation();
-    //    newBullet.SetVelocity();
-    //}
+    public void SpreadBrokenParts()
+    {
+        for (int i = 0; i < howManyBrokenParts ;++i)
+        {
+            TurretBrokenParts newParts = brokenPartsObjectPool.GetFromPool();
+            newParts.transform.position = transform.position;
+            newParts.SetRandomVelocity();
+        }
+    }
 
 
     public void ShootBulletWide() // to give angles some variety
@@ -155,9 +198,12 @@ public class TurretController : MonoBehaviour
             yield return _shootGapTime;
         }
         shotBulletNumber = 0;
+        //StopCoroutine(_ShootMultipleBullets);
 
-        
-        OnFinishedShooting?.Invoke();
+        if (!isTurretGrabbed)
+        {
+            OnFinishedShooting?.Invoke();
+        }
     }
 
     public void StartShooting()
@@ -166,22 +212,40 @@ public class TurretController : MonoBehaviour
         StartCoroutine(ShootMultipleBullets());
     }
 
+    public void StopShooting()
+    {
+        shotBulletNumber = 0;
+        StopCoroutine(ShootMultipleBullets());
+        //StopCoroutine(_ShootMultipleBullets);
+    }
+
     private IEnumerator WaitForCooldown()
     {
-        yield return _cooldownTime;
-        OnFinishedCooldown?.Invoke();
+        while (true)
+        {
+            yield return _cooldownTime;
+            OnFinishedCooldown?.Invoke();
+            StopCoroutine(_WaitForCooldown);
+            yield return null;
+        }
+
+        //if (!isTurretGrabbed)
+        //{
+        //    OnFinishedCooldown?.Invoke();
+        //}
+
     }
 
     public void WaitUntilCooldown()
     {
-        //StartCoroutine(_WaitForCooldown);
-        StartCoroutine(WaitForCooldown());
+        StartCoroutine(_WaitForCooldown);
+        //StartCoroutine(WaitForCooldown());
     }
 
     public void StopCooldown()
     {
-        //StopCoroutine(_WaitForCooldown);
-        StopCoroutine(WaitForCooldown());
+        StopCoroutine(_WaitForCooldown);
+        //StopCoroutine(WaitForCooldown());
     }
 
     private void SetVariables()
@@ -196,4 +260,7 @@ public class TurretController : MonoBehaviour
 
     private void OnGetBulletFromPool(TurretBullet bullet) => bullet.gameObject.SetActive(true);
     private void OnReturnBulletToPool(TurretBullet bullet) => bullet.gameObject.SetActive(false);
+
+    private void OnGetBrokenPartsFromPool(TurretBrokenParts parts) => parts.gameObject.SetActive(true);
+    private void OnReturnBrokenPartsToPool(TurretBrokenParts parts) => parts.gameObject.SetActive(false);
 }

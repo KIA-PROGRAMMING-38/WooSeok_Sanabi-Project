@@ -31,9 +31,9 @@ public class PlayerTouchingWallState : PlayerState
     {
         base.DoChecks();
 
-        isGrounded = player.CheckIfGrounded();
-        isTouchingWall = player.CheckIfTouchingWall();
-        isDamaged= player.CheckIfDamaged();
+        isGrounded = playerController.CheckIfGrounded();
+        isTouchingWall = playerController.CheckIfTouchingWall();
+        isDamaged= playerController.CheckIfDamaged();
     }
 
     public override void Enter()
@@ -49,42 +49,42 @@ public class PlayerTouchingWallState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        xInput = player.Input.MovementInput.x;
-        yInput = player.Input.MovementInput.y;
-        JumpInput = player.Input.JumpInput;
-        MouseInput = player.Input.MouseInput;
+        xInput = playerController.Input.MovementInput.x;
+        yInput = playerController.Input.MovementInput.y;
+        JumpInput = playerController.Input.JumpInput;
+        MouseInput = playerController.Input.MouseInput;
 
         if (isGrounded)
         {
-            stateMachine.ChangeState(player.IdleState);
+            stateMachine.ChangeState(playerController.IdleState);
         }
         else if (!isTouchingWall)// || xInput != player.FacingDirection)
         {
-            stateMachine.ChangeState(player.InAirState);
+            stateMachine.ChangeState(playerController.InAirState);
         }
         else if (isTouchingWall && JumpInput) //  && (isTouchingWall || isTouchingWallBack)
         {
-            player.Input.UseJumpInput();
-            player.WallJumpState.DetermineWallJumpDirection(isTouchingWall);
-            stateMachine.ChangeState(player.WallJumpState);
+            playerController.Input.UseJumpInput();
+            playerController.WallJumpState.DetermineWallJumpDirection(isTouchingWall);
+            stateMachine.ChangeState(playerController.WallJumpState);
         }
-        else if (isTouchingWall && xInput == -player.FacingDirection) // to get off the wall if pressing the button opposite to the facing direction
+        else if (isTouchingWall && xInput == -playerController.FacingDirection) // to get off the wall if pressing the button opposite to the facing direction
         {
             xInputTime += Time.deltaTime;
             if (playerData.wallGrabOffSeconds <= xInputTime)
             {
-                stateMachine.ChangeState(player.InAirState);
+                stateMachine.ChangeState(playerController.InAirState);
                 xInputTime = 0f;
             }
         }
         else if (MouseInput)
         {
-            player.Input.UseWireShoot();
-            stateMachine.ChangeState(player.WireShootState);
+            playerController.Input.UseWireShoot();
+            stateMachine.ChangeState(playerController.WireShootState);
         }
         else if (isDamaged)
         {
-            stateMachine.ChangeState(player.DamagedState);
+            stateMachine.ChangeState(playerController.DamagedState);
         }
     }
 

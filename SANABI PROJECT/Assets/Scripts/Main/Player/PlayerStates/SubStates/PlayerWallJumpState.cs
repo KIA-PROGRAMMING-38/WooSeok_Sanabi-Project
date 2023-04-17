@@ -12,8 +12,8 @@ public class PlayerWallJumpState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
-        player.SetWallJumpVelocity(playerData.wallJumpVelocity, playerData.wallJumpAngle, wallJumpDirection);
-        player.CheckIfShouldFlip(wallJumpDirection);
+        playerController.SetWallJumpVelocity(playerData.wallJumpVelocity, playerData.wallJumpAngle, wallJumpDirection);
+        playerController.CheckIfShouldFlip(wallJumpDirection);
     }
 
     public override void LogicUpdate()
@@ -21,8 +21,8 @@ public class PlayerWallJumpState : PlayerAbilityState
         base.LogicUpdate();
         
 
-        player.BodyAnimator.SetFloat("yVelocity", player.CurrentVelocity.y);
-        player.ArmAnimator.SetFloat("yVelocity", player.CurrentVelocity.y);
+        playerController.BodyAnimator.SetFloat("yVelocity", playerController.CurrentVelocity.y);
+        playerController.ArmAnimator.SetFloat("yVelocity", playerController.CurrentVelocity.y);
 
         if (startTime + playerData.wallJumpTime <= Time.time)
         {
@@ -40,11 +40,11 @@ public class PlayerWallJumpState : PlayerAbilityState
         if (isTouchingWall) // if the player is touching the wall
         {
             // facing direction would be the wall
-            wallJumpDirection = -player.FacingDirection; // so the wallJumpdirection should be the opposite of the facing direction
+            wallJumpDirection = -playerController.FacingDirection; // so the wallJumpdirection should be the opposite of the facing direction
         }
         else
         {
-            wallJumpDirection = +player.FacingDirection;
+            wallJumpDirection = +playerController.FacingDirection;
         }
     }
 

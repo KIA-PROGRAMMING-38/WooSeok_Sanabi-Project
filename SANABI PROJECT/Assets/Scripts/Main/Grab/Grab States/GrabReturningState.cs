@@ -23,41 +23,41 @@ public class GrabReturningState : GrabState
         GrabReturn();
         GrabRotate();
 
-        if (grab.CheckIfGrabReturned())
+        if (grabController.CheckIfGrabReturned())
         {
-            grabStateMachine.ChangeState(grab.IdleState);
+            stateMachine.ChangeState(grabController.IdleState);
         }
     }
 
     private void GrabReturn()
     {
-        grab.transform.position = Vector2.MoveTowards(grab.transform.position, grab.GrabReturnCollider.transform.position, playerData.shootSpeed * Time.deltaTime);
+        grabController.transform.position = Vector2.MoveTowards(grabController.transform.position, grabController.GrabReturnCollider.transform.position, playerData.shootSpeed * Time.deltaTime);
     }
 
     
     private void GrabRotate()
     {
-        distance = grab.transform.position - grab.GrabReturnCollider.transform.position;
+        distance = grabController.transform.position - grabController.GrabReturnCollider.transform.position;
         angle = Mathf.Atan2(distance.y, distance.x) * Mathf.Rad2Deg;
-        grab.transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+        grabController.transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
     }
 
     public override void Exit()
     {
         base.Exit();
-        grab.IsGrabReturned = true;
+        grabController.IsGrabReturned = true;
         SetStartPos();
     }
 
     private void SetStartPos()
     {
-        grab.startPos = grab.GrabReturnCollider.transform.position;
+        grabController.startPos = grabController.GrabReturnCollider.transform.position;
     }
 
     private void SetGrabStatus()
     {
-        grab.trailRenderer.emitting= false;
-        grab.GrabReturnCollider.enabled = true;
-        grab.grabRigid.velocity = Vector3.zero;
+        grabController.trailRenderer.emitting= false;
+        grabController.GrabReturnCollider.enabled = true;
+        grabController.grabRigid.velocity = Vector3.zero;
     }
 }

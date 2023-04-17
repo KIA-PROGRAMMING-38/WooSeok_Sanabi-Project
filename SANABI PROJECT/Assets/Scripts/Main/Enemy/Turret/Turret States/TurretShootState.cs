@@ -27,6 +27,7 @@ public class TurretShootState : TurretState
     public override void Exit()
     {
         base.Exit();
+        turretController.StopShooting();
     }
 
     

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerState 
 {
-    protected PlayerController player;
+    protected PlayerController playerController;
     protected PlayerStateMachine stateMachine;
     protected PlayerData playerData;
 
@@ -15,17 +15,20 @@ public class PlayerState
 
     public PlayerState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
     {
-        this.player = player;
+        this.playerController = player;
         this.stateMachine= stateMachine;
         this.playerData = playerData;
         this.animBoolName = animBoolName;
+        playerController.GrabController.OnGrabTurret -= ChangeToApproachDashState;
+        playerController.GrabController.OnGrabTurret += ChangeToApproachDashState;
+        
     }
 
     public virtual void Enter() // when enter the state
     {
         DoChecks();
-        player.BodyAnimator.SetBool(animBoolName, true);
-        player.ArmAnimator.SetBool(animBoolName, true);
+        playerController.BodyAnimator.SetBool(animBoolName, true);
+        playerController.ArmAnimator.SetBool(animBoolName, true);
         startTime = Time.time;
         isAnimationFinished = false;
         isExitingState = false;
@@ -33,14 +36,14 @@ public class PlayerState
 
     public virtual void Exit() // when exit the state
     {
-        player.BodyAnimator.SetBool(animBoolName, false);
-        player.ArmAnimator.SetBool(animBoolName, false);
+        playerController.BodyAnimator.SetBool(animBoolName, false);
+        playerController.ArmAnimator.SetBool(animBoolName, false);
         isExitingState = true;
     }
 
     public virtual void LogicUpdate() // update for each frame
     {
-        player.AfterImage();
+        playerController.AfterImage();
     }
 
     public virtual void PhysicsUpdate() // update for fixed time
@@ -59,5 +62,11 @@ public class PlayerState
     }
 
     public virtual void AnimationFinishTrigger() => isAnimationFinished = true;
+    
+    private void ChangeToApproachDashState()
+    {
+        stateMachine.ChangeState(playerController.ApproachDash);
+    }
+
     
 }

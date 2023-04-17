@@ -29,9 +29,9 @@ public class GrabIdleState : GrabState
         GrabRotateBasedOnCursor();
         GrabAttachedToBody();
         
-        if (grab.CheckIfMouseInput())
+        if (grabController.CheckIfMouseInput())
         {
-            grabStateMachine.ChangeState(grab.FlyingState);
+            stateMachine.ChangeState(grabController.FlyingState);
         }
     }
 
@@ -41,23 +41,23 @@ public class GrabIdleState : GrabState
     }
     private void ResetGrab()
     {
-        grab.capsuleCollider.enabled = false;
-        grab.GrabReturnCollider.enabled = false;
-        grab.spriteRenderer.enabled = false;
-        grab.grabRigid.velocity = Vector2.zero;
-        grab.transform.position = grab.startPos;
-        grab.grabRigid.bodyType = RigidbodyType2D.Kinematic;
-        grab.trailRenderer.emitting= false;
+        grabController.capsuleCollider.enabled = false;
+        grabController.GrabReturnCollider.enabled = false;
+        grabController.spriteRenderer.enabled = false;
+        grabController.grabRigid.velocity = Vector2.zero;
+        grabController.transform.position = grabController.startPos;
+        grabController.grabRigid.bodyType = RigidbodyType2D.Kinematic;
+        grabController.trailRenderer.emitting= false;
     }
 
     private void GrabAttachedToBody()
     {
-        grab.transform.position = grab.playerTransform.position;
+        grabController.transform.position = grabController.playerTransform.position;
     }
     private void GrabRotateBasedOnCursor()
     {
-        distanceVector = Camera.main.ScreenToWorldPoint(Input.mousePosition) - grab.transform.position;
+        distanceVector = Camera.main.ScreenToWorldPoint(Input.mousePosition) - grabController.transform.position;
         angle = Mathf.Atan2(distanceVector.y, distanceVector.x) * Mathf.Rad2Deg;
-        grab.transform.rotation = Quaternion.Euler(0f, 0f, angle + 270f);;
+        grabController.transform.rotation = Quaternion.Euler(0f, 0f, angle + 270f);;
     }
 }

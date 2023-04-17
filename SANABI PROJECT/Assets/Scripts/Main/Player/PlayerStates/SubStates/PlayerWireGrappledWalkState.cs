@@ -27,18 +27,18 @@ public class PlayerWireGrappledWalkState : PlayerWireState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        player.CheckIfShouldFlip(InputX);
-        player.SetVelocityX(playerData.walkVelocity * InputX);
+        playerController.CheckIfShouldFlip(InputX);
+        playerController.SetVelocityX(playerData.walkVelocity * InputX);
 
         if (!isExitingState)
         {
             if (InputX == 0)
             {
-                stateMachine.ChangeState(player.WireGrappledIdleState);
+                stateMachine.ChangeState(playerController.WireGrappledIdleState);
             }
             else if (!isGrounded)
             {
-                stateMachine.ChangeState(player.WireGrappledInAirState);
+                stateMachine.ChangeState(playerController.WireGrappledInAirState);
             }
         }
         

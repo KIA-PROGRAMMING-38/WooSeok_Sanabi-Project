@@ -35,9 +35,9 @@ public class PlayerDamagedState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
-        isGrounded = player.CheckIfGrounded();
-        cameraShakeTime = player.camShake.damagedShakeTime;
-        cameraShakeIntensity = player.camShake.damagedShakeIntensity;
+        isGrounded = playerController.CheckIfGrounded();
+        cameraShakeTime = playerController.camShake.damagedShakeTime;
+        cameraShakeIntensity = playerController.camShake.damagedShakeIntensity;
         slowTime = playerData.slowTime;
         slowIntensity = playerData.timeScale;
         
@@ -47,32 +47,32 @@ public class PlayerDamagedState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        player.playerHealth.OnDead -= ChangeToDeadState;
-        player.playerHealth.OnDead += ChangeToDeadState;
+        playerController.playerHealth.OnDead -= ChangeToDeadState;
+        playerController.playerHealth.OnDead += ChangeToDeadState;
 
-        player.playerHealth.TakeDamage(playerData.PlayerTakeDamage); // got to change magic number
+        playerController.playerHealth.TakeDamage(playerData.PlayerTakeDamage); // got to change magic number
         
         damagedJumpDirection = Vector2.up + Vector2.right; // (1, 1)
         damagedOutTime = playerData.damagedOutTime;
-        DamagedJumpBack(player.FacingDirection);
-        player.camShake.TurnOnShake(cameraShakeTime, cameraShakeIntensity);
-        player.camFollow.ChangeColor();
-        player.timeSlower.PleaseSlowDown(slowIntensity, slowTime);
+        DamagedJumpBack(playerController.FacingDirection);
+        playerController.camShake.TurnOnShake(cameraShakeTime, cameraShakeIntensity);
+        playerController.camFollow.ChangeColor();
+        playerController.timeSlower.PleaseSlowDown(slowIntensity, slowTime);
     }
 
     public override void Exit()
     {
         base.Exit();
-        player.ResetDamageState();
+        playerController.ResetDamageState();
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
 
-        InputX = player.Input.MovementInput.x;
-        InputY = player.Input.MovementInput.y;
-        JumpInput = player.Input.JumpInput;
+        InputX = playerController.Input.MovementInput.x;
+        InputY = playerController.Input.MovementInput.y;
+        JumpInput = playerController.Input.JumpInput;
 
         CheckIfTryingToDamagedDash();
 
@@ -82,19 +82,19 @@ public class PlayerDamagedState : PlayerState
             elapsedTime = 0f;
             if (isGrounded)
             {
-                stateMachine.ChangeState(player.IdleState);
+                stateMachine.ChangeState(playerController.IdleState);
             }
             else
             {
-                stateMachine.ChangeState(player.InAirState);
+                stateMachine.ChangeState(playerController.InAirState);
             }
         }
 
         if (isTryingToDash)
         {
             isTryingToDash = false; // test code got to delete later
-            player.SetDamagedDashVelocity(InputX, InputY, playerData.damagedDashVelocity);
-            stateMachine.ChangeState(player.DamagedDashState);
+            playerController.SetDamagedDashVelocity(InputX, InputY, playerData.damagedDashVelocity);
+            stateMachine.ChangeState(playerController.DamagedDashState);
         }
     }
 
@@ -106,7 +106,7 @@ public class PlayerDamagedState : PlayerState
     private void DamagedJumpBack(int FacingDirection)
     {
         damagedJumpDirection.x = -FacingDirection * damagedJumpDirection.x;
-        player.SetVelocityAll(damagedJumpDirection.x * playerData.damagedJumpVelocity, damagedJumpDirection.y * playerData.damagedJumpVelocity);
+        playerController.SetVelocityAll(damagedJumpDirection.x * playerData.damagedJumpVelocity, damagedJumpDirection.y * playerData.damagedJumpVelocity);
     }
 
     private void CheckIfTryingToDamagedDash()
@@ -119,6 +119,6 @@ public class PlayerDamagedState : PlayerState
 
     private void ChangeToDeadState()
     {
-        stateMachine.ChangeState(player.DeadState);
+        stateMachine.ChangeState(playerController.DeadState);
     }
 }

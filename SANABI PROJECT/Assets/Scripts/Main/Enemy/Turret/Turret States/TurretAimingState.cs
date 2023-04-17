@@ -19,6 +19,7 @@ public class TurretAimingState : TurretState
     public override void Enter()
     {
         base.Enter();
+        
         turretController.gunController.TryStartRotationAndAim();
         turretController.StartAiming();
     }
@@ -40,5 +41,6 @@ public class TurretAimingState : TurretState
     {
         base.PhysicsUpdate();
     }
+    
 }
 

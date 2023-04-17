@@ -13,13 +13,11 @@ public class GunController : MonoBehaviour
     private Vector2 targetDistance;
     private Vector2 gunTipDistance;
     private float rotateAngle;
-    //[SerializeField] float rotateSpeed = 150f;
     private float rotateSpeed;
 
     RaycastHit2D hit;
+    IEnumerator _StartRotationAndAim;
 
-
-    IEnumerator _startRotationAndAim;
     private void Awake()
     {
         aimLineRenderer = GetComponentInChildren<LineRenderer>();
@@ -28,9 +26,9 @@ public class GunController : MonoBehaviour
     private void Start()
     {
         platformLayerMask = (1 << LayerMask.NameToLayer("NormalWall")) | (1 << LayerMask.NameToLayer("NoGrabWall") | (1 << LayerMask.NameToLayer("Magma")));
-        Gun.SetActive(false);
         rotateSpeed = turretData.rotateSpeed;
-        _startRotationAndAim = StartRotationAndAim();
+        _StartRotationAndAim = StartRotationAndAim();
+        //Gun.SetActive(false);
     }
 
 
@@ -42,13 +40,13 @@ public class GunController : MonoBehaviour
     public void TryStartRotationAndAim()
     {
         aimLineRenderer.enabled = true;
-        StartCoroutine(_startRotationAndAim);
+        StartCoroutine(_StartRotationAndAim);
     }
 
     public void StopRotationAndAim()
     {
         aimLineRenderer.enabled = false;
-        StopCoroutine(_startRotationAndAim);
+        StopCoroutine(_StartRotationAndAim);
     }
     
     IEnumerator StartRotationAndAim()
