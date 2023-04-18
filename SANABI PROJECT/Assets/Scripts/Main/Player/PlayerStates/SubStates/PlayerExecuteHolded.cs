@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 public class PlayerExecuteHolded : PlayerAbilityState
 {
-    private Vector2 collisionPosition;
-    private Vector2 upperPosition = new Vector2(0f, 1f);
     public PlayerExecuteHolded(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -17,15 +15,13 @@ public class PlayerExecuteHolded : PlayerAbilityState
     public override void DoChecks()
     {
         base.DoChecks();
-        collisionPosition = playerController.GrabController.GetGrabbedTurretPosition();
     }
 
     public override void Enter()
     {
         base.Enter();
-        //playerController.transform.position = collisionPosition;
         playerController.ExecuteDashIconAnimator.SetBool("isGrabbing", true);
-        playerController.transform.position = collisionPosition + upperPosition;
+        playerController.transform.position = GettPlayerHoldPosition();
         playerController.SetVelocityAll(0f,0f);
         playerController.playerRigidBody.gravityScale = 0f;
         playerController.ExecuteDashIconController.StartFollowingCursor();
@@ -35,6 +31,7 @@ public class PlayerExecuteHolded : PlayerAbilityState
     public override void Exit()
     {
         base.Exit();
+        
         playerController.playerRigidBody.gravityScale = 1f;
         playerController.ExecuteDashIconAnimator.SetBool("isGrabbing", false);
         playerController.ExecuteDashIconController.StopFollowingCursor();
@@ -59,5 +56,11 @@ public class PlayerExecuteHolded : PlayerAbilityState
     {
         base.PhysicsUpdate();
     }
+
+    private Vector2 GettPlayerHoldPosition()
+    {
+        return playerController.GrabController.GetGrabbedTurretObject().ReturnPlayerHoldPosition();
+    }
+    
 }
 

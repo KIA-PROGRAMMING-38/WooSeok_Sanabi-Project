@@ -15,13 +15,13 @@ public class SettingTextController : MonoBehaviour, IColorChange
 
     public void ColorChange(bool isHover)
     {
-        if (isHover)
-        {
-            textComponent.color = GameManager.hoverColor;
-        }
-        else
-        {
-            textComponent.color = GameManager.idleColor;
-        }
+        //if (isHover)
+        //{
+        //    textComponent.color = GameManager.hoverColor;
+        //}
+        //else
+        //{
+        //    textComponent.color = GameManager.idleColor;
+        //}
     }
 }

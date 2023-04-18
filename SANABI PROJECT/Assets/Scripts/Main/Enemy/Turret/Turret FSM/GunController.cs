@@ -20,11 +20,20 @@ public class GunController : MonoBehaviour
 
     private void Awake()
     {
-        aimLineRenderer = GetComponentInChildren<LineRenderer>();
+        //aimLineRenderer = GetComponentInChildren<LineRenderer>();
+
+    }
+    private void OnEnable()
+    {
+        //targetTransform = GameManager.Instance.playerController.gameObject.transform;
+        //aimLineRenderer = GetComponentInChildren<LineRenderer>();
     }
 
     private void Start()
     {
+        targetTransform = GameManager.Instance.playerController.gameObject.transform;
+        aimLineRenderer = GetComponentInChildren<LineRenderer>();
+        //gameObject.SetActive(true);
         platformLayerMask = (1 << LayerMask.NameToLayer("NormalWall")) | (1 << LayerMask.NameToLayer("NoGrabWall") | (1 << LayerMask.NameToLayer("Magma")));
         rotateSpeed = turretData.rotateSpeed;
         _StartRotationAndAim = StartRotationAndAim();

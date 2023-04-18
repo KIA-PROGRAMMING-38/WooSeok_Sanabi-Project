@@ -59,11 +59,51 @@ public class TurretController : MonoBehaviour
     public ObjectPool<TurretBrokenParts> brokenPartsObjectPool { get; private set; }
     [SerializeField] TurretBrokenParts[] brokenPartsPrefabs;
     [SerializeField] private int howManyBrokenParts = 10;
+
+    [SerializeField] private Transform playerHoldPosition;
     private void Awake()
     {
+        //StateMachine = new TurretStateMachine();
+        //turretData = GetComponentInParent<TurretData>();
+        //BodyAnimator = GetComponent<Animator>();
+        
+
+
+        //PopUpState = new TurretPopUpState(this, StateMachine, turretData, "popUp");
+        //CooldownState = new TurretCooldownState(this, StateMachine, turretData, "coolDown");
+        //AimingState = new TurretAimingState(this, StateMachine, turretData, "aiming");
+        //ShootState = new TurretShootState(this, StateMachine, turretData, "shoot");
+        //ExecuteHoldedState = new TurretExecuteHoldedState(this, StateMachine, turretData, "executeHolded");
+        //DeadState = new TurretDeadState(this, StateMachine, turretData, "dead");
+    }
+
+    private void OnEnable()
+    {
+        //playerController = GameManager.Instance.playerController;
+        //grabController = GameManager.Instance.grabController;
+        //StateMachine = new TurretStateMachine();
+        //turretData = GetComponentInParent<TurretData>();
+        //BodyAnimator = GetComponent<Animator>();
+
+
+
+        //PopUpState = new TurretPopUpState(this, StateMachine, turretData, "popUp");
+        //CooldownState = new TurretCooldownState(this, StateMachine, turretData, "coolDown");
+        //AimingState = new TurretAimingState(this, StateMachine, turretData, "aiming");
+        //ShootState = new TurretShootState(this, StateMachine, turretData, "shoot");
+        //ExecuteHoldedState = new TurretExecuteHoldedState(this, StateMachine, turretData, "executeHolded");
+        //DeadState = new TurretDeadState(this, StateMachine, turretData, "dead");
+    }
+
+    private void Start()
+    {
+        //gameObject.SetActive(true); // test ¿ë
+        playerController = GameManager.Instance.playerController;
+        grabController = GameManager.Instance.grabController;
         StateMachine = new TurretStateMachine();
         turretData = GetComponentInParent<TurretData>();
         BodyAnimator = GetComponent<Animator>();
+
 
 
         PopUpState = new TurretPopUpState(this, StateMachine, turretData, "popUp");
@@ -72,11 +112,6 @@ public class TurretController : MonoBehaviour
         ShootState = new TurretShootState(this, StateMachine, turretData, "shoot");
         ExecuteHoldedState = new TurretExecuteHoldedState(this, StateMachine, turretData, "executeHolded");
         DeadState = new TurretDeadState(this, StateMachine, turretData, "dead");
-
-    }
-
-    private void Start()
-    {
         turretBulletPool = new ObjectPool<TurretBullet>(CreateBullet, OnGetBulletFromPool, OnReturnBulletToPool);
         brokenPartsObjectPool = new ObjectPool<TurretBrokenParts>(CreateBrokenParts, OnGetBrokenPartsFromPool, OnReturnBrokenPartsToPool);
         turretCollider = GetComponent<BoxCollider2D>();
@@ -100,7 +135,11 @@ public class TurretController : MonoBehaviour
 
     private void TurretHasBeenGrabbed()
     {
-        isTurretGrabbed = true;
+        if (grabController.GetGrabbedTurretInstanceId() == gameObject.GetInstanceID())
+        {
+            this.isTurretGrabbed = true;
+        }
+        
     }
 
     private void GrabOffTurret()
@@ -234,6 +273,11 @@ public class TurretController : MonoBehaviour
         //    OnFinishedCooldown?.Invoke();
         //}
 
+    }
+
+    public Vector3 ReturnPlayerHoldPosition()
+    {
+        return playerHoldPosition.position;
     }
 
     public void WaitUntilCooldown()

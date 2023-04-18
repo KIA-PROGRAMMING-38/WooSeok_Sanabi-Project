@@ -25,6 +25,7 @@ public class PlayerExecuteDash : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
+        playerController.MakePlayerInvicible();
         playerController.SetVelocityAll(executeDashDirection.x * playerData.executeDashVelocity, executeDashDirection.y * playerData.executeDashVelocity);
         playerController.CheckIfShouldFlip(executeDashDirection.x);
         RotatePlayer();
@@ -37,6 +38,8 @@ public class PlayerExecuteDash : PlayerAbilityState
         base.Exit();
         playerController.transform.rotation = initialRotation;
         playerController.OnExecuteDash -= ChangeToRollingState;
+        playerController.MakePlayerVulnerable(); 
+        // execute dash 실험하기
     }
 
     public override void LogicUpdate()

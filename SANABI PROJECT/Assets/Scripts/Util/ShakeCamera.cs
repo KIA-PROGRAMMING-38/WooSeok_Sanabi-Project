@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShakeCamera : GameManager
+public class ShakeCamera : MonoBehaviour
 {
     [Header("WireShoot State")]
     [Range(0.05f, 1f)] public float shootShakeTime = 0.1f;

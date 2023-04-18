@@ -25,6 +25,7 @@ public class PlayerApproachDash : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
+        playerController.MakePlayerInvicible();
         playerController.OnApproachDashToTurret -= ChangeToExecuteHoldedState;
         playerController.OnApproachDashToTurret += ChangeToExecuteHoldedState;
         playerController.PlayerIsDash(true);
@@ -37,6 +38,7 @@ public class PlayerApproachDash : PlayerAbilityState
         base.Exit();
         playerController.PlayerIsDash(false);
         playerController.OnApproachDashToTurret -= ChangeToExecuteHoldedState;
+        playerController.MakePlayerVulnerable();
     }
 
     public override void LogicUpdate()

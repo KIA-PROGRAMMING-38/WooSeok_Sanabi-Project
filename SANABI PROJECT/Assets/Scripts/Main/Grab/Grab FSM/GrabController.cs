@@ -149,6 +149,8 @@ public class GrabController : MonoBehaviour
         return grabbedTurretPosition;
     }
 
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("GrabReturn"))
@@ -157,10 +159,28 @@ public class GrabController : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Turret"))
         {
+            SetGrabbedTurretInstanceID(collision.gameObject.GetInstanceID());
             SetGrabbedTurretPosition(collision.transform);
+            grabbedTurret = collision.gameObject;
             OnGrabTurret?.Invoke();
         }
+    }
 
+    private GameObject grabbedTurret;
+    public TurretController GetGrabbedTurretObject()
+    {
+        return grabbedTurret.GetComponent<TurretController>();
+    }
+
+    private int grabbedTurretInstanceId;
+
+    private void SetGrabbedTurretInstanceID(int instanceID)
+    {
+        grabbedTurretInstanceId = instanceID;
+    }
+    public int GetGrabbedTurretInstanceId()
+    {
+        return grabbedTurretInstanceId;
     }
 
 }

@@ -26,10 +26,12 @@ public class TurretState
     public virtual void Enter()
     {
         DoChecks();
+        //Debug.Log(turretController.GetInstanceID());
         turretController.BodyAnimator.SetBool(animBoolName, true);
         turretController.GunAnimator.SetBool(animBoolName, true);
         turretController.StageAnimator.SetBool(animBoolName, true);
-
+        
+        //turretController.grabController.GetGrabbedTurretInstanceId();
         turretController.grabController.OnGrabTurret -= ChangeToTurretExecuteHoldedState;
         turretController.grabController.OnGrabTurret += ChangeToTurretExecuteHoldedState;
     }
@@ -55,6 +57,11 @@ public class TurretState
 
     private void ChangeToTurretExecuteHoldedState()
     {
-        stateMachine.ChangeState(turretController.ExecuteHoldedState);
+        
+        if (turretController.gameObject.GetInstanceID() == turretController.grabController.GetGrabbedTurretInstanceId())
+        {
+            stateMachine.ChangeState(turretController.ExecuteHoldedState);
+        }
+        //stateMachine.ChangeState(turretController.ExecuteHoldedState);
     }
 }

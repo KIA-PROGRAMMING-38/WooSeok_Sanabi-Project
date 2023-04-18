@@ -50,7 +50,7 @@ public class PlayerData : MonoBehaviour
     public float damageResetTime = 8f;
     public float damagedJumpVelocity = 8f;
     [Range(0f, 1f)] public float damagedOutTime = 1f;
-    [Range(0f, 1f)] public float invincibleTime = 0.5f;
+    [Range(0f, 10f)] public float invincibleTime = 1f;
     [Range(0f, 0.5f)] public float slowTime = 0.05f;
     [Range(0f, 1f)] public float timeScale = 0.2f;
 

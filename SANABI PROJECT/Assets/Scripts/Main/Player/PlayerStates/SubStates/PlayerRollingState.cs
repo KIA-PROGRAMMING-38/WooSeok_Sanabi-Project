@@ -10,6 +10,7 @@ public class PlayerRollingState : PlayerState
     private float xInput;
     private bool isDamaged;
     private bool MouseInput;
+    private bool isTouchingWall;
     public PlayerRollingState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -19,6 +20,7 @@ public class PlayerRollingState : PlayerState
         base.DoChecks();
         isGrounded = playerController.CheckIfGrounded();
         isDamaged = playerController.CheckIfDamaged();
+        isTouchingWall = playerController.CheckIfTouchingWall();
     }
 
     public override void Enter()
@@ -47,6 +49,10 @@ public class PlayerRollingState : PlayerState
         else if (isDamaged)
         {
             stateMachine.ChangeState(playerController.DamagedState);
+        }
+        else if (isTouchingWall && xInput == playerController.FacingDirection) // if xInput is in the direction of the wall
+        {
+            stateMachine.ChangeState(playerController.WallGrabState);
         }
         else if (MouseInput)
         {

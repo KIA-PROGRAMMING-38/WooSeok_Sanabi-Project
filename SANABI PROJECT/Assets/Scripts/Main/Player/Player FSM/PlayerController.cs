@@ -326,12 +326,14 @@ public class PlayerController : MonoBehaviour
 
     public void StartExecuteHolded()
     {
+        _HoldOnToTurret = HoldOnToTurret(); // to renew the coroutine preventing it from cotinuing from the moment i stopped
         StartCoroutine(_HoldOnToTurret);
     }
 
     public void StopExecuteHolded()
     {
         StopCoroutine(_HoldOnToTurret);
+        
     }
 
     private IEnumerator HoldOnToTurret()
@@ -426,13 +428,22 @@ public class PlayerController : MonoBehaviour
         return isPlayerDamaged;
     }
 
-    
-    public IEnumerator MakeInvincible()
+    public void MakePlayerInvicible()
     {
-        isPlayerInvincible= true;
-        yield return playerInvincibleWaitTime;
+        isPlayerInvincible = true;
+    }
+
+    public void MakePlayerVulnerable()
+    {
         isPlayerInvincible = false;
-        
+    }
+    public IEnumerator MakePlayerInvincibleForCetainTime()
+    {
+        MakePlayerInvicible();
+        yield return playerInvincibleWaitTime;
+        MakePlayerVulnerable();
+
+
     }
     private void ChangeToInAirState() // to be called from animation frames as event
     {
@@ -508,11 +519,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == MagmaLayerNumber || collision.gameObject.CompareTag("TurretBullet"))
+        if (collision.gameObject.layer == MagmaLayerNumber)
         {
             if (!isPlayerInvincible)
             {
-                StartCoroutine(MakeInvincible());
+                StartCoroutine(MakePlayerInvincibleForCetainTime());
                 isPlayerDamaged = true;
                 ArmController.IsPlayerDamaged = isPlayerDamaged;
                 HPBarController.IsPlayerDamaged = isPlayerDamaged;
@@ -532,8 +543,17 @@ public class PlayerController : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Turret"))
         {
-            Debug.Log("ÅÍ·¿ÀÌ¶û ºÎµúÇûÀ½");
             OnApproachDashToTurret?.Invoke();
+        }
+        else if (collision.gameObject.CompareTag("TurretBullet"))
+        {
+            if (!isPlayerInvincible)
+            {
+                StartCoroutine(MakePlayerInvincibleForCetainTime());
+                isPlayerDamaged = true;
+                ArmController.IsPlayerDamaged = isPlayerDamaged;
+                HPBarController.IsPlayerDamaged = isPlayerDamaged;
+            }
         }
 
     }
