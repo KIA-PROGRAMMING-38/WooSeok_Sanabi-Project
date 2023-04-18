@@ -579,12 +579,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("TurretSpawnArea"))
-        {
-            Debug.Log("터렛 생성 지역에 들어왔음");
-
-        }
-        else if (collision.gameObject.CompareTag("Turret"))
+        if (collision.gameObject.CompareTag("Turret"))
         {
             OnApproachDashToTurret?.Invoke();
         }
