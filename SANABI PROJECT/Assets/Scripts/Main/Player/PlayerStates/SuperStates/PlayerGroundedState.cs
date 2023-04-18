@@ -19,9 +19,9 @@ public class PlayerGroundedState : PlayerState
     {
         base.DoChecks();
 
-        isGrounded = player.CheckIfGrounded();
-        isTouchingWall= player.CheckIfTouchingWall();
-        isDamaged= player.CheckIfDamaged();
+        isGrounded = playerController.CheckIfGrounded();
+        isTouchingWall= playerController.CheckIfTouchingWall();
+        isDamaged= playerController.CheckIfDamaged();
     }
 
     public override void Enter()
@@ -38,26 +38,26 @@ public class PlayerGroundedState : PlayerState
     {
         base.LogicUpdate();
 
-        InputX = player.Input.MovementInput.x;
-        JumpInput = player.Input.JumpInput;
-        MouseInput = player.Input.MouseInput;
+        InputX = playerController.Input.MovementInput.x;
+        JumpInput = playerController.Input.JumpInput;
+        MouseInput = playerController.Input.MouseInput;
         if (JumpInput)
         {
-            player.Input.UseJumpInput();
-            stateMachine.ChangeState(player.JumpState);
+            playerController.Input.UseJumpInput();
+            stateMachine.ChangeState(playerController.JumpState);
         }
         else if (!isGrounded)
         {
-            stateMachine.ChangeState(player.InAirState);
+            stateMachine.ChangeState(playerController.InAirState);
         }
         else if (MouseInput)
         {
-            player.Input.UseJumpInput();
-            stateMachine.ChangeState(player.WireShootState);
+            playerController.Input.UseJumpInput();
+            stateMachine.ChangeState(playerController.WireShootState);
         }
         else if (isDamaged)
         {
-            stateMachine.ChangeState(player.DamagedState);
+            stateMachine.ChangeState(playerController.DamagedState);
         }
 
     }

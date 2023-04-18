@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShakeCamera : GameManager
+public class ShakeCamera : MonoBehaviour
 {
     [Header("WireShoot State")]
     [Range(0.05f, 1f)] public float shootShakeTime = 0.1f;
@@ -20,7 +20,12 @@ public class ShakeCamera : GameManager
     private float saveTime; // 시간을 저장하기 위한 변수
     private readonly string SHAKECAMERAPOSITION = "ShakeCameraPosition"; // 오타 방지용
     public Vector3 shakeMovePosition;
+    private IEnumerator _ShakeCameraPosition;
 
+    private void Start()
+    {
+        _ShakeCameraPosition = ShakeCameraPosition();
+    }
     private void Update()
     {
         if (ShakeOn)
@@ -32,7 +37,7 @@ public class ShakeCamera : GameManager
     public void OnShakeCamera()
     {
         SwitchBackOff();
-        StartCoroutine(SHAKECAMERAPOSITION);
+        StartCoroutine(_ShakeCameraPosition);
     }
 
     public void TurnOnShake(float shakeTime, float shakeIntensity)

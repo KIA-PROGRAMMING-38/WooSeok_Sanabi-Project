@@ -12,6 +12,10 @@ TagManager:
   - ImageContain
   - GrabReturn
   - Arm
+  - Turret
+  - TurretSpawnArea
+  - Platform
+  - TurretBullet
   layers:
   - Default
   - TransparentFX
@@ -23,9 +27,9 @@ TagManager:
   - NoGrabWall
   - Grab
   - SNB
-  - 
-  - 
-  - 
+  - Platform
+  - TurretBullet
+  - TurretBrokenParts
   - 
   - 
   - 
@@ -51,4 +55,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 70564417
+    locked: 0
+  - name: Platform
+    uniqueID: 1255556897
     locked: 0

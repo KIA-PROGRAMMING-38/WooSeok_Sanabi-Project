@@ -12,7 +12,7 @@ public class PlayerWallGrabState : PlayerTouchingWallState
     public override void Enter()
     {
         base.Enter();
-        holdPosition = player.transform.position;
+        holdPosition = playerController.transform.position;
     }
 
     public override void LogicUpdate()
@@ -23,11 +23,11 @@ public class PlayerWallGrabState : PlayerTouchingWallState
         {
             if (0f < yInput) // if pressing W 
             {
-                stateMachine.ChangeState(player.WallClimbState);
+                stateMachine.ChangeState(playerController.WallClimbState);
             }
             else if (yInput < 0f)
             {
-                stateMachine.ChangeState(player.WallSlideState);
+                stateMachine.ChangeState(playerController.WallSlideState);
             }
         }
         base.LogicUpdate();
@@ -35,8 +35,8 @@ public class PlayerWallGrabState : PlayerTouchingWallState
 
     private void HoldPosition()
     {
-        player.transform.position = holdPosition;
-        player.SetVelocityX(0);
-        player.SetVelocityY(0);
+        playerController.transform.position = holdPosition;
+        playerController.SetVelocityX(0);
+        playerController.SetVelocityY(0);
     }
 }

@@ -29,11 +29,11 @@ public class PlayerWireGrappledIdleState : PlayerWireState
     {
         base.LogicUpdate();
 
-        player.SetVelocityAll(0f, 0f);
+        playerController.SetVelocityAll(0f, 0f);
 
         if (InputX != 0 && !isExitingState)
         {
-            stateMachine.ChangeState(player.WireGrappledWalkState);
+            stateMachine.ChangeState(playerController.WireGrappledWalkState);
         }
     }
 

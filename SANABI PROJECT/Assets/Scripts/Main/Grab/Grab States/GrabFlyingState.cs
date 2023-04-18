@@ -18,22 +18,22 @@ public class GrabFlyingState : GrabState
     public override void Exit()
     {
         base.Exit();
-        grab.ConvertMouseInput(false);
-        grab.playerInput.UseWireShoot();
-        grab.IsFlying = false;
+        grabController.ConvertMouseInput(false);
+        grabController.playerInput.UseWireShoot();
+        grabController.IsFlying = false;
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
 
-        if (grab.HitNormal)
+        if (grabController.HitNormal)
         {
-            grabStateMachine.ChangeState(grab.GrabbedState);
+            stateMachine.ChangeState(grabController.GrabbedState);
         }
-        else if (grab.CheckIfTooFar() || grab.HitNoGrab)
+        else if (grabController.CheckIfTooFar() || grabController.HitNoGrab)
         {
-            grabStateMachine.ChangeState(grab.ReturningState);
+            stateMachine.ChangeState(grabController.ReturningState);
         }
     }
 
@@ -43,25 +43,25 @@ public class GrabFlyingState : GrabState
     }
     private void SetVariables()
     {
-        grab.IsFlying = true;
-        grab.isGrappled = false;
-        grab.IsGrabReturned = false;
-        grab.HitNoGrab = false;
-        grab.HitNormal = false;
-        grab.GrabReturnCollider.enabled = false;
-        grab.capsuleCollider.enabled = true;
+        grabController.IsFlying = true;
+        grabController.isGrappled = false;
+        grabController.IsGrabReturned = false;
+        grabController.HitNoGrab = false;
+        grabController.HitNormal = false;
+        grabController.GrabReturnCollider.enabled = false;
+        grabController.capsuleCollider.enabled = true;
     }
 
     private void SetGrabStatus()
     {
-        grab.grabRigid.bodyType = RigidbodyType2D.Dynamic;
-        grab.grabRigid.gravityScale = 0f;
-        grab.spriteRenderer.enabled = true;
-        grab.trailRenderer.emitting = true;
+        grabController.grabRigid.bodyType = RigidbodyType2D.Dynamic;
+        grabController.grabRigid.gravityScale = 0f;
+        grabController.spriteRenderer.enabled = true;
+        grabController.trailRenderer.emitting = true;
     }
     private void ShootGrab()
     {
         SetGrabStatus();
-        grab.grabRigid.velocity = grab.transform.up * playerData.shootSpeed;
+        grabController.grabRigid.velocity = grabController.transform.up * playerData.shootSpeed;
     }
 }

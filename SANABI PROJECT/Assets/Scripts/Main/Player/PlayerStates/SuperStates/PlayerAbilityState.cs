@@ -8,19 +8,23 @@ public class PlayerAbilityState : PlayerState
     protected bool isGrounded;
     protected bool isGrappled;
     protected bool MouseInput;
+    protected bool MouseInputHold;
+    protected bool JumpInput;
     protected bool isDamaged;
     
 
 
     public PlayerAbilityState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
+        
+        
     }
 
     public override void DoChecks()
     {
         base.DoChecks();
-        isGrounded = player.CheckIfGrounded();
-        isDamaged= player.CheckIfDamaged();
+        isGrounded = playerController.CheckIfGrounded();
+        isDamaged= playerController.CheckIfDamaged();
     }
 
     public override void Enter()
@@ -38,22 +42,22 @@ public class PlayerAbilityState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        MouseInput = player.Input.MouseInput;
+        MouseInput = playerController.Input.MouseInput;
         if (isAbilityDone)
         {
-            if (isGrounded && player.CurrentVelocity.y < 0.01f)
+            if (isGrounded && playerController.CurrentVelocity.y < 0.01f)
             {
-                stateMachine.ChangeState(player.IdleState);
+                stateMachine.ChangeState(playerController.IdleState);
             }
             else
             {
-                stateMachine.ChangeState(player.InAirState);
+                stateMachine.ChangeState(playerController.InAirState);
             }
         }
 
         if (isDamaged)
         {
-            stateMachine.ChangeState(player.DamagedState);
+            stateMachine.ChangeState(playerController.DamagedState);
         }
     }
 
@@ -61,4 +65,6 @@ public class PlayerAbilityState : PlayerState
     {
         base.PhysicsUpdate();
     }
+
+    
 }

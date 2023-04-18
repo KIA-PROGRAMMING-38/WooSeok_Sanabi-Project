@@ -30,18 +30,26 @@ public class PlayerController : MonoBehaviour
     public PlayerDamagedState DamagedState { get; private set; }
     public PlayerDeadState DeadState { get; private set; }
     public PlayerDamagedDashState DamagedDashState { get; private set; }
+    public PlayerRollingState RollingState { get; private set; }
+    public PlayerApproachDash ApproachDash { get; private set; }
+    public PlayerExecuteHolded ExecuteHolded { get; private set; }
+    public PlayerExecuteDash ExecuteDash { get; private set; }
     
     #endregion
 
     public Rigidbody2D playerRigidBody { get; private set; }
     public Animator BodyAnimator { get; private set; }
     public Animator ArmAnimator { get; private set; }
+
+    public Animator ExecuteDashIconAnimator;
     public PlayerInput Input { get; private set; }
     public PlayerArmController ArmController { get; private set; }
 
     public GrabController GrabController;
 
     public HPRobotController HPBarController;
+
+    public ExecuteDashIconController ExecuteDashIconController;
 
     public Transform armTransform;
 
@@ -70,6 +78,9 @@ public class PlayerController : MonoBehaviour
 
     private int MagmaLayerNumber;
     private bool isPlayerDamaged;
+    private bool isPlayerInvincible;
+    private float playerInvincibleTime;
+    private WaitForSeconds playerInvincibleWaitTime;
     private float damageTimer;
     
 
@@ -85,6 +96,14 @@ public class PlayerController : MonoBehaviour
 
     private ObjectPool<PlayerAfterImage> WireDashPool;
     public event Action OnDamagedDash;
+    public event Action OnApproachDashToTurret;
+    public event Action OnExecuteDash;
+
+    private float executeHoldMaxTime;
+    private WaitForSeconds _executeHoldMaxTime;
+    private IEnumerator _HoldOnToTurret;
+
+    public event Action OffTurret;
     #endregion
     private void Awake()
     {
@@ -113,6 +132,10 @@ public class PlayerController : MonoBehaviour
         DamagedState = new PlayerDamagedState(this, StateMachine, playerData, "damaged");
         DeadState = new PlayerDeadState(this, StateMachine, playerData, "dead");
         DamagedDashState = new PlayerDamagedDashState(this, StateMachine, playerData, "damagedDash");
+        RollingState = new PlayerRollingState(this, StateMachine, playerData, "rolling");
+        ApproachDash = new PlayerApproachDash(this, StateMachine, playerData, "approachDash");
+        ExecuteHolded = new PlayerExecuteHolded(this, StateMachine, playerData, "executeHolded");
+        ExecuteDash = new PlayerExecuteDash(this, StateMachine, playerData, "executeDash");
     }
 
     private void Start()
@@ -123,10 +146,17 @@ public class PlayerController : MonoBehaviour
         //Animators = GetComponentsInChildren<Animator>();
         BodyAnimator = GetComponent<Animator>();
         ArmAnimator = GameObject.FindGameObjectWithTag("Arm").GetComponent<Animator>();
+        ExecuteDashIconController = GetComponentInChildren<ExecuteDashIconController>();
+
         Input = GetComponentInParent<PlayerInput>();
         DashCooltime = new WaitForSeconds(playerData.DashCoolDown);
         WireDashPool = new ObjectPool<PlayerAfterImage>(CreateWireDashSprite, OnGetSpriteFromPool, OnReturnSpriteToPool);
-        
+        playerInvincibleTime = playerData.invincibleTime;
+        playerInvincibleWaitTime = new WaitForSeconds(playerInvincibleTime);
+        executeHoldMaxTime = playerData.executeHoldMaxTime;
+        _executeHoldMaxTime = new WaitForSeconds(executeHoldMaxTime);
+        _HoldOnToTurret = HoldOnToTurret();
+
         MagmaLayerNumber = LayerMask.NameToLayer("Magma");
         StateMachine.Initialize(IdleState);
 
@@ -138,7 +168,7 @@ public class PlayerController : MonoBehaviour
     {
         CurrentVelocity = playerRigidBody.velocity;
         StateMachine.CurrentState.LogicUpdate();
-        //Debug.Log(damageTimer);
+        
         //Debug.Log($"현재 플레이어 hp = {playerHealth.GetCurrentHp()}");
         //Debug.Log(CurrentVelocity);
     }
@@ -184,12 +214,35 @@ public class PlayerController : MonoBehaviour
         if (CanDash)
         {
             CanDash = false;
-            isDashing = true;
+            //isDashing = true;
+            PlayerIsDash(true);
             dashTimeLeft = playerData.DashTime;
             Input.UseDashInput();
             SetDashVelocity(Input.MovementInput.x);
             StartCoroutine(CountDashCooltime());
         }
+    }
+
+    public void PlayerApproachDash()
+    {
+        if (CanDash)
+        {
+            CanDash = false;
+            PlayerIsDash(true);
+            dashTimeLeft = playerData.DashTime;
+            Input.UseDashInput();
+            StartCoroutine(CountDashCooltime());
+        }
+    }
+    
+    public void TurretHasBeenReleased()
+    {
+        OffTurret?.Invoke();
+    }
+
+    public void PlayerIsDash(bool isPlayerDashing)
+    {
+        isDashing = isPlayerDashing;
     }
 
     public void AfterImage()
@@ -203,7 +256,8 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                isDashing = false;
+                //isDashing = false;
+                PlayerIsDash(false);
             }
         }
     }
@@ -268,6 +322,30 @@ public class PlayerController : MonoBehaviour
         
         playerRigidBody.velocity = workspace;
         CurrentVelocity = playerRigidBody.velocity;
+    }
+
+    public void StartExecuteHolded()
+    {
+        _HoldOnToTurret = HoldOnToTurret(); // to renew the coroutine preventing it from cotinuing from the moment i stopped
+        StartCoroutine(_HoldOnToTurret);
+    }
+
+    public void StopExecuteHolded()
+    {
+        StopCoroutine(_HoldOnToTurret);
+        
+    }
+
+    private IEnumerator HoldOnToTurret()
+    {
+        while (true)
+        {
+            yield return _executeHoldMaxTime;
+            StateMachine.ChangeState(ExecuteDash);
+            StopCoroutine(_HoldOnToTurret);
+            yield return null;
+        }
+        
     }
 
     public void AddXVelocityWhenGrappled(float xInput)
@@ -350,28 +428,31 @@ public class PlayerController : MonoBehaviour
         return isPlayerDamaged;
     }
 
-    //public void StartDamageTimer()
-    //{
-    //    ResetDamageTimer();
-    //    CountDamageTimer();
-    //}
+    public void MakePlayerInvicible()
+    {
+        isPlayerInvincible = true;
+    }
 
-    //private void ResetDamageTimer()
-    //{
-    //    damageTimer = 0f;
-    //}
-    //private void CountDamageTimer()
-    //{
-    //    damageTimer += Time.deltaTime;
-    //    if (playerData.damageResetTime <= damageTimer)
-    //    {
-    //        // hp recovery should be activated
-    //    }
-    //}
-    
-    private void ChangeToInAirState()
+    public void MakePlayerVulnerable()
+    {
+        isPlayerInvincible = false;
+    }
+    public IEnumerator MakePlayerInvincibleForCetainTime()
+    {
+        MakePlayerInvicible();
+        yield return playerInvincibleWaitTime;
+        MakePlayerVulnerable();
+
+
+    }
+    private void ChangeToInAirState() // to be called from animation frames as event
     {
         OnDamagedDash?.Invoke();
+    }
+
+    private void ChangeToRollingState()
+    {
+        OnExecuteDash?.Invoke();
     }
 
     public void CheckIfShouldRotate(float xInput, float yInput)
@@ -440,10 +521,40 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.layer == MagmaLayerNumber)
         {
-            isPlayerDamaged= true;
-            ArmController.IsPlayerDamaged = isPlayerDamaged;
-            HPBarController.IsPlayerDamaged= isPlayerDamaged;
+            if (!isPlayerInvincible)
+            {
+                StartCoroutine(MakePlayerInvincibleForCetainTime());
+                isPlayerDamaged = true;
+                ArmController.IsPlayerDamaged = isPlayerDamaged;
+                HPBarController.IsPlayerDamaged = isPlayerDamaged;
+            }
         }
+        
+
+
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("TurretSpawnArea"))
+        {
+            Debug.Log("터렛 생성 지역에 들어왔음");
+
+        }
+        else if (collision.gameObject.CompareTag("Turret"))
+        {
+            OnApproachDashToTurret?.Invoke();
+        }
+        else if (collision.gameObject.CompareTag("TurretBullet"))
+        {
+            if (!isPlayerInvincible)
+            {
+                StartCoroutine(MakePlayerInvincibleForCetainTime());
+                isPlayerDamaged = true;
+                ArmController.IsPlayerDamaged = isPlayerDamaged;
+                HPBarController.IsPlayerDamaged = isPlayerDamaged;
+            }
+        }
+
+    }
 }

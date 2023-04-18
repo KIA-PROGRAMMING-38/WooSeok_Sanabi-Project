@@ -16,13 +16,13 @@ public class SettingImageController : MonoBehaviour, IColorChange
 
     public void ColorChange(bool isHover)
     {
-        if (isHover)
-        {
-            imageComponent.color = GameManager.hoverColor;
-        }
-        else
-        {
-            imageComponent.color = GameManager.idleColor;
-        }
+        //if (isHover)
+        //{
+        //    imageComponent.color = GameManager.hoverColor;
+        //}
+        //else
+        //{
+        //    imageComponent.color = GameManager.idleColor;
+        //}
     }
 }

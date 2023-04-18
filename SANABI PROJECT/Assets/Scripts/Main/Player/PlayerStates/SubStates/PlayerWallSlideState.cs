@@ -12,11 +12,11 @@ public class PlayerWallSlideState : PlayerTouchingWallState
     public override void LogicUpdate()
     {
         // base.LogicUpdate();
-        player.SetVelocityY(-playerData.wallSlideVelocity); // put - in front of the wallSlideVelocity so it can drop, not up
+        playerController.SetVelocityY(-playerData.wallSlideVelocity); // put - in front of the wallSlideVelocity so it can drop, not up
 
         if (yInput != -1 && !isExitingState)
         {
-            stateMachine.ChangeState(player.WallGrabState);
+            stateMachine.ChangeState(playerController.WallGrabState);
         }
 
         base.LogicUpdate(); // now it's working well after move downwards

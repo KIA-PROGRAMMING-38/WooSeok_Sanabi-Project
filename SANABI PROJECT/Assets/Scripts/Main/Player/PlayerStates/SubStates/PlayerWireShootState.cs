@@ -17,21 +17,21 @@ public class PlayerWireShootState : PlayerAbilityState
     public override void DoChecks()
     {
         base.DoChecks();
-        cameraShakeTime = player.camShake.shootShakeTime;
-        cameraShakeIntensity = player.camShake.shootShakeIntensity;
+        cameraShakeTime = playerController.camShake.shootShakeTime;
+        cameraShakeIntensity = playerController.camShake.shootShakeIntensity;
     }
 
     public override void Enter()
     {
         base.Enter();
-        holdPosition = player.transform.position;
+        holdPosition = playerController.transform.position;
         //isAbilityDone = true;
-        shootDirection = player.ArmController.distanceVector.normalized;
-        player.GrabController.ConvertMouseInput(player.Input.MouseInput);
-        player.CheckIfShouldFlipForMouseInput(shootDirection.x);
-        initialArmRotation = player.armTransform.rotation;
-        player.ArmController.ArmRotateTowardsCursor();
-        player.camShake.TurnOnShake(cameraShakeTime, cameraShakeIntensity);
+        shootDirection = playerController.ArmController.distanceVector.normalized;
+        playerController.GrabController.ConvertMouseInput(playerController.Input.MouseInput);
+        playerController.CheckIfShouldFlipForMouseInput(shootDirection.x);
+        initialArmRotation = playerController.armTransform.rotation;
+        playerController.ArmController.ArmRotateTowardsCursor();
+        playerController.camShake.TurnOnShake(cameraShakeTime, cameraShakeIntensity);
 
     }
 
@@ -39,7 +39,7 @@ public class PlayerWireShootState : PlayerAbilityState
     {
         base.Exit();
         // player.armTransform.rotation = Quaternion.identity;
-        player.armTransform.rotation = initialArmRotation;
+        playerController.armTransform.rotation = initialArmRotation;
     }
 
     public override void LogicUpdate()
@@ -53,19 +53,19 @@ public class PlayerWireShootState : PlayerAbilityState
 
         
 
-        if (player.GrabController.CheckIfGrabReturned())
+        if (playerController.GrabController.CheckIfGrabReturned())
         {
-            stateMachine.ChangeState(player.IdleState);
+            stateMachine.ChangeState(playerController.IdleState);
         }
-        else if (player.GrabController.isGrappled)
+        else if (playerController.GrabController.isGrappled)
         {
             if (isGrounded)
             {
-                stateMachine.ChangeState(player.WireGrappledIdleState);
+                stateMachine.ChangeState(playerController.WireGrappledIdleState);
             }
             else
             {
-                stateMachine.ChangeState(player.WireGrappledInAirState);
+                stateMachine.ChangeState(playerController.WireGrappledInAirState);
             }
             
         }
@@ -79,7 +79,7 @@ public class PlayerWireShootState : PlayerAbilityState
 
     private void HoldPositionX()
     {
-        player.transform.position.Set(holdPosition.x, player.transform.position.y, player.transform.position.z);
-        player.SetVelocityX(0);
+        playerController.transform.position.Set(holdPosition.x, playerController.transform.position.y, playerController.transform.position.z);
+        playerController.SetVelocityX(0);
     }
 }

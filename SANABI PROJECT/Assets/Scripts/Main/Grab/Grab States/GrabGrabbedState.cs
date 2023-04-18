@@ -14,8 +14,9 @@ public class GrabGrabbedState : GrabState
     {
         base.Enter();
         GetPosAndRot();
-        grab.AnchorPosition = holdPosition;
-        grab.isGrappled = true;
+        grabController.AnchorPosition = holdPosition;
+        grabController.isGrappled = true;
+        //HoldGrab();
     }
 
     public override void LogicUpdate()
@@ -24,24 +25,24 @@ public class GrabGrabbedState : GrabState
         HoldGrab();
         if (!mouseInputHold)
         {
-            grabStateMachine.ChangeState(grab.ReturningState);
+            stateMachine.ChangeState(grabController.ReturningState);
         }
     }
 
     public override void Exit()
     {
         base.Exit();
-        grab.isGrappled = false;
+        grabController.isGrappled = false;
     }
     private void GetPosAndRot()
     {
-        holdPosition = grab.transform.position;
-        holdRotation = grab.transform.rotation;
+        holdPosition = grabController.transform.position;
+        holdRotation = grabController.transform.rotation;
     }
 
     private void HoldGrab()
     {
-        grab.transform.position = holdPosition;
-        grab.transform.rotation= holdRotation;
+        grabController.transform.position = holdPosition;
+        grabController.transform.rotation = holdRotation;
     }
 }

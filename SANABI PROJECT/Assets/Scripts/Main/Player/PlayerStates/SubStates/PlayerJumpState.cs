@@ -16,9 +16,9 @@ public class PlayerJumpState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
-        player.SetVelocityY(playerData.jumpVelocity);
+        playerController.SetVelocityY(playerData.jumpVelocity);
         isAbilityDone = true;
-        player.InAirState.SetIsJumping();
+        playerController.InAirState.SetIsJumping();
     }
 
     public override void Exit()

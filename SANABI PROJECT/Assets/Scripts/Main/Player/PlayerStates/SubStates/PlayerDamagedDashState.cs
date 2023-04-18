@@ -19,17 +19,17 @@ public class PlayerDamagedDashState : PlayerAbilityState
     {
         base.Enter();
         initialRotation = Quaternion.identity;
-        player.OnDamagedDash -= ChangeToInAirState;
-        player.OnDamagedDash += ChangeToInAirState;
-        player.SetVelocityAll(player.GetDamagedDashVelocity().x, player.GetDamagedDashVelocity().y);
-        player.CheckIfShouldFlip(player.GetDamagedDashVelocity().x);
-        player.CheckIfShouldRotate(player.GetDamagedDashVelocity().x, player.GetDamagedDashVelocity().y);
+        playerController.OnDamagedDash -= ChangeToInAirState;
+        playerController.OnDamagedDash += ChangeToInAirState;
+        playerController.SetVelocityAll(playerController.GetDamagedDashVelocity().x, playerController.GetDamagedDashVelocity().y);
+        playerController.CheckIfShouldFlip(playerController.GetDamagedDashVelocity().x);
+        playerController.CheckIfShouldRotate(playerController.GetDamagedDashVelocity().x, playerController.GetDamagedDashVelocity().y);
     }
 
     public override void Exit()
     {
         base.Exit();
-        player.transform.rotation = initialRotation;
+        playerController.transform.rotation = initialRotation;
     }
 
     public override void LogicUpdate()
@@ -44,6 +44,6 @@ public class PlayerDamagedDashState : PlayerAbilityState
 
     private void ChangeToInAirState() // to be called as animation event at the end of animation frames
     {
-        stateMachine.ChangeState(player.InAirState);
+        stateMachine.ChangeState(playerController.InAirState);
     }
 }

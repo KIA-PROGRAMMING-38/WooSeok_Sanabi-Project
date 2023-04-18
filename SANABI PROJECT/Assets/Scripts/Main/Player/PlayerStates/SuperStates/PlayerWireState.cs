@@ -21,17 +21,17 @@ public class PlayerWireState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
-        isGrounded = player.CheckIfGrounded();
-        isDamaged= player.CheckIfDamaged();
+        isGrounded = playerController.CheckIfGrounded();
+        isDamaged= playerController.CheckIfDamaged();
     }
 
     public override void Enter()
     {
         base.Enter();
-        initialArmRotation = player.armTransform.rotation;
+        initialArmRotation = playerController.armTransform.rotation;
         if (!hasGrabBeenDisabled)
         {
-            player.ArmController.ConnectAnchor();
+            playerController.ArmController.ConnectAnchor();
         }
         
     }
@@ -39,48 +39,49 @@ public class PlayerWireState : PlayerState
     public override void Exit()
     {
         base.Exit();
-        player.armTransform.rotation = initialArmRotation;
-        player.PlayerWireDashStop();
+        playerController.armTransform.rotation = initialArmRotation;
+        playerController.PlayerWireDashStop();
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        MouseHoldInput = player.Input.MouseInputHold;
-        DashInput = player.Input.DashInput;
-        InputX = player.Input.MovementInput.x;
-        MouseInput = player.Input.MouseInput;
+        MouseHoldInput = playerController.Input.MouseInputHold;
+        DashInput = playerController.Input.DashInput;
+        InputX = playerController.Input.MovementInput.x;
+        MouseInput = playerController.Input.MouseInput;
         //isGrounded = player.CheckIfGrounded();
 
-        player.ArmController.ArmRotateTowardsAnchor();
+        playerController.ArmController.ArmRotateTowardsAnchor();
 
         if (MouseHoldInput && isGrounded)
         {
-            player.ArmController.EnableMaxDistanceOnly();
+            playerController.ArmController.EnableMaxDistanceOnly();
         }
         else
         {
-            player.ArmController.DisableMaxDistanceOnly();
+            playerController.ArmController.DisableMaxDistanceOnly();
         }
 
         if (!MouseHoldInput)
         {
             hasGrabBeenDisabled = false;
-            player.ArmController.DisconnectAnchor();
+            playerController.ArmController.DisconnectAnchor();
             if (isGrounded)
             {
-                stateMachine.ChangeState(player.IdleState);
+                stateMachine.ChangeState(playerController.IdleState);
             }
             else if (!isGrounded)
             {
-                stateMachine.ChangeState(player.InAirState);
+                //stateMachine.ChangeState(player.InAirState);
+                stateMachine.ChangeState(playerController.RollingState);
             }
         }
         else if (isDamaged)
         {
             hasGrabBeenDisabled = false;
-            player.ArmController.DisconnectAnchor();
-            stateMachine.ChangeState(player.DamagedState);
+            playerController.ArmController.DisconnectAnchor();
+            stateMachine.ChangeState(playerController.DamagedState);
         }
     }
 

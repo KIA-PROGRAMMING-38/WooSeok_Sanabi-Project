@@ -12,7 +12,7 @@ public class PlayerDeadState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
-        holdPosition = player.transform.position;
+        holdPosition = playerController.transform.position;
     }
 
     public override void Enter()
@@ -29,7 +29,6 @@ public class PlayerDeadState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        Debug.Log("�׾");
         HoldPosition();
     }
 
@@ -40,9 +39,9 @@ public class PlayerDeadState : PlayerState
 
     private void HoldPosition()
     {
-        player.transform.position = holdPosition;
-        player.SetVelocityX(0);
-        player.SetVelocityY(0);
-        player.playerRigidBody.gravityScale = 0f;
+        playerController.transform.position = holdPosition;
+        playerController.SetVelocityX(0);
+        playerController.SetVelocityY(0);
+        playerController.playerRigidBody.gravityScale = 0f;
     }
 }

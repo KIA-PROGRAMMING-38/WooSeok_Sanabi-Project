@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class GrabController : MonoBehaviour
     public GrabFlyingState FlyingState { get; private set; }
     public GrabGrabbedState GrabbedState { get; private set; }
     public GrabReturningState ReturningState { get; private set; }
+    public GrabExecuteHolded ExecuteHoldedState { get; private set; }
     #endregion
 
     #region Components
@@ -47,6 +49,8 @@ public class GrabController : MonoBehaviour
     public Vector2 workSpace;
     public Vector2 AnchorPosition { get; set; }
 
+    public event Action OnGrabTurret;
+
     #endregion
     private void Awake()
     {
@@ -57,8 +61,9 @@ public class GrabController : MonoBehaviour
         FlyingState = new GrabFlyingState(this, grabStateMachine, playerData, "flying");
         GrabbedState = new GrabGrabbedState(this, grabStateMachine, playerData, "grabbed");
         ReturningState = new GrabReturningState(this, grabStateMachine, playerData, "returning");
+        ExecuteHoldedState = new GrabExecuteHolded(this, grabStateMachine, playerData, "executeHolded");
     }
-    void Start()
+    private void Start()
     {
         grabRigid = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -76,7 +81,7 @@ public class GrabController : MonoBehaviour
         GrabMaxLength = playerData.wireLength;
     }
 
-    void Update()
+    private void Update()
     {
         CurrentVelocity = grabRigid.velocity;
         grabStateMachine.grabCurrentState.LogicUpdate();
@@ -130,7 +135,21 @@ public class GrabController : MonoBehaviour
             HitNoGrab = true;
         }
         
+
     }
+
+    private Vector3 grabbedTurretPosition;
+    public void SetGrabbedTurretPosition(Transform turret)
+    {
+        grabbedTurretPosition= turret.position;
+    }
+
+    public Vector3 GetGrabbedTurretPosition()
+    {
+        return grabbedTurretPosition;
+    }
+
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -138,5 +157,30 @@ public class GrabController : MonoBehaviour
         {
             IsGrabReturned = true;
         }
+        else if (collision.gameObject.CompareTag("Turret"))
+        {
+            SetGrabbedTurretInstanceID(collision.gameObject.GetInstanceID());
+            SetGrabbedTurretPosition(collision.transform);
+            grabbedTurret = collision.gameObject;
+            OnGrabTurret?.Invoke();
+        }
     }
+
+    private GameObject grabbedTurret;
+    public TurretController GetGrabbedTurretObject()
+    {
+        return grabbedTurret.GetComponent<TurretController>();
+    }
+
+    private int grabbedTurretInstanceId;
+
+    private void SetGrabbedTurretInstanceID(int instanceID)
+    {
+        grabbedTurretInstanceId = instanceID;
+    }
+    public int GetGrabbedTurretInstanceId()
+    {
+        return grabbedTurretInstanceId;
+    }
+
 }

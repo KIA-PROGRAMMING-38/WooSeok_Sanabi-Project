@@ -27,17 +27,17 @@ public class PlayerWireGrappledInAirState : PlayerWireState
     {
         base.LogicUpdate();
 
-        player.AddXVelocityWhenGrappled(player.Input.MovementInput.x);
+        playerController.AddXVelocityWhenGrappled(playerController.Input.MovementInput.x);
 
         if (DashInput)
         {
-            player.Input.UseDashInput();
-            player.PlayerWireDash();
+            playerController.Input.UseDashInput();
+            playerController.PlayerWireDash();
         }
 
-        if (isGrounded && player.CurrentVelocity.y <= 0f)
+        if (isGrounded && playerController.CurrentVelocity.y <= 0f)
         {
-            stateMachine.ChangeState(player.WireGrappledIdleState);
+            stateMachine.ChangeState(playerController.WireGrappledIdleState);
         }
         
     }
