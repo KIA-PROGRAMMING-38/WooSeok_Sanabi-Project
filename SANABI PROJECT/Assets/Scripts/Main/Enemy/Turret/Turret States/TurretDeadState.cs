@@ -19,6 +19,8 @@ public class TurretDeadState : TurretState
     public override void Enter()
     {
         base.Enter();
+        turretController.onTurretDeath -= TellTurretSpawnerIAmDead;
+        turretController.onTurretDeath += TellTurretSpawnerIAmDead;
         turretController.DisableCollider();
         turretController.SpreadBrokenParts();
     }
@@ -36,6 +38,11 @@ public class TurretDeadState : TurretState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+    }
+
+    private void TellTurretSpawnerIAmDead()
+    {
+        turretController.turretSpawner.AddTurretDeathCount();
     }
 }
 

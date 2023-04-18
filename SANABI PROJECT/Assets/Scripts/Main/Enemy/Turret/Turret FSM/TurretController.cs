@@ -27,6 +27,7 @@ public class TurretController : MonoBehaviour
     public PlayerController playerController;
     public GunController gunController;
     public GrabController grabController;
+    public TurretSpawner turretSpawner;
 
     public IEnumerator _StayAiming;
     private WaitForSeconds _aimTime;
@@ -66,6 +67,7 @@ public class TurretController : MonoBehaviour
     [SerializeField] private int howManyBrokenParts = 10;
 
     [SerializeField] private Transform playerHoldPosition;
+    public event Action onTurretDeath;
     private void Awake()
     {
         //StateMachine = new TurretStateMachine();
@@ -105,6 +107,7 @@ public class TurretController : MonoBehaviour
         //gameObject.SetActive(true); // test ¿ë
         playerController = GameManager.Instance.playerController;
         grabController = GameManager.Instance.grabController;
+        turretSpawner = GameManager.Instance.turretSpawner;
         StateMachine = new TurretStateMachine();
         turretData = GetComponentInParent<TurretData>();
         BodyAnimator = GetComponent<Animator>();
@@ -139,6 +142,7 @@ public class TurretController : MonoBehaviour
     public void DisableCollider()
     {
         turretCollider.enabled = false;
+        onTurretDeath?.Invoke();
     }
 
     private void TurretHasBeenGrabbed()
