@@ -9,6 +9,7 @@ public class GrabState
     protected GrabStateMachine stateMachine;
     protected PlayerData playerData;
     private string animBoolName;
+    protected bool mouseInput;
     protected bool mouseInputHold;
 
     public GrabState(GrabController grab, GrabStateMachine grabStateMachine, PlayerData playerData, string animBoolName)
@@ -35,6 +36,7 @@ public class GrabState
     public virtual void LogicUpdate()
     {
         mouseInputHold = grabController.playerInput.MouseInputHold;
+        mouseInput = grabController.playerInput.MouseInput;
     }
 
     public virtual void PhysicsUpdate()

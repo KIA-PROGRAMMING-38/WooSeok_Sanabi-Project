@@ -28,15 +28,16 @@ public class ShakeCamera : MonoBehaviour
     }
     private void Update()
     {
-        if (ShakeOn)
-        {
-            OnShakeCamera();
-        }
+        //if (ShakeOn)
+        //{
+        //    OnShakeCamera();
+        //}
     }
 
     public void OnShakeCamera()
     {
         SwitchBackOff();
+        _ShakeCameraPosition = ShakeCameraPosition();
         StartCoroutine(_ShakeCameraPosition);
     }
 
@@ -45,6 +46,7 @@ public class ShakeCamera : MonoBehaviour
         this.shakeTime = shakeTime;
         this.shakeIntensity = shakeIntensity;
         ShakeOn = true;
+        OnShakeCamera();
     }
 
     private void SwitchBackOff()

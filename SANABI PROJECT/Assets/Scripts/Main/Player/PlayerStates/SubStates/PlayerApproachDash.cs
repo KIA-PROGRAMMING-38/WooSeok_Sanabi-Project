@@ -26,19 +26,23 @@ public class PlayerApproachDash : PlayerAbilityState
     {
         base.Enter();
         playerController.MakePlayerInvicible();
+        playerController.playerRigidBody.bodyType = RigidbodyType2D.Kinematic;
         playerController.OnApproachDashToTurret -= ChangeToExecuteHoldedState;
         playerController.OnApproachDashToTurret += ChangeToExecuteHoldedState;
-        playerController.PlayerIsDash(true);
+        //playerController.PlayerIsDash(true);
         playerController.SetVelocityAll(approachDashDirection.x * ApproachDashForce, approachDashDirection.y * ApproachDashForce);
-        playerController.PlayerApproachDash();
+        //playerController.PlayerApproachDash();
+        playerController.StartShowAfterImage();
     }
 
     public override void Exit()
     {
         base.Exit();
+        playerController.playerRigidBody.bodyType = RigidbodyType2D.Dynamic; 
         playerController.PlayerIsDash(false);
         playerController.OnApproachDashToTurret -= ChangeToExecuteHoldedState;
         playerController.MakePlayerVulnerable();
+        //playerController.StopShowAfterImage();
     }
 
     public override void LogicUpdate()

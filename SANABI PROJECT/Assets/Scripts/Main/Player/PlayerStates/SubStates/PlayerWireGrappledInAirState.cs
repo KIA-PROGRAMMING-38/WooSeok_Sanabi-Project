@@ -33,6 +33,7 @@ public class PlayerWireGrappledInAirState : PlayerWireState
         {
             playerController.Input.UseDashInput();
             playerController.PlayerWireDash();
+            
         }
 
         if (isGrounded && playerController.CurrentVelocity.y <= 0f)

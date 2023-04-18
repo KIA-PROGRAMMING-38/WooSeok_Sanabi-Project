@@ -10,6 +10,9 @@ public class TurretData : MonoBehaviour
     [Range(10f, 20f)] public float maxRandomAngle = 10f;
     [Range(150f, 200f)] public float rotateSpeed = 150f;
 
+    [Header("AimLock State")]
+    public float aimLockTime = 0.5f;
+
     [Header("Shoot State")]
     [Range(0.01f, 0.1f)] public float shootGapTime = 0.05f;
     public int shotBulletMaxNumber = 15;

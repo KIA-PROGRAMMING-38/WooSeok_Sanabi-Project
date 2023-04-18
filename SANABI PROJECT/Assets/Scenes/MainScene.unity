@@ -59093,6 +59093,7 @@ MonoBehaviour:
   playerHP: 4
   PlayerTakeDamage: 1
   PlayerHPRecoverStrength: 1
+  afterImageGapTime: 0.01
   walkVelocity: 2
   runVelocity: 10
   jumpVelocity: 7
@@ -59110,17 +59111,21 @@ MonoBehaviour:
   grappleAddedForce: 2
   damageResetTime: 8
   damagedJumpVelocity: 8
-  damagedOutTime: 1
+  damagedOutTime: 0.5
   invincibleTime: 1
-  slowTime: 0.05
-  timeScale: 0.2
+  damagedSlowTime: 0.05
+  damagedTimeScale: 0.2
   DashCoolDown: 2
   DashForce: 25
   DashTime: 0.5
   damagedDashVelocity: 15
   approachDashVelocity: 100
   executeHoldMaxTime: 5
+  holdedSlowTime: 0.05
+  holdedTimeScale: 0.2
   executeDashVelocity: 50
+  executeDashSlowTime: 0.1
+  executeDashTimeScale: 0.3
   groundCheckRadius: 0.283
   wallCheckDistance: 0.5
   whatIsGround:
@@ -61197,7 +61202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8677689636750679869, guid: f2b106eafc6a1c94c8e3470b305b2b31, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 25.72
+      value: 29.8
       objectReference: {fileID: 0}
     - target: {fileID: 8677689636750679869, guid: f2b106eafc6a1c94c8e3470b305b2b31, type: 3}
       propertyPath: m_LocalPosition.y

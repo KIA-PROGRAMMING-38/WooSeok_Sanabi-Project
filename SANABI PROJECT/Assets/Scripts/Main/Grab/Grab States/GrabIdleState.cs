@@ -29,7 +29,8 @@ public class GrabIdleState : GrabState
         GrabRotateBasedOnCursor();
         GrabAttachedToBody();
         
-        if (grabController.CheckIfMouseInput())
+        
+        if (mouseInput)
         {
             stateMachine.ChangeState(grabController.FlyingState);
         }
