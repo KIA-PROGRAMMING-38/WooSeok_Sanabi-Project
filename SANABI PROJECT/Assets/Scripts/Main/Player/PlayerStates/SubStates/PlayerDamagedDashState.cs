@@ -24,6 +24,7 @@ public class PlayerDamagedDashState : PlayerAbilityState
         playerController.SetVelocityAll(playerController.GetDamagedDashVelocity().x, playerController.GetDamagedDashVelocity().y);
         playerController.CheckIfShouldFlip(playerController.GetDamagedDashVelocity().x);
         playerController.CheckIfShouldRotate(playerController.GetDamagedDashVelocity().x, playerController.GetDamagedDashVelocity().y);
+        playerController.StartShowAfterImage();
     }
 
     public override void Exit()

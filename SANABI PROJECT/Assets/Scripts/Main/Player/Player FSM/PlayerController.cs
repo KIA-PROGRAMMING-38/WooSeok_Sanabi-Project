@@ -104,6 +104,9 @@ public class PlayerController : MonoBehaviour
     private IEnumerator _HoldOnToTurret;
 
     public event Action OffTurret;
+    private IEnumerator _ShowAfterImage;
+    private float afterImageGapTime;
+    private WaitForSeconds _afterImageGapTime;
     #endregion
     private void Awake()
     {
@@ -142,11 +145,13 @@ public class PlayerController : MonoBehaviour
     {
         playerRigidBody = GetComponent<Rigidbody2D>();
         FacingDirection = RightDirection;
-        
+        _ShowAfterImage = ShowAfterImage();
         //Animators = GetComponentsInChildren<Animator>();
         BodyAnimator = GetComponent<Animator>();
         ArmAnimator = GameObject.FindGameObjectWithTag("Arm").GetComponent<Animator>();
         ExecuteDashIconController = GetComponentInChildren<ExecuteDashIconController>();
+        afterImageGapTime = playerData.afterImageGapTime;
+        _afterImageGapTime = new WaitForSeconds(afterImageGapTime);
 
         Input = GetComponentInParent<PlayerInput>();
         DashCooltime = new WaitForSeconds(playerData.DashCoolDown);
@@ -213,27 +218,28 @@ public class PlayerController : MonoBehaviour
     {
         if (CanDash)
         {
+            StartShowAfterImage();
             CanDash = false;
             //isDashing = true;
             PlayerIsDash(true);
-            dashTimeLeft = playerData.DashTime;
+            //dashTimeLeft = playerData.DashTime;
             Input.UseDashInput();
             SetDashVelocity(Input.MovementInput.x);
             StartCoroutine(CountDashCooltime());
         }
     }
 
-    public void PlayerApproachDash()
-    {
-        if (CanDash)
-        {
-            CanDash = false;
-            PlayerIsDash(true);
-            dashTimeLeft = playerData.DashTime;
-            Input.UseDashInput();
-            StartCoroutine(CountDashCooltime());
-        }
-    }
+    //public void PlayerApproachDash()
+    //{
+    //    if (CanDash)
+    //    {
+    //        CanDash = false;
+    //        PlayerIsDash(true);
+    //        dashTimeLeft = playerData.DashTime;
+    //        Input.UseDashInput();
+    //        StartCoroutine(CountDashCooltime());
+    //    }
+    //}
     
     public void TurretHasBeenReleased()
     {
@@ -245,21 +251,45 @@ public class PlayerController : MonoBehaviour
         isDashing = isPlayerDashing;
     }
 
-    public void AfterImage()
+    //public void AfterImage()
+    //{
+    //    if (isDashing)
+    //    {
+    //        if (dashTimeLeft > 0)
+    //        {
+    //            dashTimeLeft -= Time.deltaTime;
+    //            WireDashPool.GetFromPool();
+    //        }
+    //        else
+    //        {
+    //            //isDashing = false;
+    //            PlayerIsDash(false);
+    //        }
+    //    }
+    //}
+
+    public void StartShowAfterImage()
     {
-        if (isDashing)
+        _ShowAfterImage = ShowAfterImage();
+        dashTimeLeft = playerData.DashTime;
+        StartCoroutine(_ShowAfterImage);
+    }
+
+    public void StopShowAfterImage()
+    {
+        StopCoroutine(_ShowAfterImage);
+    }
+
+    private IEnumerator ShowAfterImage()
+    {
+        while (0f <= dashTimeLeft)
         {
-            if (dashTimeLeft > 0)
-            {
-                dashTimeLeft -= Time.deltaTime;
-                WireDashPool.GetFromPool();
-            }
-            else
-            {
-                //isDashing = false;
-                PlayerIsDash(false);
-            }
+            //dashTimeLeft -= Time.deltaTime;
+            dashTimeLeft -= afterImageGapTime;
+            WireDashPool.GetFromPool();
+            yield return _afterImageGapTime;
         }
+        StopCoroutine(_ShowAfterImage);
     }
 
     public PlayerAfterImage CreateWireDashSprite()
@@ -517,7 +547,21 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.layer == MagmaLayerNumber)
+    //    {
+    //        if (!isPlayerInvincible)
+    //        {
+    //            StartCoroutine(MakePlayerInvincibleForCetainTime());
+    //            isPlayerDamaged = true;
+    //            ArmController.IsPlayerDamaged = isPlayerDamaged;
+    //            HPBarController.IsPlayerDamaged = isPlayerDamaged;
+    //        }
+    //    }
+    //}
+
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.layer == MagmaLayerNumber)
         {
@@ -529,10 +573,9 @@ public class PlayerController : MonoBehaviour
                 HPBarController.IsPlayerDamaged = isPlayerDamaged;
             }
         }
-        
-
-
     }
+
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

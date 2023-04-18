@@ -11,6 +11,8 @@ public class PlayerExecuteDash : PlayerAbilityState
     private Vector2 executeDashDirection;
     private Quaternion initialRotation;
     private float dashRotation;
+    private float slowTime;
+    private float slowIntensity;
     public PlayerExecuteDash(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -20,6 +22,8 @@ public class PlayerExecuteDash : PlayerAbilityState
         base.DoChecks();
         initialRotation = Quaternion.identity;
         executeDashDirection = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - playerController.ExecuteDashIconController.transform.position).normalized;
+        slowTime = playerData.executeDashSlowTime;
+        slowIntensity = playerData.executeDashTimeScale;
     }
 
     public override void Enter()
@@ -31,6 +35,8 @@ public class PlayerExecuteDash : PlayerAbilityState
         RotatePlayer();
         playerController.OnExecuteDash -= ChangeToRollingState;
         playerController.OnExecuteDash += ChangeToRollingState;
+        playerController.timeSlower.PleaseSlowDown(slowIntensity, slowTime);
+        playerController.StartShowAfterImage();
     }
 
     public override void Exit()
@@ -38,8 +44,8 @@ public class PlayerExecuteDash : PlayerAbilityState
         base.Exit();
         playerController.transform.rotation = initialRotation;
         playerController.OnExecuteDash -= ChangeToRollingState;
-        playerController.MakePlayerVulnerable(); 
-        // execute dash 실험하기
+        playerController.MakePlayerVulnerable();
+        //playerController.StopShowAfterImage();
     }
 
     public override void LogicUpdate()

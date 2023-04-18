@@ -13,6 +13,7 @@ public class TurretController : MonoBehaviour
     public TurretPopUpState PopUpState { get; private set; }
     public TurretCooldownState CooldownState { get; private set; }
     public TurretAimingState AimingState { get; private set; }
+    public TurretAimLockState AimLockState { get; private set; }
     public TurretShootState ShootState { get; private set; }
     public TurretExecuteHoldedState ExecuteHoldedState { get; private set; }
     public TurretDeadState DeadState { get; private set; }
@@ -55,6 +56,10 @@ public class TurretController : MonoBehaviour
 
     private bool isTurretGrabbed;
     public event Action OnFinishedCooldown;
+
+    private float aimLockTime;
+    private WaitForSeconds _aimLockTime;
+    private IEnumerator _StayAimLock;
 
     public ObjectPool<TurretBrokenParts> brokenPartsObjectPool { get; private set; }
     [SerializeField] TurretBrokenParts[] brokenPartsPrefabs;
@@ -109,6 +114,7 @@ public class TurretController : MonoBehaviour
         PopUpState = new TurretPopUpState(this, StateMachine, turretData, "popUp");
         CooldownState = new TurretCooldownState(this, StateMachine, turretData, "coolDown");
         AimingState = new TurretAimingState(this, StateMachine, turretData, "aiming");
+        AimLockState = new TurretAimLockState(this, StateMachine, turretData, "aiming");
         ShootState = new TurretShootState(this, StateMachine, turretData, "shoot");
         ExecuteHoldedState = new TurretExecuteHoldedState(this, StateMachine, turretData, "executeHolded");
         DeadState = new TurretDeadState(this, StateMachine, turretData, "dead");
@@ -120,7 +126,9 @@ public class TurretController : MonoBehaviour
         grabController.OnGrabTurret += TurretHasBeenGrabbed;
         _shootGapTime = new WaitForSeconds(shootGapTime);
         _cooldownTime = new WaitForSeconds(cooldownTime);
+        _aimLockTime = new WaitForSeconds(aimLockTime);
 
+        _StayAimLock = StayAimLock();
         _ShootMultipleBullets = ShootMultipleBullets();
         _WaitForCooldown = WaitForCooldown();
         _StayAiming = StayAiming();
@@ -184,12 +192,35 @@ public class TurretController : MonoBehaviour
         while (true)
         {
             yield return _aimTime;
-            StateMachine.ChangeState(ShootState);
+            //StateMachine.ChangeState(ShootState);
+            StateMachine.ChangeState(AimLockState);
 
             StopCoroutine(_StayAiming);
             yield return null;
         }
     }
+
+    public void StartAimLock()
+    {
+        StartCoroutine(_StayAimLock);
+    }
+
+    public void StopAimLock()
+    {
+        StopCoroutine(_StayAimLock);
+    }
+    private IEnumerator StayAimLock()
+    {
+        while (true)
+        {
+            yield return _aimLockTime;
+            StateMachine.ChangeState(ShootState);
+
+            StopCoroutine(_StayAimLock);
+            yield return null;
+        }
+    }
+
 
     private TurretBullet CreateBullet()
     {
@@ -228,6 +259,18 @@ public class TurretController : MonoBehaviour
     }
 
 
+    public void StartShooting()
+    {
+        _ShootMultipleBullets = ShootMultipleBullets();
+        StartCoroutine(_ShootMultipleBullets);
+        //StartCoroutine(ShootMultipleBullets());
+    }
+    public void StopShooting()
+    {
+        shotBulletNumber = 0;
+        //StopCoroutine(ShootMultipleBullets());
+        StopCoroutine(_ShootMultipleBullets);
+    }
     private IEnumerator ShootMultipleBullets()
     {
         while (shotBulletNumber <= shotBulletMaxNumber)
@@ -237,7 +280,7 @@ public class TurretController : MonoBehaviour
             yield return _shootGapTime;
         }
         shotBulletNumber = 0;
-        //StopCoroutine(_ShootMultipleBullets);
+        StopCoroutine(_ShootMultipleBullets);
 
         if (!isTurretGrabbed)
         {
@@ -245,18 +288,6 @@ public class TurretController : MonoBehaviour
         }
     }
 
-    public void StartShooting()
-    {
-        //StartCoroutine(_ShootMultipleBullets);
-        StartCoroutine(ShootMultipleBullets());
-    }
-
-    public void StopShooting()
-    {
-        shotBulletNumber = 0;
-        StopCoroutine(ShootMultipleBullets());
-        //StopCoroutine(_ShootMultipleBullets);
-    }
 
     private IEnumerator WaitForCooldown()
     {
@@ -300,6 +331,7 @@ public class TurretController : MonoBehaviour
         shootGapTime = turretData.shootGapTime;
         shotBulletMaxNumber = turretData.shotBulletMaxNumber;
         cooldownTime = turretData.cooldownTime;
+        aimLockTime = turretData.aimLockTime;
     }
 
     private void OnGetBulletFromPool(TurretBullet bullet) => bullet.gameObject.SetActive(true);

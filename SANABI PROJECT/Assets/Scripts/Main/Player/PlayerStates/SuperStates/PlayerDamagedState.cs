@@ -38,8 +38,8 @@ public class PlayerDamagedState : PlayerState
         isGrounded = playerController.CheckIfGrounded();
         cameraShakeTime = playerController.camShake.damagedShakeTime;
         cameraShakeIntensity = playerController.camShake.damagedShakeIntensity;
-        slowTime = playerData.slowTime;
-        slowIntensity = playerData.timeScale;
+        slowTime = playerData.damagedSlowTime;
+        slowIntensity = playerData.damagedTimeScale;
         
     }
 

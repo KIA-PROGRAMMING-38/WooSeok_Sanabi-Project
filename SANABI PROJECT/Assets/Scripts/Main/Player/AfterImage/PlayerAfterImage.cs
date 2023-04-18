@@ -8,8 +8,8 @@ public class PlayerAfterImage : MonoBehaviour
     [SerializeField] private float activeTime = 0.1f;
     private float timeActivated;
     private float alpha;
-    [SerializeField] private float alphaset = 0.6f;
-    [SerializeField] private float alphaMultiplier = 0.9f;
+    [SerializeField] private float alphaset = 0.7f;
+    [SerializeField] private float alphaMultiplier = 0.95f;
 
     private Transform player;
 

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 public class PlayerExecuteHolded : PlayerAbilityState
 {
+    private float slowTime;
+    private float slowIntensity;
     public PlayerExecuteHolded(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -15,6 +17,8 @@ public class PlayerExecuteHolded : PlayerAbilityState
     public override void DoChecks()
     {
         base.DoChecks();
+        slowTime = playerData.holdedSlowTime;
+        slowIntensity = playerData.holdedTimeScale;
     }
 
     public override void Enter()
@@ -26,6 +30,7 @@ public class PlayerExecuteHolded : PlayerAbilityState
         playerController.playerRigidBody.gravityScale = 0f;
         playerController.ExecuteDashIconController.StartFollowingCursor();
         playerController.StartExecuteHolded();
+        playerController.timeSlower.PleaseSlowDown(slowIntensity, slowTime);
     }
 
     public override void Exit()

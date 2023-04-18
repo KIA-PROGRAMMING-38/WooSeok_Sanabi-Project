@@ -18,6 +18,13 @@ public class GunController : MonoBehaviour
     RaycastHit2D hit;
     IEnumerator _StartRotationAndAim;
 
+    private Color initialColor = Color.red;
+    private Color yellowColor = Color.yellow;
+    private Color whieColor = Color.white;
+
+    private IEnumerator _EnableLineColorChange;
+    [SerializeField] private float colorStayTime = 0.05f;
+    private WaitForSeconds _colorStayTime;
     private void Awake()
     {
         //aimLineRenderer = GetComponentInChildren<LineRenderer>();
@@ -37,6 +44,8 @@ public class GunController : MonoBehaviour
         platformLayerMask = (1 << LayerMask.NameToLayer("NormalWall")) | (1 << LayerMask.NameToLayer("NoGrabWall") | (1 << LayerMask.NameToLayer("Magma")));
         rotateSpeed = turretData.rotateSpeed;
         _StartRotationAndAim = StartRotationAndAim();
+        _EnableLineColorChange = EnableLineColorChange();
+        _colorStayTime = new WaitForSeconds(colorStayTime);
         //Gun.SetActive(false);
     }
 
@@ -45,6 +54,49 @@ public class GunController : MonoBehaviour
     {
         
     }
+
+    private void EnableLineInitialColor()
+    {
+        aimLineRenderer.startColor = initialColor;
+        aimLineRenderer.endColor = initialColor;
+    }
+    private void EnableLineYellowColor()
+    {
+        aimLineRenderer.startColor = yellowColor;
+        aimLineRenderer.endColor = yellowColor;
+    }
+    
+    private void EnableLineWhiteColor()
+    {
+        aimLineRenderer.startColor = whieColor;
+        aimLineRenderer.endColor = whieColor;
+    }
+
+    public void StartColorChange()
+    {
+        aimLineRenderer.enabled = true;
+        StartCoroutine(_EnableLineColorChange);
+    }
+
+    public void StopColorChange()
+    {
+        aimLineRenderer.enabled = false;
+        EnableLineInitialColor();
+        StopCoroutine(_EnableLineColorChange);
+    }
+    private IEnumerator EnableLineColorChange()
+    {
+        while (true)
+        {
+            EnableLineInitialColor();
+            yield return _colorStayTime;
+            EnableLineYellowColor();
+            yield return _colorStayTime;
+            EnableLineWhiteColor();
+        }
+    }
+
+    
 
     public void TryStartRotationAndAim()
     {

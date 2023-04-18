@@ -10,6 +10,7 @@ public class PlayerData : MonoBehaviour
     public int playerHP = 4;
     public int PlayerTakeDamage = 1;
     public int PlayerHPRecoverStrength = 1;
+    [Range(0.01f, 0.05f)]public float afterImageGapTime = 0.01f;
 
     [Header("Walk State")]
     public float walkVelocity = 2f;
@@ -49,10 +50,10 @@ public class PlayerData : MonoBehaviour
     [Header("Damaged State")]
     public float damageResetTime = 8f;
     public float damagedJumpVelocity = 8f;
-    [Range(0f, 1f)] public float damagedOutTime = 1f;
+    [Range(0f, 1f)] public float damagedOutTime = 0.5f;
     [Range(0f, 10f)] public float invincibleTime = 1f;
-    [Range(0f, 0.5f)] public float slowTime = 0.05f;
-    [Range(0f, 1f)] public float timeScale = 0.2f;
+    [Range(0f, 0.5f)] public float damagedSlowTime = 0.05f;
+    [Range(0f, 1f)] public float damagedTimeScale = 0.2f;
 
     [Header("SwingDash")]
     public float DashCoolDown = 2f;
@@ -67,9 +68,13 @@ public class PlayerData : MonoBehaviour
 
     [Header("ExecuteHold")]
     public float executeHoldMaxTime = 5f;
+    [Range(0f, 0.5f)] public float holdedSlowTime = 0.05f;
+    [Range(0f, 1f)] public float holdedTimeScale = 0.1f;
 
     [Header("ExecuteDash")]
     public float executeDashVelocity = 20f;
+    [Range(0f, 0.5f)] public float executeDashSlowTime = 0.025f;
+    [Range(0f, 1f)] public float executeDashTimeScale = 0.3f;
 
     [Header("Check Variables")]
     [Range(0f, 0.3f)] public float groundCheckRadius = 0.1f;
