@@ -22,6 +22,11 @@ public class TurretAimingState : TurretState
         
         turretController.gunController.TryStartRotationAndAim();
         turretController.StartAiming();
+        turretController.WarningInsideAnimator.SetBool("warningIdle", false);
+        turretController.WarningInsideAnimator.SetBool("warningWhile", true);
+        turretController.WarningOutsideAnimator.SetBool("warningIdle", false);
+        turretController.WarningOutsideAnimator.SetBool("warningWhile", true);
+
     }
 
     public override void Exit()
@@ -29,6 +34,10 @@ public class TurretAimingState : TurretState
         base.Exit();
         turretController.gunController.StopRotationAndAim();
         turretController.StopAiming();
+        turretController.WarningInsideAnimator.SetBool("warningWhile", false);
+        turretController.WarningOutsideAnimator.SetBool("warningWhile", false);
+
+
     }
 
     public override void LogicUpdate()

@@ -29,6 +29,8 @@ public class PlayerState
         DoChecks();
         playerController.BodyAnimator.SetBool(animBoolName, true);
         playerController.ArmAnimator.SetBool(animBoolName, true);
+        playerController.playerHealth.OnDead -= ChangeToDeadState;
+        playerController.playerHealth.OnDead += ChangeToDeadState;
         startTime = Time.time;
         isAnimationFinished = false;
         isExitingState = false;
@@ -38,6 +40,7 @@ public class PlayerState
     {
         playerController.BodyAnimator.SetBool(animBoolName, false);
         playerController.ArmAnimator.SetBool(animBoolName, false);
+        playerController.playerHealth.OnDead -= ChangeToDeadState;
         isExitingState = true;
     }
 
@@ -68,5 +71,8 @@ public class PlayerState
         stateMachine.ChangeState(playerController.ApproachDash);
     }
 
-    
+    private void ChangeToDeadState()
+    {
+        stateMachine.ChangeState(playerController.DeadState);
+    }
 }

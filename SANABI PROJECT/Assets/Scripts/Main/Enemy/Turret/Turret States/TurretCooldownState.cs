@@ -19,12 +19,14 @@ public class TurretCooldownState : TurretState
         turretController.OnFinishedCooldown -= ChangeToAimingState;
         turretController.OnFinishedCooldown += ChangeToAimingState;
         turretController.WaitUntilCooldown();
+        
     }
 
     public override void Exit()
     {
         base.Exit();
         turretController.StopCooldown();
+        
     }
 
     public override void LogicUpdate()

@@ -16,6 +16,7 @@ TagManager:
   - TurretSpawnArea
   - Platform
   - TurretBullet
+  - DeathPlatform
   layers:
   - Default
   - TransparentFX

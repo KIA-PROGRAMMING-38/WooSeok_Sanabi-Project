@@ -47,8 +47,8 @@ public class PlayerDamagedState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        playerController.playerHealth.OnDead -= ChangeToDeadState;
-        playerController.playerHealth.OnDead += ChangeToDeadState;
+        //playerController.playerHealth.OnDead -= ChangeToDeadState;
+        //playerController.playerHealth.OnDead += ChangeToDeadState;
 
         playerController.playerHealth.TakeDamage(playerData.PlayerTakeDamage); // got to change magic number
         
@@ -117,8 +117,8 @@ public class PlayerDamagedState : PlayerState
         }
     }
 
-    private void ChangeToDeadState()
-    {
-        stateMachine.ChangeState(playerController.DeadState);
-    }
+    //private void ChangeToDeadState()
+    //{
+    //    stateMachine.ChangeState(playerController.DeadState);
+    //}
 }

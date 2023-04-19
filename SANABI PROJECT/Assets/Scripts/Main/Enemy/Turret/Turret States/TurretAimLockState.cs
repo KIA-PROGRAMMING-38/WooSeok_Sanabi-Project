@@ -22,6 +22,8 @@ public class TurretAimLockState : TurretState
         base.Enter();
         turretController.StartAimLock();
         turretController.gunController.StartColorChange();
+        turretController.WarningInsideAnimator.SetBool("warningIdle", true);
+        turretController.WarningOutsideAnimator.SetBool("warningIdle", true);
     }
 
     public override void Exit()

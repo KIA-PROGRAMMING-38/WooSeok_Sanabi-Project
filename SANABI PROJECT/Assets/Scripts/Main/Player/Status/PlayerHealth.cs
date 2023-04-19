@@ -6,8 +6,10 @@ using UnityEngine;
 
 public class PlayerHealth : Health
 {
-    [SerializeField] private PlayerData playerData;
-    
+    //[SerializeField] private PlayerData playerData;
+    private PlayerData playerData;
+    private PlayerController playerController;
+
     private int playerMaxHP;
     private int playerCurHP;
 
@@ -27,6 +29,8 @@ public class PlayerHealth : Health
 
     private void OnEnable()
     {
+        playerData = GameManager.Instance.playerData;
+        playerController = GameManager.Instance.playerController;
         playerCurHP = playerMaxHP = playerData.playerHP;
         invicibleTime = playerData.damagedOutTime;
         recoverStrength = playerData.PlayerHPRecoverStrength;
@@ -34,7 +38,7 @@ public class PlayerHealth : Health
 
     private void Update()
     {
-        if (playerCurHP <= 0)
+        if (playerCurHP <= 0 || playerController.CheckIfPlayerHitDeathPlatform())
         {
             isPlayerDead = true;
             OnDead?.Invoke();

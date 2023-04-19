@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public GrabController grabController;
     public PlayerArmController armController;
     public TurretSpawner turretSpawner;
+    public PlayerData playerData;
     private void Awake()
     {
         Instance = this;

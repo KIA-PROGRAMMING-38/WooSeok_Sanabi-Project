@@ -23,6 +23,8 @@ public class TurretDeadState : TurretState
         turretController.onTurretDeath += TellTurretSpawnerIAmDead;
         turretController.DisableCollider();
         turretController.SpreadBrokenParts();
+        //turretController.TurnOffSprite();
+        
     }
 
     public override void Exit()
