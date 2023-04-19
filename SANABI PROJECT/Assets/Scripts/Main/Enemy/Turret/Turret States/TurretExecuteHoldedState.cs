@@ -22,6 +22,9 @@ public class TurretExecuteHoldedState : TurretState
         base.Enter();
         turretController.playerController.OffTurret -= ChangeToDeadState;
         turretController.playerController.OffTurret += ChangeToDeadState;
+        turretController.TurnOffSprite();
+        //turretController.WarningInsideAnimator.enabled = false;
+        //turretController.WarningOutsideAnimator.enabled = false;
     }
 
     public override void Exit()

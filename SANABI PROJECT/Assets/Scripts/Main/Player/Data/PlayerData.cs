@@ -73,8 +73,8 @@ public class PlayerData : MonoBehaviour
 
     [Header("ExecuteDash")]
     public float executeDashVelocity = 20f;
-    [Range(0f, 0.5f)] public float executeDashSlowTime = 0.025f;
-    [Range(0f, 1f)] public float executeDashTimeScale = 0.3f;
+    [Range(0f, 0.5f)] public float executeDashSlowTime = 0.005f;
+    [Range(0f, 1f)] public float executeDashTimeScale = 0.05f;
 
     [Header("Check Variables")]
     [Range(0f, 0.3f)] public float groundCheckRadius = 0.1f;

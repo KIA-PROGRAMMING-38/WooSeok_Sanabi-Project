@@ -575,7 +575,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
+    private bool isPlayerHitDeathPlatform;
+    public bool CheckIfPlayerHitDeathPlatform()
+    {
+        return isPlayerHitDeathPlatform;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -592,6 +596,10 @@ public class PlayerController : MonoBehaviour
                 ArmController.IsPlayerDamaged = isPlayerDamaged;
                 HPBarController.IsPlayerDamaged = isPlayerDamaged;
             }
+        }
+        else if (collision.gameObject.CompareTag("DeathPlatform"))
+        {
+            isPlayerHitDeathPlatform = true;
         }
 
     }

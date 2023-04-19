@@ -22,6 +22,8 @@ public class TurretController : MonoBehaviour
     public Animator BodyAnimator { get; private set; }
     public Animator GunAnimator;
     public Animator StageAnimator;
+    public Animator WarningInsideAnimator;
+    public Animator WarningOutsideAnimator;
     private BoxCollider2D turretCollider;
 
     public PlayerController playerController;
@@ -68,12 +70,16 @@ public class TurretController : MonoBehaviour
 
     [SerializeField] private Transform playerHoldPosition;
     public event Action onTurretDeath;
+
+    [SerializeField] private SpriteRenderer WarningIconInsideRenderer;
+    [SerializeField] private SpriteRenderer WarningIconOutsideRenderer;
+
     private void Awake()
     {
         //StateMachine = new TurretStateMachine();
         //turretData = GetComponentInParent<TurretData>();
         //BodyAnimator = GetComponent<Animator>();
-        
+
 
 
         //PopUpState = new TurretPopUpState(this, StateMachine, turretData, "popUp");
@@ -151,7 +157,7 @@ public class TurretController : MonoBehaviour
         {
             this.isTurretGrabbed = true;
         }
-        
+
     }
 
     private void GrabOffTurret()
@@ -242,7 +248,7 @@ public class TurretController : MonoBehaviour
 
     public void SpreadBrokenParts()
     {
-        for (int i = 0; i < howManyBrokenParts ;++i)
+        for (int i = 0; i < howManyBrokenParts; ++i)
         {
             TurretBrokenParts newParts = brokenPartsObjectPool.GetFromPool();
             newParts.transform.position = transform.position;
@@ -343,4 +349,38 @@ public class TurretController : MonoBehaviour
 
     private void OnGetBrokenPartsFromPool(TurretBrokenParts parts) => parts.gameObject.SetActive(true);
     private void OnReturnBrokenPartsToPool(TurretBrokenParts parts) => parts.gameObject.SetActive(false);
+
+    
+    private void OnBecameVisible()
+    {
+        if (!this.isTurretGrabbed)
+        {
+            WarningInsideAnimator.enabled = true;
+            WarningOutsideAnimator.enabled = false;
+            WarningIconInsideRenderer.enabled = true;
+            WarningIconOutsideRenderer.enabled = false;
+        }
+        
+    }
+
+    private void OnBecameInvisible()
+    {
+        if (!this.isTurretGrabbed)
+        {
+            WarningInsideAnimator.enabled = false;
+            WarningOutsideAnimator.enabled = true;
+            WarningIconInsideRenderer.enabled = false;
+            WarningIconOutsideRenderer.enabled = true;
+        }
+        
+    }
+
+    public void TurnOffSprite()
+    {
+        WarningInsideAnimator.enabled = false;
+        WarningOutsideAnimator.enabled = false;
+        WarningIconInsideRenderer.enabled = false;
+        WarningIconOutsideRenderer.enabled = false;
+    }
+
 }

@@ -49,14 +49,52 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
+    Vector2 playerDeathPlatformHitPosition;
+    Vector2 fixedPosition;
     private void LateUpdate()
     {
-        if (!isPlayerDead)
+        //if (!isPlayerDead)
+        //{
+        //    transform.position = playerTransform.position + offSet + camShake.shakeMovePosition; // 카메라가 흔들리는 만큼 추가로 이동해줌
+        //}
+        if (!isPlayerDead && !isPlayerNearDeathPlatform)
         {
             transform.position = playerTransform.position + offSet + camShake.shakeMovePosition; // 카메라가 흔들리는 만큼 추가로 이동해줌
         }
+        else if (isPlayerNearDeathPlatform)
+        {
+            fixedPosition.Set(playerTransform.position.x, playerDeathPlatformHitPosition.y);
+            transform.position = (Vector3)fixedPosition + offSet + camShake.shakeMovePosition;
+        }
         
+    }
+
+    private bool isPlayerNearDeathPlatform;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("DeathPlatform"))
+        {
+            playerDeathPlatformHitPosition = transform.position;
+            isPlayerNearDeathPlatform = true;
+        }
         
+    }
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("DeathPlatform"))
+    //    {
+    //        Debug.Log("deathplatform이랑 닿는중");
+    //        isPlayerNearDeathPlatform = true;
+    //    }
+    //}
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("DeathPlatform"))
+        {
+            isPlayerNearDeathPlatform = false;
+        }
     }
 
     private void TryChangeColor()
