@@ -39,7 +39,7 @@ public class PlayerExecuteDash : PlayerAbilityState
         playerController.OnExecuteDash += ChangeToRollingState;
         playerController.timeSlower.PleaseSlowDown(slowIntensity, slowTime);
         playerController.StartShowAfterImage();
-        
+        playerController.SetExecuteDashEffectOn();
     }
 
     public override void Exit()

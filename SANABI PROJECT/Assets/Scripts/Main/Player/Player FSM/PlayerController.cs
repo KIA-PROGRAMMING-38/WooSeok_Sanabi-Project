@@ -696,5 +696,10 @@ public class PlayerController : MonoBehaviour
         BodyEffector.SetTrigger("executeHolded");
     }
 
+    public void SetExecuteDashEffectOn()
+    {
+        BodyEffector.gameObject.transform.position = ExecuteHoldedEffectorTransform.position;
+        BodyEffector.SetTrigger("executeDash");
+    }
     #endregion
 }
