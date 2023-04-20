@@ -110,6 +110,7 @@ public class PlayerController : MonoBehaviour
     private WaitForSeconds _afterImageGapTime;
     [SerializeField] private Transform JumpEffectorTransform;
     [SerializeField] private Transform LandEffectorTransform;
+    [SerializeField] private Transform WallJumpEffectorTransform;
     #endregion
     private void Awake()
     {
@@ -621,5 +622,15 @@ public class PlayerController : MonoBehaviour
         Effector.gameObject.transform.position = LandEffectorTransform.position;
         Effector.SetTrigger("land");
     }
+
+    public void SetWallJumpEffectOn()
+    {
+        Effector.gameObject.transform.position = WallJumpEffectorTransform.position;
+        WallJumpEffectorTransform.localScale = transform.localScale;
+        Effector.gameObject.transform.localScale = WallJumpEffectorTransform.localScale;
+        Effector.gameObject.transform.rotation = WallJumpEffectorTransform.rotation;
+        Effector.SetTrigger("wallJump");
+    }
+
     #endregion
 }

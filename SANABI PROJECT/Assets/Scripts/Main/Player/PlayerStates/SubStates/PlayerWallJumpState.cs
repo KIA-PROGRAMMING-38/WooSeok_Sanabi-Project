@@ -14,6 +14,7 @@ public class PlayerWallJumpState : PlayerAbilityState
         base.Enter();
         playerController.SetWallJumpVelocity(playerData.wallJumpVelocity, playerData.wallJumpAngle, wallJumpDirection);
         playerController.CheckIfShouldFlip(wallJumpDirection);
+        playerController.SetWallJumpEffectOn();
     }
 
     public override void LogicUpdate()
