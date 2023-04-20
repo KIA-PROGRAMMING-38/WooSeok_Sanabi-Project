@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UIElements;
 using UnityEngine.Windows;
 using UnityEngine.XR;
 
@@ -113,7 +114,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform JumpEffectorTransform;
     [SerializeField] private Transform LandEffectorTransform;
     [SerializeField] private Transform WallJumpEffectorTransform;
+    public Transform WallSlideEffectorTransform;
     [SerializeField] private Transform WireShootEffectorTransform;
+
+    private ObjectPool<WallSlideDust> dustPool;
+    public WallSlideDust dustPrefab;
+    private IEnumerator _ShowWallSlideDust;
+    [SerializeField] private float dustCreateTime = 0.05f;
+    private WaitForSeconds _dustCreateTime;
     #endregion
     private void Awake()
     {
@@ -159,16 +167,19 @@ public class PlayerController : MonoBehaviour
         ExecuteDashIconController = GetComponentInChildren<ExecuteDashIconController>();
         afterImageGapTime = playerData.afterImageGapTime;
         _afterImageGapTime = new WaitForSeconds(afterImageGapTime);
+        _dustCreateTime = new WaitForSeconds(dustCreateTime);
         
 
         Input = GetComponentInParent<PlayerInput>();
         DashCooltime = new WaitForSeconds(playerData.DashCoolDown);
         WireDashPool = new ObjectPool<PlayerAfterImage>(CreateWireDashSprite, OnGetSpriteFromPool, OnReturnSpriteToPool);
+        dustPool = new ObjectPool<WallSlideDust>(CreateWallSlideDust, OnGetDustFromPool, OnReturnDustToPool);
         playerInvincibleTime = playerData.invincibleTime;
         playerInvincibleWaitTime = new WaitForSeconds(playerInvincibleTime);
         executeHoldMaxTime = playerData.executeHoldMaxTime;
         _executeHoldMaxTime = new WaitForSeconds(executeHoldMaxTime);
         _HoldOnToTurret = HoldOnToTurret();
+        _ShowWallSlideDust = ShowWallSlideDust();
 
         MagmaLayerNumber = LayerMask.NameToLayer("Magma");
         StateMachine.Initialize(IdleState);
@@ -306,6 +317,37 @@ public class PlayerController : MonoBehaviour
         sprite.WireDashPool = WireDashPool;
         return sprite;
     }
+
+    public WallSlideDust CreateWallSlideDust()
+    {
+        WallSlideDust dust = Instantiate(dustPrefab);
+        dust.dustPool = dustPool;
+        return dust;
+    }
+
+    public void StartShowWallSlideDust()
+    {
+        //if (null != _ShowWallSlideDust)
+        //    StopCoroutine(_ShowWallSlideDust);
+        _ShowWallSlideDust = ShowWallSlideDust();
+        StartCoroutine(_ShowWallSlideDust);
+    }
+
+    public void StopShowWallSlideDust()
+    {
+        //_ShowWallSlideDust = ShowWallSlideDust();
+        StopCoroutine(_ShowWallSlideDust);
+    }
+    
+    private IEnumerator ShowWallSlideDust()
+    {
+        while (true)
+        {
+            dustPool.GetFromPool();
+            yield return _dustCreateTime;
+        }
+    }
+
 
     public void PlayerWireDashStop()
     {
@@ -553,6 +595,9 @@ public class PlayerController : MonoBehaviour
     private void OnGetSpriteFromPool(PlayerAfterImage sprite) => sprite.gameObject.SetActive(true);
     private void OnReturnSpriteToPool(PlayerAfterImage sprite) => sprite.gameObject.SetActive(false);
 
+    private void OnGetDustFromPool(WallSlideDust dust) => dust.gameObject.SetActive(true);
+    private void OnReturnDustToPool(WallSlideDust dust) => dust.gameObject.SetActive(false);
+
     #endregion
 
     //private void OnCollisionEnter2D(Collision2D collision)
@@ -634,6 +679,14 @@ public class PlayerController : MonoBehaviour
         BodyEffector.gameObject.transform.rotation = WallJumpEffectorTransform.rotation;
         BodyEffector.SetTrigger("wallJump");
     }
+
+    //public void SetWallSlideEffectOn()
+    //{
+    //    // 이거 오브젝트 풀링 같음
+    //    //BodyEffector.gameObject.transform.position = WallSlideEffectorTransform.position;
+    //    //BodyEffector.SetTrigger("wallSlide");
+    //    StartShowWallSlideDust();
+    //}
 
     public void SetWireShootEffectOn()
     {
