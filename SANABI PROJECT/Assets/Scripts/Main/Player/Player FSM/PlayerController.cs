@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     public Animator ArmAnimator { get; private set; }
 
     public Animator ExecuteDashIconAnimator;
-    public Animator JumpLandAnimator;
+    public Animator Effector;
     public PlayerInput Input { get; private set; }
     public PlayerArmController ArmController { get; private set; }
 
@@ -108,6 +108,8 @@ public class PlayerController : MonoBehaviour
     private IEnumerator _ShowAfterImage;
     private float afterImageGapTime;
     private WaitForSeconds _afterImageGapTime;
+    [SerializeField] private Transform JumpEffectorTransform;
+    [SerializeField] private Transform LandEffectorTransform;
     #endregion
     private void Awake()
     {
@@ -153,6 +155,7 @@ public class PlayerController : MonoBehaviour
         ExecuteDashIconController = GetComponentInChildren<ExecuteDashIconController>();
         afterImageGapTime = playerData.afterImageGapTime;
         _afterImageGapTime = new WaitForSeconds(afterImageGapTime);
+        
 
         Input = GetComponentInParent<PlayerInput>();
         DashCooltime = new WaitForSeconds(playerData.DashCoolDown);
@@ -283,13 +286,11 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator ShowAfterImage()
     {
-        Debug.Log($"dashtimeLeft = {dashTimeLeft}");
         while (0f <= dashTimeLeft)
         {
             //dashTimeLeft -= Time.deltaTime;
             dashTimeLeft -= afterImageGapTime;
             WireDashPool.GetFromPool();
-            Debug.Log($"ÀÜ»ó ¼ÒÈ¯");
             yield return _afterImageGapTime;
         }
         StopCoroutine(_ShowAfterImage);
@@ -607,14 +608,18 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void SetJumpEffectOn()
+
+    #region Effects
+    public void SetJumpEffectOn()
     {
-        JumpLandAnimator.SetTrigger("jump");
+        Effector.gameObject.transform.position = JumpEffectorTransform.position;
+        Effector.SetTrigger("jump");
     }
 
-    private void SetLandEffectOn()
+    public void SetLandEffectOn()
     {
-        JumpLandAnimator.SetTrigger("land");
+        Effector.gameObject.transform.position = LandEffectorTransform.position;
+        Effector.SetTrigger("land");
     }
-
+    #endregion
 }

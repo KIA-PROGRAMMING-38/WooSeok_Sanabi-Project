@@ -17,6 +17,7 @@ public class PlayerLandState : PlayerGroundedState
     {
         base.Enter();
         playerController.SetVelocityX(0f);
+        playerController.SetLandEffectOn();
     }
 
     public override void Exit()
