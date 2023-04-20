@@ -42,7 +42,9 @@ public class PlayerController : MonoBehaviour
     public Animator ArmAnimator { get; private set; }
 
     public Animator ExecuteDashIconAnimator;
-    public Animator Effector;
+
+    public Animator BodyEffector;
+    public Animator ArmEffector;
     public PlayerInput Input { get; private set; }
     public PlayerArmController ArmController { get; private set; }
 
@@ -111,6 +113,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform JumpEffectorTransform;
     [SerializeField] private Transform LandEffectorTransform;
     [SerializeField] private Transform WallJumpEffectorTransform;
+    [SerializeField] private Transform WireShootEffectorTransform;
     #endregion
     private void Awake()
     {
@@ -613,23 +616,32 @@ public class PlayerController : MonoBehaviour
     #region Effects
     public void SetJumpEffectOn()
     {
-        Effector.gameObject.transform.position = JumpEffectorTransform.position;
-        Effector.SetTrigger("jump");
+        BodyEffector.gameObject.transform.position = JumpEffectorTransform.position;
+        BodyEffector.SetTrigger("jump");
     }
 
     public void SetLandEffectOn()
     {
-        Effector.gameObject.transform.position = LandEffectorTransform.position;
-        Effector.SetTrigger("land");
+        BodyEffector.gameObject.transform.position = LandEffectorTransform.position;
+        BodyEffector.SetTrigger("land");
     }
 
     public void SetWallJumpEffectOn()
     {
-        Effector.gameObject.transform.position = WallJumpEffectorTransform.position;
+        BodyEffector.gameObject.transform.position = WallJumpEffectorTransform.position;
         WallJumpEffectorTransform.localScale = transform.localScale;
-        Effector.gameObject.transform.localScale = WallJumpEffectorTransform.localScale;
-        Effector.gameObject.transform.rotation = WallJumpEffectorTransform.rotation;
-        Effector.SetTrigger("wallJump");
+        BodyEffector.gameObject.transform.localScale = WallJumpEffectorTransform.localScale;
+        BodyEffector.gameObject.transform.rotation = WallJumpEffectorTransform.rotation;
+        BodyEffector.SetTrigger("wallJump");
+    }
+
+    public void SetWireShootEffectOn()
+    {
+        ArmEffector.gameObject.transform.position = WireShootEffectorTransform.position;
+        WireShootEffectorTransform.localScale = transform.localScale;
+        ArmEffector.gameObject.transform.localScale = WireShootEffectorTransform.localScale;
+        ArmEffector.gameObject.transform.rotation = WireShootEffectorTransform.rotation;
+        ArmEffector.SetTrigger("wireShoot");
     }
 
     #endregion
