@@ -33,6 +33,7 @@ public class PlayerApproachDash : PlayerAbilityState
         playerController.SetVelocityAll(approachDashDirection.x * ApproachDashForce, approachDashDirection.y * ApproachDashForce);
         //playerController.PlayerApproachDash();
         playerController.StartShowAfterImage();
+        Debug.Log($"playerAprroachDash 상태 입장");
     }
 
     public override void Exit()

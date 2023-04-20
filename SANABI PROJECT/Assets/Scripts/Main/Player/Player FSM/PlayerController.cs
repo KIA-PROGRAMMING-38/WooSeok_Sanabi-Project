@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     public Animator ArmAnimator { get; private set; }
 
     public Animator ExecuteDashIconAnimator;
+    public Animator JumpLandAnimator;
     public PlayerInput Input { get; private set; }
     public PlayerArmController ArmController { get; private set; }
 
@@ -282,11 +283,13 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator ShowAfterImage()
     {
+        Debug.Log($"dashtimeLeft = {dashTimeLeft}");
         while (0f <= dashTimeLeft)
         {
             //dashTimeLeft -= Time.deltaTime;
             dashTimeLeft -= afterImageGapTime;
             WireDashPool.GetFromPool();
+            Debug.Log($"ÀÜ»ó ¼ÒÈ¯");
             yield return _afterImageGapTime;
         }
         StopCoroutine(_ShowAfterImage);
@@ -603,4 +606,15 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+    private void SetJumpEffectOn()
+    {
+        JumpLandAnimator.SetTrigger("jump");
+    }
+
+    private void SetLandEffectOn()
+    {
+        JumpLandAnimator.SetTrigger("land");
+    }
+
 }
