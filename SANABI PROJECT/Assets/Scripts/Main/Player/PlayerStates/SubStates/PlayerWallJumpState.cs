@@ -20,7 +20,6 @@ public class PlayerWallJumpState : PlayerAbilityState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        
 
         playerController.BodyAnimator.SetFloat("yVelocity", playerController.CurrentVelocity.y);
         playerController.ArmAnimator.SetFloat("yVelocity", playerController.CurrentVelocity.y);

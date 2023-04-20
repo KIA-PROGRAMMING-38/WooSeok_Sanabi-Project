@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform WallJumpEffectorTransform;
     public Transform WallSlideEffectorTransform;
     [SerializeField] private Transform WireShootEffectorTransform;
+    [SerializeField] private Transform ExecuteHoldedEffectorTransform;
 
     private ObjectPool<WallSlideDust> dustPool;
     public WallSlideDust dustPrefab;
@@ -680,14 +681,6 @@ public class PlayerController : MonoBehaviour
         BodyEffector.SetTrigger("wallJump");
     }
 
-    //public void SetWallSlideEffectOn()
-    //{
-    //    // 이거 오브젝트 풀링 같음
-    //    //BodyEffector.gameObject.transform.position = WallSlideEffectorTransform.position;
-    //    //BodyEffector.SetTrigger("wallSlide");
-    //    StartShowWallSlideDust();
-    //}
-
     public void SetWireShootEffectOn()
     {
         ArmEffector.gameObject.transform.position = WireShootEffectorTransform.position;
@@ -695,6 +688,12 @@ public class PlayerController : MonoBehaviour
         ArmEffector.gameObject.transform.localScale = WireShootEffectorTransform.localScale;
         ArmEffector.gameObject.transform.rotation = WireShootEffectorTransform.rotation;
         ArmEffector.SetTrigger("wireShoot");
+    }
+
+    public void SetExecuteHoldedEffectOn()
+    {
+        BodyEffector.gameObject.transform.position = ExecuteHoldedEffectorTransform.position;
+        BodyEffector.SetTrigger("executeHolded");
     }
 
     #endregion

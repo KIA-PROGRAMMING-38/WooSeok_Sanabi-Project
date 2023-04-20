@@ -884,6 +884,7 @@ Transform:
   - {fileID: 834837961}
   - {fileID: 338528118}
   - {fileID: 1582157748}
+  - {fileID: 719963918}
   m_Father: {fileID: 1937223192}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -966,7 +967,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.625, y: 0.9375}
+  m_Size: {x: 0.78125, y: 0.78125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -59216,6 +59217,37 @@ Transform:
   m_Father: {fileID: 1937223192}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &719963917
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 719963918}
+  m_Layer: 9
+  m_Name: ExecuteHoldEffectorPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &719963918
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 719963917}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.14, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 425592300}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &831000663
 GameObject:
   m_ObjectHideFlags: 0
@@ -59513,7 +59545,7 @@ MonoBehaviour:
   addedForce: 7
   XVelocityLimit: 7
   wallJumpVelocity: 8
-  wallJumpTime: 0.1
+  wallJumpTime: 0.15
   wallJumpAngle: {x: 1, y: 2}
   wallSlideVelocity: 11
   wallClimbVelocity: 6
@@ -62662,7 +62694,9 @@ MonoBehaviour:
   WallJumpEffectorTransform: {fileID: 338528118}
   WallSlideEffectorTransform: {fileID: 1582157748}
   WireShootEffectorTransform: {fileID: 1713043268}
+  ExecuteHoldedEffectorTransform: {fileID: 719963918}
   dustPrefab: {fileID: 2889982127275804267, guid: 6d14d10165b0e6e4aa7b46c197cc4feb, type: 3}
+  dustCreateTime: 0.05
 --- !u!232 &1937223199
 DistanceJoint2D:
   m_ObjectHideFlags: 0

@@ -9,7 +9,8 @@ using UnityEngine;
 public class PlayerExecuteDash : PlayerAbilityState
 {
     private Vector2 executeDashDirection;
-    private Quaternion initialRotation;
+    private Quaternion initialBodyRotation;
+    private Quaternion initialArmRotation;
     private float dashRotation;
     private float slowTime;
     private float slowIntensity;
@@ -20,7 +21,8 @@ public class PlayerExecuteDash : PlayerAbilityState
     public override void DoChecks()
     {
         base.DoChecks();
-        initialRotation = Quaternion.identity;
+        initialBodyRotation = Quaternion.identity;
+        initialArmRotation = Quaternion.identity;
         executeDashDirection = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - playerController.ExecuteDashIconController.transform.position).normalized;
         slowTime = playerData.executeDashSlowTime;
         slowIntensity = playerData.executeDashTimeScale;
@@ -37,12 +39,14 @@ public class PlayerExecuteDash : PlayerAbilityState
         playerController.OnExecuteDash += ChangeToRollingState;
         playerController.timeSlower.PleaseSlowDown(slowIntensity, slowTime);
         playerController.StartShowAfterImage();
+        
     }
 
     public override void Exit()
     {
         base.Exit();
-        playerController.transform.rotation = initialRotation;
+        playerController.transform.rotation = initialBodyRotation;
+        playerController.ArmController.transform.rotation = initialArmRotation;
         playerController.OnExecuteDash -= ChangeToRollingState;
         playerController.MakePlayerVulnerable();
         //playerController.StopShowAfterImage();
@@ -67,10 +71,12 @@ public class PlayerExecuteDash : PlayerAbilityState
             if (0f <= executeDashDirection.y) // if up
             {
                 playerController.transform.rotation = Quaternion.Euler(0f, 0f, dashRotation);
+                playerController.ArmController.transform.rotation = Quaternion.Euler(0f, 0f, dashRotation);
             }
             else // if down
             {
                 playerController.transform.rotation = Quaternion.Euler(0f, 0f, dashRotation - 360f);
+                playerController.ArmController.transform.rotation = Quaternion.Euler(0f, 0f, dashRotation - 360f);
             }
         }
         else // if left
@@ -78,10 +84,12 @@ public class PlayerExecuteDash : PlayerAbilityState
             if (0f <= executeDashDirection.y) // if up
             {
                 playerController.transform.rotation = Quaternion.Euler(0f, 0f, -(180f - dashRotation));
+                playerController.ArmController.transform.rotation = Quaternion.Euler(0f, 0f, -(180f - dashRotation));
             }
             else // if down
             {
                 playerController.transform.rotation = Quaternion.Euler(0f, 0f, dashRotation - 180f);
+                playerController.ArmController.transform.rotation = Quaternion.Euler(0f, 0f, dashRotation - 180f);
             }
         }
     }

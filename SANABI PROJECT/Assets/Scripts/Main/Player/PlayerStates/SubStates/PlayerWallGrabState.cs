@@ -17,8 +17,8 @@ public class PlayerWallGrabState : PlayerTouchingWallState
 
     public override void LogicUpdate()
     {
-        base.LogicUpdate();
         HoldPosition();
+        base.LogicUpdate();
         if (!isExitingState)
         {
             if (0f < yInput) // if pressing W 

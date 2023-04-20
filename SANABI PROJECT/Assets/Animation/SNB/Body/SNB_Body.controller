@@ -973,7 +973,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SNB_ExecuteDash_Body
-  m_Speed: 1.2
+  m_Speed: 3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -1355397345489655385}
@@ -986,7 +986,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 98b77327ce9328443940d8d6fa5edde8, type: 2}
+  m_Motion: {fileID: 7400000, guid: d3c1358d010fbf94ba6017ff04d419d2, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
