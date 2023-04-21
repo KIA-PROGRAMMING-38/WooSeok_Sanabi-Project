@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum SceneNumber
 {
@@ -21,9 +22,35 @@ public class GameManager : MonoBehaviour
     public TurretSpawner turretSpawner;
     public PlayerData playerData;
     public WireDashIconController wireDashIconController;
+
+
+    [SerializeField] private Canvas pauseCanvas;
+
+    public bool isGamePaused;
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (pauseCanvas.gameObject.activeSelf)
+            {
+                isGamePaused = false;
+                pauseCanvas.gameObject.SetActive(false);
+                Time.timeScale = 1f;
+            }
+            else
+            {
+                isGamePaused = true;
+                pauseCanvas.gameObject.SetActive(true);
+                Time.timeScale = 0f;
+            }
+        }
+
+        
     }
 
 }
