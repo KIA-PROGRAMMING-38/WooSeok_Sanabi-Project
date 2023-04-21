@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     public PlayerApproachDash ApproachDash { get; private set; }
     public PlayerExecuteHolded ExecuteHolded { get; private set; }
     public PlayerExecuteDash ExecuteDash { get; private set; }
-    
+
     #endregion
 
     public Rigidbody2D playerRigidBody { get; private set; }
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
     private float playerInvincibleTime;
     private WaitForSeconds playerInvincibleWaitTime;
     private float damageTimer;
-    
+
 
     private WaitForSeconds DashCooltime;
     private bool CanDash = true;
@@ -102,6 +102,8 @@ public class PlayerController : MonoBehaviour
     public event Action OnDamagedDash;
     public event Action OnApproachDashToTurret;
     public event Action OnExecuteDash;
+    public event Action OnWireDash;
+    public event Action OnWireDashFinished;
 
     private float executeHoldMaxTime;
     private WaitForSeconds _executeHoldMaxTime;
@@ -169,7 +171,7 @@ public class PlayerController : MonoBehaviour
         afterImageGapTime = playerData.afterImageGapTime;
         _afterImageGapTime = new WaitForSeconds(afterImageGapTime);
         _dustCreateTime = new WaitForSeconds(dustCreateTime);
-        
+
 
         Input = GetComponentInParent<PlayerInput>();
         DashCooltime = new WaitForSeconds(playerData.DashCoolDown);
@@ -186,14 +188,14 @@ public class PlayerController : MonoBehaviour
         StateMachine.Initialize(IdleState);
 
         //Debug.Log($"플레이어컨트롤러에서의 ID = {playerHealth.GetInstanceID()}");
-       
+
     }
 
     private void Update()
     {
         CurrentVelocity = playerRigidBody.velocity;
         StateMachine.CurrentState.LogicUpdate();
-        
+
         //Debug.Log($"현재 플레이어 hp = {playerHealth.GetCurrentHp()}");
         //Debug.Log(CurrentVelocity);
     }
@@ -246,6 +248,7 @@ public class PlayerController : MonoBehaviour
             Input.UseDashInput();
             SetDashVelocity(Input.MovementInput.x);
             StartCoroutine(CountDashCooltime());
+            OnWireDash?.Invoke();
         }
     }
 
@@ -260,7 +263,7 @@ public class PlayerController : MonoBehaviour
     //        StartCoroutine(CountDashCooltime());
     //    }
     //}
-    
+
     public void TurretHasBeenReleased()
     {
         OffTurret?.Invoke();
@@ -339,7 +342,7 @@ public class PlayerController : MonoBehaviour
         //_ShowWallSlideDust = ShowWallSlideDust();
         StopCoroutine(_ShowWallSlideDust);
     }
-    
+
     private IEnumerator ShowWallSlideDust()
     {
         while (true)
@@ -360,6 +363,12 @@ public class PlayerController : MonoBehaviour
     {
         yield return DashCooltime;
         CanDash = true;
+        if (isDashing)
+        {
+            OnWireDashFinished?.Invoke();
+        }
+        
+
     }
 
     public void SetDashVelocity(float xInput)
@@ -391,7 +400,7 @@ public class PlayerController : MonoBehaviour
         }
 
         direction = (distanceVec + perpendicularVec).normalized;
-        
+
         if (0 < CurrentVelocity.x * Input.MovementInput.x) // it's in the same direction
         {
             workspace.Set((direction.x * playerData.DashForce + CurrentVelocity.x), (direction.y * playerData.DashForce + CurrentVelocity.y));
@@ -400,7 +409,7 @@ public class PlayerController : MonoBehaviour
         {
             workspace.Set(direction.x * playerData.DashForce, direction.y * playerData.DashForce);
         }
-        
+
         playerRigidBody.velocity = workspace;
         CurrentVelocity = playerRigidBody.velocity;
     }
@@ -414,7 +423,7 @@ public class PlayerController : MonoBehaviour
     public void StopExecuteHolded()
     {
         StopCoroutine(_HoldOnToTurret);
-        
+
     }
 
     private IEnumerator HoldOnToTurret()
@@ -426,7 +435,7 @@ public class PlayerController : MonoBehaviour
             StopCoroutine(_HoldOnToTurret);
             yield return null;
         }
-        
+
     }
 
     public void AddXVelocityWhenGrappled(float xInput)
@@ -435,7 +444,7 @@ public class PlayerController : MonoBehaviour
         playerRigidBody.AddForce(workspace);
         CurrentVelocity = playerRigidBody.velocity;
     }
-    
+
     public void SetDamagedDashVelocity(float inputX, float inputY, float damagedDashForce)
     {
         workspace.Set(inputX, inputY);
@@ -502,7 +511,7 @@ public class PlayerController : MonoBehaviour
         ArmController.IsPlayerDamaged = isPlayerDamaged;
         HPBarController.IsPlayerDamaged = isPlayerDamaged;
     }
-    
+
 
     public bool CheckIfDamaged()
     {
@@ -570,7 +579,7 @@ public class PlayerController : MonoBehaviour
                 transform.Rotate(0f, 0f, rotationAngle * 2);
             }
         }
-        
+
     }
 
     #endregion

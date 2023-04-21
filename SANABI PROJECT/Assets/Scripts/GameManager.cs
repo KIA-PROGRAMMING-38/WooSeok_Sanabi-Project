@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public PlayerArmController armController;
     public TurretSpawner turretSpawner;
     public PlayerData playerData;
+    public WireDashIconController wireDashIconController;
     private void Awake()
     {
         Instance = this;

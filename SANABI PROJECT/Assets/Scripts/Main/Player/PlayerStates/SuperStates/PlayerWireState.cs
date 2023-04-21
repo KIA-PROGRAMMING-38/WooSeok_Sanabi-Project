@@ -13,6 +13,7 @@ public class PlayerWireState : PlayerState
     protected bool hasGrabBeenDisabled;
     protected bool isDamaged;
     protected Quaternion initialArmRotation;
+    protected bool hasPlayerDashed;
 
     public PlayerWireState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
@@ -23,17 +24,18 @@ public class PlayerWireState : PlayerState
         base.DoChecks();
         isGrounded = playerController.CheckIfGrounded();
         isDamaged= playerController.CheckIfDamaged();
+        
     }
 
     public override void Enter()
     {
         base.Enter();
         initialArmRotation = playerController.armTransform.rotation;
+        hasPlayerDashed = false;
         if (!hasGrabBeenDisabled)
         {
             playerController.ArmController.ConnectAnchor();
         }
-        
     }
 
     public override void Exit()
@@ -41,6 +43,11 @@ public class PlayerWireState : PlayerState
         base.Exit();
         playerController.armTransform.rotation = initialArmRotation;
         playerController.PlayerWireDashStop();
+        playerController.PlayerIsDash(false);
+        if (hasPlayerDashed)
+        {
+            GameManager.Instance.wireDashIconController.StartIconOff();
+        }
     }
 
     public override void LogicUpdate()
@@ -51,6 +58,7 @@ public class PlayerWireState : PlayerState
         InputX = playerController.Input.MovementInput.x;
         MouseInput = playerController.Input.MouseInput;
         //isGrounded = player.CheckIfGrounded();
+        
 
         playerController.ArmController.ArmRotateTowardsAnchor();
 
@@ -67,6 +75,7 @@ public class PlayerWireState : PlayerState
         {
             hasGrabBeenDisabled = false;
             playerController.ArmController.DisconnectAnchor();
+            
             if (isGrounded)
             {
                 stateMachine.ChangeState(playerController.IdleState);
