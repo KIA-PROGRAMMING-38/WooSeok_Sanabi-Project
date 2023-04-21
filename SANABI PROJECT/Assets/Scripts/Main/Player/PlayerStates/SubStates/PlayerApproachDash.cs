@@ -26,7 +26,7 @@ public class PlayerApproachDash : PlayerAbilityState
     {
         base.Enter();
         playerController.MakePlayerInvicible();
-        playerController.playerRigidBody.bodyType = RigidbodyType2D.Kinematic;
+        //playerController.playerRigidBody.bodyType = RigidbodyType2D.Kinematic;
         playerController.OnApproachDashToTurret -= ChangeToExecuteHoldedState;
         playerController.OnApproachDashToTurret += ChangeToExecuteHoldedState;
         //playerController.PlayerIsDash(true);

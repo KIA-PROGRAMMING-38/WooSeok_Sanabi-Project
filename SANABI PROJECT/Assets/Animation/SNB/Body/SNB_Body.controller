@@ -221,8 +221,8 @@ AnimatorStateMachine:
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
-  m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 520, y: 120, z: 0}
+  m_EntryPosition: {x: 40, y: 310, z: 0}
+  m_ExitPosition: {x: 530, y: 320, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 2425455477255904165}
 --- !u!1109 &-6922296403037466300
@@ -973,7 +973,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SNB_ExecuteDash_Body
-  m_Speed: 1.2
+  m_Speed: 3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -1355397345489655385}
@@ -986,7 +986,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 98b77327ce9328443940d8d6fa5edde8, type: 2}
+  m_Motion: {fileID: 7400000, guid: d3c1358d010fbf94ba6017ff04d419d2, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1523,7 +1523,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a5bc8be7b78f66540a147f93dec99f2f, type: 2}
+  m_Motion: {fileID: 7400000, guid: c9a7b346917669649a3ab6f5f0de9fde, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

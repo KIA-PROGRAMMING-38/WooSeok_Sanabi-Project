@@ -20,11 +20,39 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: fd6a5237f4524f744841467daa287253, type: 3}
+      value: {fileID: 21300000, guid: c9b77f22d185d2d49b36fdf6d3b3ef0c, type: 3}
     - time: 0.083333336
-      value: {fileID: 21300000, guid: f1fa042e8653d1e4090daebca37737c5, type: 3}
+      value: {fileID: 21300000, guid: 5656b0d6fe7523d49bc377be3be6721c, type: 3}
     - time: 0.16666667
-      value: {fileID: 21300000, guid: 5505cb329c5f2b54fb16f8304464811a, type: 3}
+      value: {fileID: 21300000, guid: ca0b1139ef04a654b9d4494652a61c3d, type: 3}
+    - time: 0.25
+      value: {fileID: 21300000, guid: e54cb4afdf7348244bc251c9672e19ae, type: 3}
+    - time: 0.33333334
+      value: {fileID: 21300000, guid: 400717659d1f764478c0b929b3398ec7, type: 3}
+    - time: 0.41666666
+      value: {fileID: 21300000, guid: aebd3fda905373f48bcf26657ed396d3, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: b7f42c108c4469742b8fd0b641397537, type: 3}
+    - time: 0.5833333
+      value: {fileID: 21300000, guid: 35ebe9f893a5d804b8001b0b4a25a5c8, type: 3}
+    - time: 0.6666667
+      value: {fileID: 21300000, guid: 8a9c42a1dca37de439284645f586b55f, type: 3}
+    - time: 0.75
+      value: {fileID: 21300000, guid: 9fc9c907dba3134409f83768ff8afda9, type: 3}
+    - time: 0.8333333
+      value: {fileID: 21300000, guid: c51ac72a18db0b942ae28c7394558703, type: 3}
+    - time: 0.9166667
+      value: {fileID: 21300000, guid: 590656ba6480cb24a8e32bd275fef543, type: 3}
+    - time: 1
+      value: {fileID: 21300000, guid: 4c9f3445ca9a2f442aed60df8e1a4ebb, type: 3}
+    - time: 1.0833334
+      value: {fileID: 21300000, guid: 3c719fcb5041852418f4c87346d74b64, type: 3}
+    - time: 1.1666666
+      value: {fileID: 21300000, guid: b96aeb9a8a2975c438102b6c734e5f19, type: 3}
+    - time: 1.25
+      value: {fileID: 21300000, guid: f9b0cc8d463441149bbff91f7d371656, type: 3}
+    - time: 1.3333334
+      value: {fileID: 21300000, guid: 35ff448dfc7db6f499bbc01fac7a1424, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,15 +72,29 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: fd6a5237f4524f744841467daa287253, type: 3}
-    - {fileID: 21300000, guid: f1fa042e8653d1e4090daebca37737c5, type: 3}
-    - {fileID: 21300000, guid: 5505cb329c5f2b54fb16f8304464811a, type: 3}
+    - {fileID: 21300000, guid: c9b77f22d185d2d49b36fdf6d3b3ef0c, type: 3}
+    - {fileID: 21300000, guid: 5656b0d6fe7523d49bc377be3be6721c, type: 3}
+    - {fileID: 21300000, guid: ca0b1139ef04a654b9d4494652a61c3d, type: 3}
+    - {fileID: 21300000, guid: e54cb4afdf7348244bc251c9672e19ae, type: 3}
+    - {fileID: 21300000, guid: 400717659d1f764478c0b929b3398ec7, type: 3}
+    - {fileID: 21300000, guid: aebd3fda905373f48bcf26657ed396d3, type: 3}
+    - {fileID: 21300000, guid: b7f42c108c4469742b8fd0b641397537, type: 3}
+    - {fileID: 21300000, guid: 35ebe9f893a5d804b8001b0b4a25a5c8, type: 3}
+    - {fileID: 21300000, guid: 8a9c42a1dca37de439284645f586b55f, type: 3}
+    - {fileID: 21300000, guid: 9fc9c907dba3134409f83768ff8afda9, type: 3}
+    - {fileID: 21300000, guid: c51ac72a18db0b942ae28c7394558703, type: 3}
+    - {fileID: 21300000, guid: 590656ba6480cb24a8e32bd275fef543, type: 3}
+    - {fileID: 21300000, guid: 4c9f3445ca9a2f442aed60df8e1a4ebb, type: 3}
+    - {fileID: 21300000, guid: 3c719fcb5041852418f4c87346d74b64, type: 3}
+    - {fileID: 21300000, guid: b96aeb9a8a2975c438102b6c734e5f19, type: 3}
+    - {fileID: 21300000, guid: f9b0cc8d463441149bbff91f7d371656, type: 3}
+    - {fileID: 21300000, guid: 35ff448dfc7db6f499bbc01fac7a1424, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.25
+    m_StopTime: 1.4166667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -72,7 +114,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.25
+  - time: 1.4166666
     functionName: ChangeToRollingState
     data: 
     objectReferenceParameter: {fileID: 0}

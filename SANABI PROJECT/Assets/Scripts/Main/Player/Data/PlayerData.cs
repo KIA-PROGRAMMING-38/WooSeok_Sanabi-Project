@@ -10,7 +10,7 @@ public class PlayerData : MonoBehaviour
     public int playerHP = 4;
     public int PlayerTakeDamage = 1;
     public int PlayerHPRecoverStrength = 1;
-    [Range(0.01f, 0.05f)]public float afterImageGapTime = 0.01f;
+    [Range(0.01f, 0.05f)] public float afterImageGapTime = 0.05f;
 
     [Header("Walk State")]
     public float walkVelocity = 2f;
@@ -64,7 +64,7 @@ public class PlayerData : MonoBehaviour
     public float damagedDashVelocity = 15f;
 
     [Header("ApproachDash")]
-    public float approachDashVelocity = 100f;
+    [Range(50f, 100f)] public float approachDashVelocity = 70f;
 
     [Header("ExecuteHold")]
     public float executeHoldMaxTime = 5f;

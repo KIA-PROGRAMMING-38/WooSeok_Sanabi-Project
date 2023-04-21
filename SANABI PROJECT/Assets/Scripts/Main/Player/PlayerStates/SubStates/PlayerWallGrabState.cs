@@ -17,8 +17,8 @@ public class PlayerWallGrabState : PlayerTouchingWallState
 
     public override void LogicUpdate()
     {
-
         HoldPosition();
+        base.LogicUpdate();
         if (!isExitingState)
         {
             if (0f < yInput) // if pressing W 
@@ -30,7 +30,7 @@ public class PlayerWallGrabState : PlayerTouchingWallState
                 stateMachine.ChangeState(playerController.WallSlideState);
             }
         }
-        base.LogicUpdate();
+        //base.LogicUpdate();
     }
 
     private void HoldPosition()

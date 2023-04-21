@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UIElements;
 using UnityEngine.Windows;
 using UnityEngine.XR;
 
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour
     public PlayerApproachDash ApproachDash { get; private set; }
     public PlayerExecuteHolded ExecuteHolded { get; private set; }
     public PlayerExecuteDash ExecuteDash { get; private set; }
-    
+
     #endregion
 
     public Rigidbody2D playerRigidBody { get; private set; }
@@ -42,6 +43,9 @@ public class PlayerController : MonoBehaviour
     public Animator ArmAnimator { get; private set; }
 
     public Animator ExecuteDashIconAnimator;
+
+    public Animator BodyEffector;
+    public Animator ArmEffector;
     public PlayerInput Input { get; private set; }
     public PlayerArmController ArmController { get; private set; }
 
@@ -82,7 +86,7 @@ public class PlayerController : MonoBehaviour
     private float playerInvincibleTime;
     private WaitForSeconds playerInvincibleWaitTime;
     private float damageTimer;
-    
+
 
     private WaitForSeconds DashCooltime;
     private bool CanDash = true;
@@ -98,6 +102,8 @@ public class PlayerController : MonoBehaviour
     public event Action OnDamagedDash;
     public event Action OnApproachDashToTurret;
     public event Action OnExecuteDash;
+    public event Action OnWireDash;
+    public event Action OnWireDashFinished;
 
     private float executeHoldMaxTime;
     private WaitForSeconds _executeHoldMaxTime;
@@ -107,6 +113,18 @@ public class PlayerController : MonoBehaviour
     private IEnumerator _ShowAfterImage;
     private float afterImageGapTime;
     private WaitForSeconds _afterImageGapTime;
+    [SerializeField] private Transform JumpEffectorTransform;
+    [SerializeField] private Transform LandEffectorTransform;
+    [SerializeField] private Transform WallJumpEffectorTransform;
+    public Transform WallSlideEffectorTransform;
+    [SerializeField] private Transform WireShootEffectorTransform;
+    [SerializeField] private Transform ExecuteHoldedEffectorTransform;
+
+    private ObjectPool<WallSlideDust> dustPool;
+    public WallSlideDust dustPrefab;
+    private IEnumerator _ShowWallSlideDust;
+    [SerializeField] private float dustCreateTime = 0.05f;
+    private WaitForSeconds _dustCreateTime;
     #endregion
     private void Awake()
     {
@@ -152,28 +170,32 @@ public class PlayerController : MonoBehaviour
         ExecuteDashIconController = GetComponentInChildren<ExecuteDashIconController>();
         afterImageGapTime = playerData.afterImageGapTime;
         _afterImageGapTime = new WaitForSeconds(afterImageGapTime);
+        _dustCreateTime = new WaitForSeconds(dustCreateTime);
+
 
         Input = GetComponentInParent<PlayerInput>();
         DashCooltime = new WaitForSeconds(playerData.DashCoolDown);
         WireDashPool = new ObjectPool<PlayerAfterImage>(CreateWireDashSprite, OnGetSpriteFromPool, OnReturnSpriteToPool);
+        dustPool = new ObjectPool<WallSlideDust>(CreateWallSlideDust, OnGetDustFromPool, OnReturnDustToPool);
         playerInvincibleTime = playerData.invincibleTime;
         playerInvincibleWaitTime = new WaitForSeconds(playerInvincibleTime);
         executeHoldMaxTime = playerData.executeHoldMaxTime;
         _executeHoldMaxTime = new WaitForSeconds(executeHoldMaxTime);
         _HoldOnToTurret = HoldOnToTurret();
+        _ShowWallSlideDust = ShowWallSlideDust();
 
         MagmaLayerNumber = LayerMask.NameToLayer("Magma");
         StateMachine.Initialize(IdleState);
 
         //Debug.Log($"플레이어컨트롤러에서의 ID = {playerHealth.GetInstanceID()}");
-       
+
     }
 
     private void Update()
     {
         CurrentVelocity = playerRigidBody.velocity;
         StateMachine.CurrentState.LogicUpdate();
-        
+
         //Debug.Log($"현재 플레이어 hp = {playerHealth.GetCurrentHp()}");
         //Debug.Log(CurrentVelocity);
     }
@@ -218,6 +240,7 @@ public class PlayerController : MonoBehaviour
     {
         if (CanDash)
         {
+            OnWireDash?.Invoke();
             StartShowAfterImage();
             CanDash = false;
             //isDashing = true;
@@ -240,7 +263,7 @@ public class PlayerController : MonoBehaviour
     //        StartCoroutine(CountDashCooltime());
     //    }
     //}
-    
+
     public void TurretHasBeenReleased()
     {
         OffTurret?.Invoke();
@@ -299,8 +322,40 @@ public class PlayerController : MonoBehaviour
         return sprite;
     }
 
+    public WallSlideDust CreateWallSlideDust()
+    {
+        WallSlideDust dust = Instantiate(dustPrefab);
+        dust.dustPool = dustPool;
+        return dust;
+    }
+
+    public void StartShowWallSlideDust()
+    {
+        //if (null != _ShowWallSlideDust)
+        //    StopCoroutine(_ShowWallSlideDust);
+        _ShowWallSlideDust = ShowWallSlideDust();
+        StartCoroutine(_ShowWallSlideDust);
+    }
+
+    public void StopShowWallSlideDust()
+    {
+        //_ShowWallSlideDust = ShowWallSlideDust();
+        StopCoroutine(_ShowWallSlideDust);
+    }
+
+    private IEnumerator ShowWallSlideDust()
+    {
+        while (true)
+        {
+            dustPool.GetFromPool();
+            yield return _dustCreateTime;
+        }
+    }
+
+
     public void PlayerWireDashStop()
     {
+        OnWireDashFinished?.Invoke();
         StopCoroutine(CountDashCooltime());
         CanDash = true;
     }
@@ -309,6 +364,11 @@ public class PlayerController : MonoBehaviour
     {
         yield return DashCooltime;
         CanDash = true;
+
+        OnWireDashFinished?.Invoke();
+
+
+
     }
 
     public void SetDashVelocity(float xInput)
@@ -340,7 +400,7 @@ public class PlayerController : MonoBehaviour
         }
 
         direction = (distanceVec + perpendicularVec).normalized;
-        
+
         if (0 < CurrentVelocity.x * Input.MovementInput.x) // it's in the same direction
         {
             workspace.Set((direction.x * playerData.DashForce + CurrentVelocity.x), (direction.y * playerData.DashForce + CurrentVelocity.y));
@@ -349,7 +409,7 @@ public class PlayerController : MonoBehaviour
         {
             workspace.Set(direction.x * playerData.DashForce, direction.y * playerData.DashForce);
         }
-        
+
         playerRigidBody.velocity = workspace;
         CurrentVelocity = playerRigidBody.velocity;
     }
@@ -363,7 +423,7 @@ public class PlayerController : MonoBehaviour
     public void StopExecuteHolded()
     {
         StopCoroutine(_HoldOnToTurret);
-        
+
     }
 
     private IEnumerator HoldOnToTurret()
@@ -375,7 +435,7 @@ public class PlayerController : MonoBehaviour
             StopCoroutine(_HoldOnToTurret);
             yield return null;
         }
-        
+
     }
 
     public void AddXVelocityWhenGrappled(float xInput)
@@ -384,7 +444,7 @@ public class PlayerController : MonoBehaviour
         playerRigidBody.AddForce(workspace);
         CurrentVelocity = playerRigidBody.velocity;
     }
-    
+
     public void SetDamagedDashVelocity(float inputX, float inputY, float damagedDashForce)
     {
         workspace.Set(inputX, inputY);
@@ -451,7 +511,7 @@ public class PlayerController : MonoBehaviour
         ArmController.IsPlayerDamaged = isPlayerDamaged;
         HPBarController.IsPlayerDamaged = isPlayerDamaged;
     }
-    
+
 
     public bool CheckIfDamaged()
     {
@@ -519,7 +579,7 @@ public class PlayerController : MonoBehaviour
                 transform.Rotate(0f, 0f, rotationAngle * 2);
             }
         }
-        
+
     }
 
     #endregion
@@ -544,6 +604,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnGetSpriteFromPool(PlayerAfterImage sprite) => sprite.gameObject.SetActive(true);
     private void OnReturnSpriteToPool(PlayerAfterImage sprite) => sprite.gameObject.SetActive(false);
+
+    private void OnGetDustFromPool(WallSlideDust dust) => dust.gameObject.SetActive(true);
+    private void OnReturnDustToPool(WallSlideDust dust) => dust.gameObject.SetActive(false);
 
     #endregion
 
@@ -603,4 +666,49 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+
+    #region Effects
+    public void SetJumpEffectOn()
+    {
+        BodyEffector.gameObject.transform.position = JumpEffectorTransform.position;
+        BodyEffector.SetTrigger("jump");
+    }
+
+    public void SetLandEffectOn()
+    {
+        BodyEffector.gameObject.transform.position = LandEffectorTransform.position;
+        BodyEffector.SetTrigger("land");
+    }
+
+    public void SetWallJumpEffectOn()
+    {
+        BodyEffector.gameObject.transform.position = WallJumpEffectorTransform.position;
+        WallJumpEffectorTransform.localScale = transform.localScale;
+        BodyEffector.gameObject.transform.localScale = WallJumpEffectorTransform.localScale;
+        BodyEffector.gameObject.transform.rotation = WallJumpEffectorTransform.rotation;
+        BodyEffector.SetTrigger("wallJump");
+    }
+
+    public void SetWireShootEffectOn()
+    {
+        ArmEffector.gameObject.transform.position = WireShootEffectorTransform.position;
+        WireShootEffectorTransform.localScale = transform.localScale;
+        ArmEffector.gameObject.transform.localScale = WireShootEffectorTransform.localScale;
+        ArmEffector.gameObject.transform.rotation = WireShootEffectorTransform.rotation;
+        ArmEffector.SetTrigger("wireShoot");
+    }
+
+    public void SetExecuteHoldedEffectOn()
+    {
+        BodyEffector.gameObject.transform.position = ExecuteHoldedEffectorTransform.position;
+        BodyEffector.SetTrigger("executeHolded");
+    }
+
+    public void SetExecuteDashEffectOn()
+    {
+        BodyEffector.gameObject.transform.position = ExecuteHoldedEffectorTransform.position;
+        BodyEffector.SetTrigger("executeDash");
+    }
+    #endregion
 }

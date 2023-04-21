@@ -32,7 +32,7 @@ public class PlayerWireShootState : PlayerAbilityState
         initialArmRotation = playerController.armTransform.rotation;
         playerController.ArmController.ArmRotateTowardsCursor();
         playerController.camShake.TurnOnShake(cameraShakeTime, cameraShakeIntensity);
-
+        playerController.SetWireShootEffectOn();
     }
 
     public override void Exit()

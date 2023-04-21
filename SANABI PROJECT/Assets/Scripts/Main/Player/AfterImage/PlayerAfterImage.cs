@@ -20,11 +20,18 @@ public class PlayerAfterImage : MonoBehaviour
     private Color spriteOriginalColor = new Color(1f, 1f, 1f);
     private Color spriteTempColor;
 
-    private void OnEnable()
+    private void Awake()
     {
         SR = GetComponent<SpriteRenderer>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform; // awake 에서 찾아주기
         playerSR = player.GetComponent<SpriteRenderer>();
+    }
+
+    private void OnEnable()
+    {
+        //SR = GetComponent<SpriteRenderer>();
+        //player = GameObject.FindGameObjectWithTag("Player").transform; // awake 에서 찾아주기
+        //playerSR = player.GetComponent<SpriteRenderer>();
 
         alpha = alphaset;
         SR.sprite = playerSR.sprite;

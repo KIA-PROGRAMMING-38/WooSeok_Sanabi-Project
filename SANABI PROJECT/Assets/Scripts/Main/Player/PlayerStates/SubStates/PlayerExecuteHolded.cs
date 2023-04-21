@@ -31,6 +31,7 @@ public class PlayerExecuteHolded : PlayerAbilityState
         playerController.ExecuteDashIconController.StartFollowingCursor();
         playerController.StartExecuteHolded();
         playerController.timeSlower.PleaseSlowDown(slowIntensity, slowTime);
+        playerController.SetExecuteHoldedEffectOn();
     }
 
     public override void Exit()

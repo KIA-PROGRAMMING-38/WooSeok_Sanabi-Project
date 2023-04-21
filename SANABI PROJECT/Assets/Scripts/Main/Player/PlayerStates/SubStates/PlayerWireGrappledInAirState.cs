@@ -16,6 +16,7 @@ public class PlayerWireGrappledInAirState : PlayerWireState
     public override void Enter()
     {
         base.Enter();
+        
     }
 
     public override void Exit()
@@ -33,11 +34,11 @@ public class PlayerWireGrappledInAirState : PlayerWireState
         {
             playerController.Input.UseDashInput();
             playerController.PlayerWireDash();
-            
         }
 
         if (isGrounded && playerController.CurrentVelocity.y <= 0f)
         {
+            
             stateMachine.ChangeState(playerController.WireGrappledIdleState);
         }
         

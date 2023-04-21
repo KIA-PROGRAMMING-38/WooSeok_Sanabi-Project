@@ -19,8 +19,8 @@ public class PlayerState
         this.stateMachine= stateMachine;
         this.playerData = playerData;
         this.animBoolName = animBoolName;
-        playerController.GrabController.OnGrabTurret -= ChangeToApproachDashState;
-        playerController.GrabController.OnGrabTurret += ChangeToApproachDashState;
+        //playerController.GrabController.OnGrabTurret -= ChangeToApproachDashState;
+        //playerController.GrabController.OnGrabTurret += ChangeToApproachDashState;
         
     }
 
@@ -31,6 +31,8 @@ public class PlayerState
         playerController.ArmAnimator.SetBool(animBoolName, true);
         playerController.playerHealth.OnDead -= ChangeToDeadState;
         playerController.playerHealth.OnDead += ChangeToDeadState;
+        playerController.GrabController.OnGrabTurret -= ChangeToApproachDashState;
+        playerController.GrabController.OnGrabTurret += ChangeToApproachDashState;
         startTime = Time.time;
         isAnimationFinished = false;
         isExitingState = false;
@@ -41,6 +43,7 @@ public class PlayerState
         playerController.BodyAnimator.SetBool(animBoolName, false);
         playerController.ArmAnimator.SetBool(animBoolName, false);
         playerController.playerHealth.OnDead -= ChangeToDeadState;
+        playerController.GrabController.OnGrabTurret -= ChangeToApproachDashState;
         isExitingState = true;
     }
 

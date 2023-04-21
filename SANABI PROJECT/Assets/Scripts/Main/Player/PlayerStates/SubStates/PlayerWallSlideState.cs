@@ -9,16 +9,29 @@ public class PlayerWallSlideState : PlayerTouchingWallState
     {
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+        playerController.StartShowWallSlideDust();
+        
+    }
+
+
     public override void LogicUpdate()
     {
-        // base.LogicUpdate();
+        base.LogicUpdate();
         playerController.SetVelocityY(-playerData.wallSlideVelocity); // put - in front of the wallSlideVelocity so it can drop, not up
-
         if (yInput != -1 && !isExitingState)
         {
             stateMachine.ChangeState(playerController.WallGrabState);
         }
 
-        base.LogicUpdate(); // now it's working well after move downwards
+        //base.LogicUpdate(); // now it's working well after move downwards
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        playerController.StopShowWallSlideDust();
     }
 }

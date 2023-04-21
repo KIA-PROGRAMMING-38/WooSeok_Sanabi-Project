@@ -10,7 +10,7 @@ public class PlayerWallClimbState : PlayerTouchingWallState
 
     public override void LogicUpdate()
     {
-        // base.LogicUpdate();
+        base.LogicUpdate();
         playerController.SetVelocityY(playerData.wallClimbVelocity);
 
 
@@ -18,6 +18,6 @@ public class PlayerWallClimbState : PlayerTouchingWallState
         {
             stateMachine.ChangeState(playerController.WallGrabState);
         }
-        base.LogicUpdate();
+        //base.LogicUpdate();
     }
 }
