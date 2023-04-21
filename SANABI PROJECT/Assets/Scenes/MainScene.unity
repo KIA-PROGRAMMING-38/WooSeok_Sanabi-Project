@@ -5987,11 +5987,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: e8d9bddd0023cd643a6c595660741721, type: 3}
-    m_FontSize: 65
+    m_FontSize: 80
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 3
-    m_MaxSize: 80
+    m_MinSize: 0
+    m_MaxSize: 100
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -6193,8 +6193,9 @@ GameObject:
   - component: {fileID: 494021628}
   - component: {fileID: 494021627}
   - component: {fileID: 494021626}
+  - component: {fileID: 494021630}
   m_Layer: 5
-  m_Name: ToMainButton (Legacy)
+  m_Name: ToTitleButton (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6216,10 +6217,10 @@ RectTransform:
   m_Father: {fileID: 1517556843}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 79}
-  m_SizeDelta: {x: 1000, y: 100}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 90}
+  m_SizeDelta: {x: 0, y: 86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &494021626
 MonoBehaviour:
@@ -6276,7 +6277,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 494021628}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 494021630}
+        m_TargetAssemblyTypeName: PauseButtonScript, Assembly-CSharp
+        m_MethodName: SwitchToTitleScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &494021628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6315,6 +6328,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 494021624}
   m_CullTransparentMesh: 1
+--- !u!114 &494021630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494021624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 839eff684cec1424baf46882461969f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &526508915
 GameObject:
   m_ObjectHideFlags: 0
@@ -62043,6 +62068,7 @@ MonoBehaviour:
   playerData: {fileID: 1054605044}
   wireDashIconController: {fileID: 1805863576}
   pauseCanvas: {fileID: 1517556842}
+  isGamePaused: 0
 --- !u!1 &681794630
 GameObject:
   m_ObjectHideFlags: 0
@@ -64788,6 +64814,7 @@ GameObject:
   - component: {fileID: 886252470}
   - component: {fileID: 886252469}
   - component: {fileID: 886252468}
+  - component: {fileID: 886252472}
   m_Layer: 5
   m_Name: ToSettingButton (Legacy)
   m_TagString: Untagged
@@ -64811,10 +64838,10 @@ RectTransform:
   m_Father: {fileID: 1517556843}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 222}
-  m_SizeDelta: {x: 1000, y: 100}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -0.5, y: 265}
+  m_SizeDelta: {x: 1, y: 86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &886252468
 MonoBehaviour:
@@ -64871,7 +64898,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 886252470}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 886252472}
+        m_TargetAssemblyTypeName: PauseButtonScript, Assembly-CSharp
+        m_MethodName: SwitchToSettingsScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &886252470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64910,6 +64949,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 886252466}
   m_CullTransparentMesh: 1
+--- !u!114 &886252472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886252466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 839eff684cec1424baf46882461969f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &906158670
 GameObject:
   m_ObjectHideFlags: 0
@@ -65121,10 +65172,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: e8d9bddd0023cd643a6c595660741721, type: 3}
-    m_FontSize: 65
+    m_FontSize: 80
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 3
+    m_MinSize: 0
     m_MaxSize: 80
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -67122,7 +67173,7 @@ MonoBehaviour:
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -67754,6 +67805,7 @@ GameObject:
   - component: {fileID: 1775864274}
   - component: {fileID: 1775864273}
   - component: {fileID: 1775864272}
+  - component: {fileID: 1775864276}
   m_Layer: 5
   m_Name: TurnOffButton (Legacy)
   m_TagString: Untagged
@@ -67777,10 +67829,10 @@ RectTransform:
   m_Father: {fileID: 1517556843}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -64}
-  m_SizeDelta: {x: 1000, y: 100}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -93}
+  m_SizeDelta: {x: 0, y: 86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1775864272
 MonoBehaviour:
@@ -67837,7 +67889,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1775864274}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1775864276}
+        m_TargetAssemblyTypeName: TurnOffGame, Assembly-CSharp
+        m_MethodName: TurnOffTheGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1775864274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67876,6 +67940,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1775864270}
   m_CullTransparentMesh: 1
+--- !u!114 &1775864276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775864270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 839eff684cec1424baf46882461969f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1798056141
 GameObject:
   m_ObjectHideFlags: 0
@@ -68367,10 +68443,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: e8d9bddd0023cd643a6c595660741721, type: 3}
-    m_FontSize: 65
+    m_FontSize: 80
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 3
+    m_MinSize: 0
     m_MaxSize: 80
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -68699,10 +68775,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: e8d9bddd0023cd643a6c595660741721, type: 3}
-    m_FontSize: 65
+    m_FontSize: 80
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 3
+    m_MinSize: 0
     m_MaxSize: 80
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -69046,6 +69122,7 @@ GameObject:
   - component: {fileID: 2034938897}
   - component: {fileID: 2034938896}
   - component: {fileID: 2034938895}
+  - component: {fileID: 2034938899}
   m_Layer: 5
   m_Name: ReStartButton (Legacy)
   m_TagString: Untagged
@@ -69069,10 +69146,10 @@ RectTransform:
   m_Father: {fileID: 1517556843}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -200}
-  m_SizeDelta: {x: 1000, y: 100}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -281}
+  m_SizeDelta: {x: 0, y: 86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2034938895
 MonoBehaviour:
@@ -69129,7 +69206,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2034938897}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2034938899}
+        m_TargetAssemblyTypeName: PauseButtonScript, Assembly-CSharp
+        m_MethodName: RestartMainScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2034938897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69168,6 +69257,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2034938893}
   m_CullTransparentMesh: 1
+--- !u!114 &2034938899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034938893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 839eff684cec1424baf46882461969f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2080703594
 GameObject:
   m_ObjectHideFlags: 0

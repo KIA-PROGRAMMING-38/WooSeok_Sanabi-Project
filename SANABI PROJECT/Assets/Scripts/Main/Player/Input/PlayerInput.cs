@@ -27,18 +27,22 @@ public class PlayerInput : MonoBehaviour
 
     void Update()
     {
-        horizontalInput = Input.GetAxisRaw(HORIZONTAL);
-        verticalInput = Input.GetAxisRaw(VERTICAL);
-        MovementInput = new Vector2(horizontalInput, verticalInput);
+        if (!GameManager.Instance.isGamePaused)
+        {
+            horizontalInput = Input.GetAxisRaw(HORIZONTAL);
+            verticalInput = Input.GetAxisRaw(VERTICAL);
+            MovementInput = new Vector2(horizontalInput, verticalInput);
 
+
+            JumpInput = Input.GetButtonDown(JUMP);
+            JumpInputStop = Input.GetButtonUp(JUMP);
+
+            DashInput = Input.GetKeyDown(KeyCode.LeftShift);
+
+            MouseInput = Input.GetMouseButtonDown(0);
+            MouseInputHold = Input.GetMouseButton(0);
+        }
         
-        JumpInput = Input.GetButtonDown(JUMP);
-        JumpInputStop = Input.GetButtonUp(JUMP);
-
-        DashInput = Input.GetKeyDown(KeyCode.LeftShift);
-
-        MouseInput = Input.GetMouseButtonDown(0);
-        MouseInputHold = Input.GetMouseButton(0);
         
     }
 

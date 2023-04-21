@@ -22,11 +22,11 @@ public class TitleButtonController : TitleSceneController, IPointerEnterHandler,
             SceneManager.LoadScene(buttonID, LoadSceneMode.Additive);
             return;
         }
-        if (buttonID == (int)SceneNumber.Exit)
-        {
-            Application.Quit();
-            return;
-        }
+        //if (buttonID == (int)SceneNumber.Exit)
+        //{
+        //    Application.Quit();
+        //    return;
+        //}
         
         SceneManager.LoadScene(buttonID);
     }
