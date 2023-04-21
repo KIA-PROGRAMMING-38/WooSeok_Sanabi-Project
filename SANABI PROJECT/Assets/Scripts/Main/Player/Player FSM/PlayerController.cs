@@ -240,6 +240,7 @@ public class PlayerController : MonoBehaviour
     {
         if (CanDash)
         {
+            OnWireDash?.Invoke();
             StartShowAfterImage();
             CanDash = false;
             //isDashing = true;
@@ -248,7 +249,6 @@ public class PlayerController : MonoBehaviour
             Input.UseDashInput();
             SetDashVelocity(Input.MovementInput.x);
             StartCoroutine(CountDashCooltime());
-            OnWireDash?.Invoke();
         }
     }
 
@@ -355,6 +355,7 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerWireDashStop()
     {
+        OnWireDashFinished?.Invoke();
         StopCoroutine(CountDashCooltime());
         CanDash = true;
     }
@@ -363,11 +364,10 @@ public class PlayerController : MonoBehaviour
     {
         yield return DashCooltime;
         CanDash = true;
-        if (isDashing)
-        {
-            OnWireDashFinished?.Invoke();
-        }
-        
+
+        OnWireDashFinished?.Invoke();
+
+
 
     }
 

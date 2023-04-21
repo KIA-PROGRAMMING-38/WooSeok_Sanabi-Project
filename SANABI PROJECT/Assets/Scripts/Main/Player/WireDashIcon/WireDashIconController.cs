@@ -6,7 +6,7 @@ public class WireDashIconController : MonoBehaviour
 {
     [SerializeField] private Transform wireDashIconPosition;
     private Animator wireDashIconAnimator;
-
+    private bool hasPlayerDashed;
     void Start()
     {
         wireDashIconAnimator = GetComponent<Animator>();
@@ -19,25 +19,39 @@ public class WireDashIconController : MonoBehaviour
     void Update()
     {
         transform.position = wireDashIconPosition.position;
+        
     }
 
     private void StartIconOn()
     {
-        wireDashIconAnimator.SetTrigger("on");
+        wireDashIconAnimator.SetBool("on", true);
+        hasPlayerDashed = true;
     }
 
 
     private void StartIconWhile()
     {
-        wireDashIconAnimator.SetBool("while", true);
+        wireDashIconAnimator.SetBool("on", false);
+        if (hasPlayerDashed)
+        {
+            wireDashIconAnimator.SetBool("while", true);
+        }
+        
     }
 
     public void StartIconOff()
     {
+        if (hasPlayerDashed)
+        {
+            wireDashIconAnimator.SetBool("while", false);
+            wireDashIconAnimator.SetBool("off", true);
+            hasPlayerDashed = false;
+        }
+    }
 
-        wireDashIconAnimator.SetBool("while", false);
-        wireDashIconAnimator.SetTrigger("off");
-
+    private void StopIconOff()
+    {
+        wireDashIconAnimator.SetBool("off", false);
     }
 
 }

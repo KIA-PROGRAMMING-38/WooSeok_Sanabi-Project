@@ -13,7 +13,6 @@ public class PlayerWireState : PlayerState
     protected bool hasGrabBeenDisabled;
     protected bool isDamaged;
     protected Quaternion initialArmRotation;
-    protected bool hasPlayerDashed;
 
     public PlayerWireState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
@@ -31,7 +30,7 @@ public class PlayerWireState : PlayerState
     {
         base.Enter();
         initialArmRotation = playerController.armTransform.rotation;
-        hasPlayerDashed = false;
+        //hasPlayerDashed = false;
         if (!hasGrabBeenDisabled)
         {
             playerController.ArmController.ConnectAnchor();
@@ -44,10 +43,7 @@ public class PlayerWireState : PlayerState
         playerController.armTransform.rotation = initialArmRotation;
         playerController.PlayerWireDashStop();
         playerController.PlayerIsDash(false);
-        if (hasPlayerDashed)
-        {
-            GameManager.Instance.wireDashIconController.StartIconOff();
-        }
+        
     }
 
     public override void LogicUpdate()
