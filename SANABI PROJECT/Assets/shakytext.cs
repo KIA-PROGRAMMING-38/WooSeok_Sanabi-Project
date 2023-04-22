@@ -34,8 +34,10 @@ public class shakytext : MonoBehaviour
             for (int j = 0; j < 4 ;++j)
             {
                 var orig = verts[charInfo.vertexIndex + j];
+                
                 //verts[charInfo.vertexIndex + j] = orig + new Vector3(0, Mathf.Sin(Time.time * frequency + orig.x * consistency) * height, 0);
                 verts[charInfo.vertexIndex + j] = orig + new Vector3(0, Mathf.Sin(Time.unscaledTime * frequency + orig.x * consistency) * height, 0);
+                
             }
         }
 

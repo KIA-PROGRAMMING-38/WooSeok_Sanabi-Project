@@ -5,16 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseButtonScript : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
+    
     public void SwitchToTitleScene()
     {
         SceneManager.LoadScene((int)GameManager.SceneNumber.Title);

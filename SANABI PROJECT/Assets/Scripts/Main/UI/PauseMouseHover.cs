@@ -8,13 +8,12 @@ using TMPro;
 public class PauseMouseHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     //private Text text;
-    private TMP_Text textComponent;
+    private TMP_Text[] textComponents;
     private Color hoverColor;
     private Color idleColor;
     private void Awake()
     {
-        //text = GetComponentInChildren<Text>();
-        textComponent = GetComponentInChildren<TMP_Text>();
+        textComponents = GetComponentsInChildren<TMP_Text>();
         hoverColor = new Color(255, 0, 225);
         idleColor = Color.white;
     }
@@ -23,13 +22,19 @@ public class PauseMouseHover : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        //text.color = hoverColor;
-        textComponent.color = hoverColor;
+        foreach (TMP_Text element in textComponents)
+        {
+            element.color = hoverColor;
+        }
+        //textComponents.color = hoverColor;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        //text.color = idleColor;
-        textComponent.color = idleColor;
+        foreach (TMP_Text element in textComponents)
+        {
+            element.color = idleColor;
+        }
+        //textComponents.color = idleColor;
     }
 }
