@@ -16,9 +16,9 @@ public class ShakeCamera : MonoBehaviour
     private float shakeTime;
     private float shakeIntensity;
 
-    private bool ShakeOn;
+    //private bool ShakeOn;
     private float saveTime; // 시간을 저장하기 위한 변수
-    private readonly string SHAKECAMERAPOSITION = "ShakeCameraPosition"; // 오타 방지용
+    //private readonly string SHAKECAMERAPOSITION = "ShakeCameraPosition"; // 오타 방지용
     public Vector3 shakeMovePosition;
     private IEnumerator _ShakeCameraPosition;
 
@@ -36,7 +36,7 @@ public class ShakeCamera : MonoBehaviour
 
     public void OnShakeCamera()
     {
-        SwitchBackOff();
+        //SwitchBackOff();
         _ShakeCameraPosition = ShakeCameraPosition();
         StartCoroutine(_ShakeCameraPosition);
     }
@@ -45,14 +45,14 @@ public class ShakeCamera : MonoBehaviour
     {
         this.shakeTime = shakeTime;
         this.shakeIntensity = shakeIntensity;
-        ShakeOn = true;
+        //ShakeOn = true;
         OnShakeCamera();
     }
 
-    private void SwitchBackOff()
-    {
-        ShakeOn = false;
-    }
+    //private void SwitchBackOff()
+    //{
+    //    //ShakeOn = false;
+    //}
     private IEnumerator ShakeCameraPosition()
     {
         // 흔들리기 직전의 시작 위치(흔들림 종료 후 돌아오기 위함)
