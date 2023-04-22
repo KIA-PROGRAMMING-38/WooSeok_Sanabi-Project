@@ -7,25 +7,29 @@ using UnityEngine.UI;
 public class ResolutionChange : MonoBehaviour
 {
     private List<Resolution> resolutions = new List<Resolution>();
-    [SerializeField] private TMP_Text resoltionText;
-    private Button[] buttons;
+    [SerializeField] private FullScreenChange fullScreenChange;
+    [SerializeField] private TMP_Text resolutionText;
+    //private Button[] buttons;
     private int currentIndex;
-    private bool isFullScreen = true;
+    private bool isFullScreen;
 
     private (int, int, int)[] resolutionCandidates = new (int, int, int)[] {(960, 720, 144), (1024, 768, 144), (1280,720,144), (1440,900,144), (1600,900,144), (1920,1080,144) };
 
     private void Awake()
     {
-        buttons = GetComponentsInChildren<Button>();
+        //buttons = GetComponentsInChildren<Button>();
         AddResolutions();
         InitResolution();
     }
 
     private void InitResolution()
     {
-        Screen.SetResolution(1920, 1080, true);
+        //Screen.SetResolution(1920, 1080, true);
         currentIndex = resolutionCandidates.Length - 1;
+        resolutionText.text = $"{resolutions[currentIndex].width}X{resolutions[currentIndex].height}";
+        Screen.SetResolution(resolutions[currentIndex].width, resolutions[currentIndex].height, isFullScreen);
     }
+
     private void AddResolutions()
     {
         for (int i = 0; i < resolutionCandidates.Length ;++i)
@@ -41,8 +45,8 @@ public class ResolutionChange : MonoBehaviour
     public void OnRightClick()
     {
         currentIndex = (currentIndex + 1) % resolutions.Count;
-
-        resoltionText.text = $"{resolutions[currentIndex].width}X{resolutions[currentIndex].height}";
+        isFullScreen = fullScreenChange.IsFullScreen;
+        resolutionText.text = $"{resolutions[currentIndex].width}X{resolutions[currentIndex].height}";
         Screen.SetResolution(resolutions[currentIndex].width, resolutions[currentIndex].height, isFullScreen);
     }
 
@@ -54,8 +58,8 @@ public class ResolutionChange : MonoBehaviour
         {
             currentIndex = resolutions.Count - 1;
         }
-
-        resoltionText.text = $"{resolutions[currentIndex].width}X{resolutions[currentIndex].height}";
+        isFullScreen = fullScreenChange.IsFullScreen;
+        resolutionText.text = $"{resolutions[currentIndex].width}X{resolutions[currentIndex].height}";
         Screen.SetResolution(resolutions[currentIndex].width, resolutions[currentIndex].height, isFullScreen);
     }
     

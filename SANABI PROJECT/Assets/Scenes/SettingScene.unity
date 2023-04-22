@@ -1313,7 +1313,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1920X1080
+  m_text: "\uC5B4\uB5A4 \uD574\uC0C1\uB3C4?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1d70a00b451c6f846b276fe124febe8a, type: 2}
   m_sharedMaterial: {fileID: -7805057735890601674, guid: 1d70a00b451c6f846b276fe124febe8a, type: 2}
@@ -1473,7 +1473,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 803851479}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1247198722}
+        m_TargetAssemblyTypeName: VolumeChange, Assembly-CSharp
+        m_MethodName: OnRightClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &803851479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1670,7 +1682,19 @@ MonoBehaviour:
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1077833284}
+        m_TargetAssemblyTypeName: ScreenShakeChange, Assembly-CSharp
+        m_MethodName: ConveyShakeIntensity
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &989373652
 GameObject:
   m_ObjectHideFlags: 0
@@ -1952,6 +1976,7 @@ GameObject:
   - component: {fileID: 1077833282}
   - component: {fileID: 1077833281}
   - component: {fileID: 1077833283}
+  - component: {fileID: 1077833284}
   m_Layer: 5
   m_Name: Screenshake Panel
   m_TagString: Untagged
@@ -2029,6 +2054,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d141b59030dd5d4eb0d78f28dd1ade0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1077833284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077833279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e662b142d39304ca8506a1f99d558d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1104057351
@@ -2114,7 +2151,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1104057354}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1315662052}
+        m_TargetAssemblyTypeName: FullscreenChange, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1104057354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2300,6 +2349,7 @@ GameObject:
   - component: {fileID: 1247198720}
   - component: {fileID: 1247198719}
   - component: {fileID: 1247198721}
+  - component: {fileID: 1247198722}
   m_Layer: 5
   m_Name: Volume Panel
   m_TagString: Untagged
@@ -2381,6 +2431,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eef933af8a64494f9b85ce16eba0109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1247198722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1247198717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c4d9ca598d3074ebc501b4bc71486a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeText: {fileID: 2027579689}
 --- !u!1 &1289685170
 GameObject:
   m_ObjectHideFlags: 0
@@ -2565,6 +2628,7 @@ GameObject:
   - component: {fileID: 1315662050}
   - component: {fileID: 1315662049}
   - component: {fileID: 1315662051}
+  - component: {fileID: 1315662052}
   m_Layer: 5
   m_Name: Fullscreen Panel
   m_TagString: Untagged
@@ -2646,6 +2710,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eef933af8a64494f9b85ce16eba0109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1315662052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315662047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5922655f4edfdaf40aa72a960227639b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullscreenText: {fileID: 1229463235}
 --- !u!1 &1321018240
 GameObject:
   m_ObjectHideFlags: 0
@@ -3246,7 +3323,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1802252117}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1247198722}
+        m_TargetAssemblyTypeName: VolumeChange, Assembly-CSharp
+        m_MethodName: OnLeftClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1802252117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3391,7 +3480,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee715ed60826cf641b7b14344d83760b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resoltionText: {fileID: 678624910}
+  fullScreenChange: {fileID: 1315662052}
+  resolutionText: {fileID: 678624910}
 --- !u!1 &1902296944
 GameObject:
   m_ObjectHideFlags: 0
@@ -3745,7 +3835,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2046933969}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1315662052}
+        m_TargetAssemblyTypeName: FullscreenChange, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2046933969
 MonoBehaviour:
   m_ObjectHideFlags: 0

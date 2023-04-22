@@ -44,7 +44,7 @@ public class ShakeCamera : MonoBehaviour
     public void TurnOnShake(float shakeTime, float shakeIntensity)
     {
         this.shakeTime = shakeTime;
-        this.shakeIntensity = shakeIntensity;
+        this.shakeIntensity = shakeIntensity * GameManager.Instance.ScreenShakeIntensity;
         //ShakeOn = true;
         OnShakeCamera();
     }

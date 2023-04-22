@@ -27,16 +27,19 @@ public class GameManager : MonoBehaviour
 
 
     [SerializeField] private Canvas pauseCanvas;
-
     public bool isGamePaused;
+    public float ScreenShakeIntensity { get; set; }
+    
     private void Awake()
     {
+        ScreenShakeIntensity = 1f;
         Instance = this;
         currentSceneNumber = SceneNumber.Main;
     }
 
     private void Update()
     {
+        Debug.Log(ScreenShakeIntensity);
         if (currentSceneNumber == SceneNumber.Main)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
