@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class PauseMouseHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class PanelColorChange : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     //private Text text;
     private TMP_Text[] textComponents;
