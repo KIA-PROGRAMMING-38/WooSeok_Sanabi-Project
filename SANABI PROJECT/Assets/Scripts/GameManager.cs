@@ -6,9 +6,6 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    //public static Color idleColor = Color.white;
-    //public static Color hoverColor = new Color(255f, 0f, 178f); // «÷ «Œ≈©
-    //public static float shakeIntensity = 0.05f;
     public enum SceneNumber
     {
         Title,
@@ -26,6 +23,7 @@ public class GameManager : MonoBehaviour
     public TurretSpawner turretSpawner;
     public PlayerData playerData;
     public WireDashIconController wireDashIconController;
+    public SceneNumber currentSceneNumber;
 
 
     [SerializeField] private Canvas pauseCanvas;
@@ -34,27 +32,59 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        currentSceneNumber = SceneNumber.Main;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (currentSceneNumber == SceneNumber.Main)
         {
-            if (pauseCanvas.gameObject.activeSelf)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                isGamePaused = false;
-                pauseCanvas.gameObject.SetActive(false);
-                Time.timeScale = 1f;
-            }
-            else
-            {
-                isGamePaused = true;
-                pauseCanvas.gameObject.SetActive(true);
-                Time.timeScale = 0f;
+                if (pauseCanvas.gameObject.activeSelf) // if paused
+                {
+                    SetGameContinue();
+                    //isGamePaused = false;
+                    //pauseCanvas.gameObject.SetActive(false);
+                    //Time.timeScale = 1f;
+                }
+                else // if not paused
+                {
+                    SetGamePause();
+                    //isGamePaused = true;
+                    //pauseCanvas.gameObject.SetActive(true);
+                    //Time.timeScale = 0f;
+                }
             }
         }
+        
     }
 
+    public void SetGamePause()
+    {
+        isGamePaused = true;
+        //pauseCanvas.gameObject.SetActive(true);
+        ShowPauseCanvas(isGamePaused);
+        Time.timeScale = 0f;
+    }
 
-
+    public void SetGameContinue()
+    {
+        isGamePaused = false;
+        //pauseCanvas.gameObject.SetActive(false);
+        ShowPauseCanvas(isGamePaused);
+        Time.timeScale = 1f;
+    }
+    
+    public void ShowPauseCanvas(bool toshowcanvas)
+    {
+        if (toshowcanvas)
+        {
+            pauseCanvas.gameObject.SetActive(true);
+        }
+        else
+        {
+            pauseCanvas.gameObject.SetActive(false);
+        }
+    }
 }

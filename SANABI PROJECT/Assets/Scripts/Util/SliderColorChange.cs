@@ -12,6 +12,15 @@ public class SliderColorChange : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private Color hoverColor;
     private Color idleColor;
 
+
+    private void Awake()
+    {
+        textComponents = GetComponentsInChildren<TMP_Text>();
+        imageComponents = GetComponentsInChildren<Image>();
+        hoverColor = new Color(255, 0, 225);
+        idleColor = Color.white;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         foreach (TMP_Text element in textComponents)
@@ -20,6 +29,10 @@ public class SliderColorChange : MonoBehaviour, IPointerEnterHandler, IPointerEx
         }
         foreach (Image element in imageComponents)
         {
+            if (element.gameObject == this.gameObject)
+            {
+                continue;
+            }
             element.color = hoverColor;
         }
     }
@@ -32,16 +45,11 @@ public class SliderColorChange : MonoBehaviour, IPointerEnterHandler, IPointerEx
         }
         foreach (Image element in imageComponents)
         {
+            if (element.gameObject == this.gameObject)
+            {
+                continue;
+            }
             element.color = idleColor;
         }
     }
-
-    private void Awake()
-    {
-        textComponents = GetComponentsInChildren<TMP_Text>();
-        imageComponents = GetComponentsInChildren<Image>();
-        hoverColor = new Color(255, 0, 225);
-        idleColor = Color.white;
-    }
-
 }
