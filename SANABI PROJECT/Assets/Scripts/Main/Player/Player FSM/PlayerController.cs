@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -65,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
     public CameraFollow camFollow;
 
-    public GameManager gameManager;
+    //public GameManager gameManager;
 
     public TimeSlow timeSlower;
 
@@ -133,7 +134,8 @@ public class PlayerController : MonoBehaviour
         ArmController = GameObject.FindGameObjectWithTag("Arm").GetComponent<PlayerArmController>();
         camShake = Camera.main.GetComponent<ShakeCamera>();
         camFollow = Camera.main.GetComponent<CameraFollow>();
-        gameManager = new GameManager();
+        //gameManager = new GameManager();
+        
         playerHealth = GetComponentInParent<PlayerHealth>();
 
         IdleState = new PlayerIdleState(this, StateMachine, playerData, "idle");
