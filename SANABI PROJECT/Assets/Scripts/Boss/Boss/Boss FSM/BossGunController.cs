@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class BossGunController : MonoBehaviour
@@ -10,7 +12,20 @@ public class BossGunController : MonoBehaviour
 
     public Transform target;
 
+    private Vector2 gunTipDistance;
+    private RaycastHit2D hit;
+    public LineRenderer lineRenderer;
+    public Transform head;
+    public Transform gunTip;
+    private int platformLayerNumber;
 
+
+    private Color initialColor = Color.red;
+    private Color yellowColor = Color.yellow;
+    private Color whieColor = Color.white;
+    [SerializeField] private float colorStayTime = 0.05f;
+    private WaitForSeconds _colorStayTime;
+    private IEnumerator _EnableLineColorChange;
 
     private Vector2 targetDistance;
     private float rotationAngle;
@@ -20,21 +35,30 @@ public class BossGunController : MonoBehaviour
     private IEnumerator _LookAtTarget;
 
     private IEnumerator _AimAtTarget;
-    private WaitForSeconds _aimWaitTime;
 
+    private IEnumerator _AimLockWait;
+    private WaitForSeconds _aimLockTime;
     #endregion
 
     #region Events
 
     public event Action OnFinishedAiming;
+    public event Action OnFinishedAimLock;
 
     #endregion
     void Start()
     {
+        platformLayerNumber = LayerMask.GetMask("NormalWall");
+        lineRenderer = GetComponentInChildren<LineRenderer>();
+
         _LookAtTarget = LookAtTarget();
 
         _AimAtTarget = AimAtTarget();
-        _aimWaitTime = new WaitForSeconds(bossData.aimWaitTime);
+
+        _AimLockWait = AimLockWait();
+        _aimLockTime = new WaitForSeconds(bossData.aimLockTime);
+
+        _EnableLineColorChange = EnableLineColorChange();
     }
 
     void Update()
@@ -42,6 +66,67 @@ public class BossGunController : MonoBehaviour
         
     }
 
+    #region Aim Line Color Change 
+    private void EnableLineInitialColor()
+    {
+        lineRenderer.startColor = initialColor;
+        lineRenderer.endColor = initialColor;
+    }
+    private void EnableLineYellowColor()
+    {
+        lineRenderer.startColor = yellowColor;
+        lineRenderer.endColor = yellowColor;
+    }
+
+    private void EnableLineWhiteColor()
+    {
+        lineRenderer.startColor = whieColor;
+        lineRenderer.endColor = whieColor;
+    }
+
+    public void StartAimLineColorChange()
+    {
+        lineRenderer.enabled = true;
+        StartCoroutine(_EnableLineColorChange);
+    }
+
+    public void StopAimLineColorChange()
+    {
+        lineRenderer.enabled = false;
+        EnableLineInitialColor();
+        StopCoroutine(_EnableLineColorChange);
+    }
+    private IEnumerator EnableLineColorChange()
+    {
+        while (true)
+        {
+            EnableLineInitialColor();
+            yield return _colorStayTime;
+            EnableLineYellowColor();
+            yield return _colorStayTime;
+            EnableLineWhiteColor();
+        }
+    }
+
+    #endregion
+
+    #region Draw AimLine Towards Player
+    public void DrawAimLineTowardsPlayer()
+    {
+        gunTipDistance = gunTip.position - head.transform.position;
+        hit = Physics2D.Raycast(head.transform.position, gunTipDistance.normalized, 1000f, platformLayerNumber);
+        lineRenderer.SetPosition(0, gunTip.position);
+
+        if (hit.collider != null)
+        {
+            lineRenderer.SetPosition(1, hit.point);
+        }
+        else
+        {
+            lineRenderer.SetPosition(1, gunTipDistance * 1000f);
+        }
+    }
+    #endregion
 
     #region Coroutines
 
@@ -68,9 +153,10 @@ public class BossGunController : MonoBehaviour
     {
         targetDistance = transform.position - target.position;
         rotationAngle = Mathf.Atan2(targetDistance.y, targetDistance.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, 0f, rotationAngle + 90f);
-    }
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0f, 0f, rotationAngle + 90f), bossData.rotateSpeed * Time.deltaTime);
 
+    }
+    
     #endregion
 
     #region AimAtTarget
@@ -78,6 +164,7 @@ public class BossGunController : MonoBehaviour
     public void StartAimingAtTarget()
     {
         StartCoroutine(_AimAtTarget);
+        
     }
 
     public void StopAimingAtTarget()
@@ -88,13 +175,38 @@ public class BossGunController : MonoBehaviour
 
     private IEnumerator AimAtTarget()
     {
-        yield return _aimWaitTime;
+        float aimTime = bossData.aimWaitTime;
+        while (0f <= aimTime)
+        {
+            aimTime -= Time.deltaTime;
+            DrawAimLineTowardsPlayer();
+            yield return null;
+        }
+        StopCoroutine(_AimAtTarget);
         OnFinishedAiming?.Invoke();
     }
 
     #endregion
 
+    #region AimLockWait
 
+    public void StartAimLock()
+    {
+        StartCoroutine(_AimLockWait);
+    }
+
+    public void StopAimLock()
+    {
+        StopCoroutine(_AimLockWait);
+    }
+
+    private IEnumerator AimLockWait()
+    {
+        yield return _aimLockTime;
+        OnFinishedAimLock?.Invoke();
+    }
+
+    #endregion
 
 
     #endregion

@@ -11,7 +11,11 @@ public class BossData : MonoBehaviour
     public float idleWaitTime = 5f;
 
     [Header("Aiming State")]
+    public float rotateSpeed = 150f;
     public float aimWaitTime = 1.5f;
+
+    [Header("AimLock State")]
+    public float aimLockTime = 0.5f;
 
     [Header("Check Variables")]
     public float groundCheckRadius = 0.5f;

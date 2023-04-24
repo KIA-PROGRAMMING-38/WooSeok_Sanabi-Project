@@ -135,4 +135,13 @@ public class BossController : MonoBehaviour
     #endregion
 
 
+    #region Animation Call Events
+
+    public void ChangeToShootState()
+    {
+        StateMachine.ChangeState(ShootState);
+    }
+
+    #endregion
+
 }
