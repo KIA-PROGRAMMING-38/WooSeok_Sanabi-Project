@@ -81,7 +81,10 @@ public class PlayerController : MonoBehaviour
     public int FacingDirection { get; private set; }
     private int RightDirection = 1; // to avoid magicNumber
 
+    //private int PlatformLayerNumber;
     private int MagmaLayerNumber;
+    private int NormalWallLayerNumber;
+    private int NoGrabWallLayerNumber;
     private bool isPlayerDamaged;
     private bool isPlayerInvincible;
     private float playerInvincibleTime;
@@ -188,13 +191,16 @@ public class PlayerController : MonoBehaviour
         _HoldOnToTurret = HoldOnToTurret();
         _ShowWallSlideDust = ShowWallSlideDust();
 
+        NormalWallLayerNumber = LayerMask.NameToLayer("NormalWall");
+        NoGrabWallLayerNumber = LayerMask.NameToLayer("NoGrabWall");
         MagmaLayerNumber = LayerMask.NameToLayer("Magma");
+
+
         StateMachine.Initialize(IdleState);
 
         //Debug.Log($"플레이어컨트롤러에서의 ID = {playerHealth.GetInstanceID()}");
 
     }
-
     private void Update()
     {
         CurrentVelocity = playerRigidBody.velocity;
@@ -370,10 +376,15 @@ public class PlayerController : MonoBehaviour
         CanDash = true;
 
         OnWireDashFinished?.Invoke();
-
-
-
     }
+
+    public void IgnorePlatformCollision(bool ignoreplatform)
+    {
+        Physics2D.IgnoreLayerCollision(gameObject.layer, NormalWallLayerNumber, ignoreplatform);
+        Physics2D.IgnoreLayerCollision(gameObject.layer, NoGrabWallLayerNumber, ignoreplatform);
+        Physics2D.IgnoreLayerCollision(gameObject.layer, MagmaLayerNumber, ignoreplatform);
+    }
+
 
     public void SetDashVelocity(float xInput)
     {

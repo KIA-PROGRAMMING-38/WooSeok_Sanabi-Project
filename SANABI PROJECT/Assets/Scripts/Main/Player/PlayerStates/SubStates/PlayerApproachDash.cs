@@ -25,6 +25,7 @@ public class PlayerApproachDash : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
+        playerController.IgnorePlatformCollision(true);
         playerController.MakePlayerInvicible();
         //playerController.playerRigidBody.bodyType = RigidbodyType2D.Kinematic;
         playerController.OnApproachDashToTurret -= ChangeToExecuteHoldedState;
@@ -39,6 +40,7 @@ public class PlayerApproachDash : PlayerAbilityState
     {
         base.Exit();
         //playerController.playerRigidBody.bodyType = RigidbodyType2D.Dynamic; 
+        playerController.IgnorePlatformCollision(false);
         playerController.PlayerIsDash(false);
         playerController.OnApproachDashToTurret -= ChangeToExecuteHoldedState;
         playerController.MakePlayerVulnerable();

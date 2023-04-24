@@ -16,8 +16,22 @@ public class GameManager : MonoBehaviour
         Boss
     }
 
-    
-    public static GameManager Instance { get; private set; }
+
+    //public static GameManager Instance { get; private set; }
+    private static GameManager instance = null;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                return null;
+            }
+            return instance;
+        }
+
+    }
+
     public PlayerController playerController;
     public GrabController grabController;
     public PlayerArmController armController;
@@ -33,19 +47,36 @@ public class GameManager : MonoBehaviour
 
     public GameObject playerPrefab;
     public Transform playerSpawnSpot;
+    public Vector3 bossScenePlayerSpawnSpot
+    {
+        set
+        {
+            playerPrefab.transform.position = value + new Vector3(0f, 5f, 0f);
+        }
+    }
 
     [Header("Canvas")]
     [SerializeField] public Canvas TitleCanvas;
     //[SerializeField] public Canvas SettingsCanvas;
     [SerializeField] public Canvas pauseCanvas;
-    
 
+    public bool hasSceneChanged;
     
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+
         initialSceneNumber = SceneNumber.Title;
         ScreenShakeIntensity = 1f;
-        Instance = this;
+        //Instance = this;
         currentSceneNumber = initialSceneNumber;
 
     }
@@ -53,6 +84,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //Instantiate(playerPrefab, playerSpawnSpot.position, playerSpawnSpot.rotation);
+        
     }
 
     private void Update()
@@ -87,6 +119,8 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+
+        
         
     }
 
