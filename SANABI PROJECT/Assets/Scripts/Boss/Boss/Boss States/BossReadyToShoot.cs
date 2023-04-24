@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossIdleState : BossState
+public class BossReadyToShoot : BossState
 {
-    public BossIdleState(BossController bossController, BossStateMachine bossStateMachine, BossData bossData, string animBoolName) : base(bossController, bossStateMachine, bossData, animBoolName)
+    public BossReadyToShoot(BossController bossController, BossStateMachine bossStateMachine, BossData bossData, string animBoolName) : base(bossController, bossStateMachine, bossData, animBoolName)
     {
     }
 
@@ -16,8 +16,6 @@ public class BossIdleState : BossState
     public override void Enter()
     {
         base.Enter();
-        bossController.StartWaitIdleTime();
-        bossController.bossGunController.StartLookingAtTarget();
     }
 
     public override void Exit()

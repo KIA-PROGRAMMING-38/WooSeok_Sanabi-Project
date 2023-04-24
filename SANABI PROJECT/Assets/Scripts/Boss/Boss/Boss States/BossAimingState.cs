@@ -16,20 +16,21 @@ public class BossAimingState : BossState
     public override void Enter()
     {
         base.Enter();
+        bossController.bossGunController.OnFinishedAiming -= ChangeToAimLockState;
+        bossController.bossGunController.OnFinishedAiming += ChangeToAimLockState;
+
+        bossController.bossGunController.StartAimingAtTarget();
     }
 
     public override void Exit()
     {
         base.Exit();
+        bossController.bossGunController.OnFinishedAiming -= ChangeToAimLockState;
+        bossController.bossGunController.StopAimingAtTarget();
     }
 
-    public override void LogicUpdate()
+    private void ChangeToAimLockState()
     {
-        base.LogicUpdate();
-    }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
+        stateMachine.ChangeState(bossController.AimLockState);
     }
 }

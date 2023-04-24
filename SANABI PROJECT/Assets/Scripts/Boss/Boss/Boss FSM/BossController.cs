@@ -14,6 +14,7 @@ public class BossController : MonoBehaviour
     public BossIdleState IdleState { get; private set; }
     public BossAimingState AimingState { get; private set; }
     public BossAimLockState AimLockState { get; private set; }
+    public BossReadyToShoot ReadyToShootState { get; private set; }
     public BossShootState ShootState { get; private set; }
     public BossCooldownState CooldownState { get; private set; }
     public BossEvadeState EvadeState { get; private set; }
@@ -35,20 +36,27 @@ public class BossController : MonoBehaviour
 
     #endregion
 
+    #region Coroutine Optimization
+
+    private IEnumerator _WaitIdleTime;
+    private WaitForSeconds _waitidleTime;
+
+    #endregion
+
     private void Awake()
     {
         StateMachine = new BossStateMachine();
         bossData = GetComponent<BossData>();
         bossGunController = GetComponentInChildren<BossGunController>();
 
-        BodyAnimator= GetComponent<Animator>();
-        HeadAnimator= GetComponentInChildren<Animator>();
+        BodyAnimator = GetComponent<Animator>();
 
 
         AppearState = new BossAppearState(this, StateMachine, bossData, "appear");
         IdleState = new BossIdleState(this, StateMachine, bossData, "idle");
         AimingState = new BossAimingState(this, StateMachine, bossData, "aiming");
         AimLockState = new BossAimLockState(this, StateMachine, bossData, "aimLock");
+        ReadyToShootState = new BossReadyToShoot(this, StateMachine, bossData, "readyToShoot");
         ShootState = new BossShootState(this, StateMachine, bossData, "shoot");
         CooldownState = new BossCooldownState(this, StateMachine, bossData, "cooldown");
         EvadeState = new BossEvadeState(this, StateMachine, bossData, "evade");
@@ -61,6 +69,9 @@ public class BossController : MonoBehaviour
     private void Start()
     {
         bossRigidbody = GetComponent<Rigidbody2D>();
+
+        _WaitIdleTime = WaitIdleTime();
+        _waitidleTime = new WaitForSeconds(bossData.idleWaitTime);
 
         StateMachine.Initialize(AppearState);
     }
@@ -75,6 +86,38 @@ public class BossController : MonoBehaviour
         StateMachine.CurrentState.LogicUpdate();
         //Debug.Log(StateMachine.CurrentState);
     }
+
+    #region Coroutines
+
+    #region bossIdleState
+
+    public void StartWaitIdleTime()
+    {
+        StartCoroutine(_WaitIdleTime);
+    }
+
+    public void StopWaitIdleTime()
+    {
+        StopCoroutine(_WaitIdleTime);
+    }
+
+    private IEnumerator WaitIdleTime()
+    {
+        while (true)
+        {
+            yield return _waitidleTime;
+            StateMachine.ChangeState(AimingState);
+            StopWaitIdleTime();
+        }
+        
+    }
+
+    #endregion
+
+
+
+
+    #endregion
 
 
     #region Set Functions
