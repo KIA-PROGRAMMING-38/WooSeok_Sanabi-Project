@@ -5,9 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SettingSceneController : MonoBehaviour
 {
-    public bool isFullScreen = true;
+    public bool isFullScreen;
     public float volume = 1f;
-    
     
 
     private void Awake()

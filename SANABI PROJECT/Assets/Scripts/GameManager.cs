@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
         Title,
         Settings,
         Main,
-        Pause,
         Boss
     }
 
@@ -29,17 +28,26 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Canvas pauseCanvas;
     public bool isGamePaused;
     public float ScreenShakeIntensity { get; set; }
+
+    public GameObject playerPrefab;
+    public Transform playerSpawnSpot;
     
     private void Awake()
     {
         ScreenShakeIntensity = 1f;
         Instance = this;
         currentSceneNumber = SceneNumber.Main;
+
+    }
+
+    private void Start()
+    {
+        //Instantiate(playerPrefab, playerSpawnSpot.position, playerSpawnSpot.rotation);
     }
 
     private void Update()
     {
-        Debug.Log(ScreenShakeIntensity);
+        
         if (currentSceneNumber == SceneNumber.Main)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -47,16 +55,10 @@ public class GameManager : MonoBehaviour
                 if (pauseCanvas.gameObject.activeSelf) // if paused
                 {
                     SetGameContinue();
-                    //isGamePaused = false;
-                    //pauseCanvas.gameObject.SetActive(false);
-                    //Time.timeScale = 1f;
                 }
                 else // if not paused
                 {
                     SetGamePause();
-                    //isGamePaused = true;
-                    //pauseCanvas.gameObject.SetActive(true);
-                    //Time.timeScale = 0f;
                 }
             }
         }

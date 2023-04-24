@@ -1,22 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class TitleSceneController : GameManager
+public class TitleSceneController : MonoBehaviour
 {
-    GameObject[] buttons;
-    TitleButtonController buttonController;
-    private void OnEnable()
+
+    public void ChangeToMainScene()
     {
-        buttons = GameObject.FindGameObjectsWithTag("Button");
-        for (int i= 0; i < buttons.Length ;++i)
-        {
-            buttons[i].AddComponent<TitleButtonController>();
-            buttonController = buttons[i].GetComponent<TitleButtonController>();
-            buttonController.ButtonID = i;
-        }
+        SceneManager.LoadScene((int)GameManager.SceneNumber.Main);
     }
 
+    public void ChangeToSettingScene()
+    {
+        SceneManager.LoadScene((int)GameManager.SceneNumber.Settings, LoadSceneMode.Additive);
+    }
 
-
+    public void TurnOffGame()
+    {
+        Application.Quit();
+    }
 }

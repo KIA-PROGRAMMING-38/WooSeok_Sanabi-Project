@@ -15,23 +15,30 @@ public class ScreenShakeChange : MonoBehaviour
 
     private void Start()
     {
-        //InitShakeIntensity();
+        InitShakeIntensity();
     }
     public void ConveyShakeIntensity()
     {
-        shakeSlider.value = GameManager.Instance.ScreenShakeIntensity;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ScreenShakeIntensity = shakeSlider.value;
+        }
+        //GameManager.Instance.ScreenShakeIntensity = shakeSlider.value;
     }
 
 
     private void InitShakeIntensity()
     {
         shakeSlider.value = 1f;
-        shakeSlider.value = GameManager.Instance.ScreenShakeIntensity;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ScreenShakeIntensity = shakeSlider.value;
+        }
     }
 
 
     private void Update()
     {
-        //Debug.Log(GameManager.Instance.ScreenShakeIntensity);
+        
     }
 }

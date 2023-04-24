@@ -49,7 +49,8 @@ public class HPRobotController : MonoBehaviour
     {
         StateMachine = new HPRobotStateMachine();
         animator = GetComponent<Animator>();
-        
+        //playerHealth = GameManager.Instance.playerController.playerHealth;
+
         //playerHealth = playerController.GetComponentInParent<PlayerHealth>();
         //Debug.Log($"HPBar컨트롤러에서의 ID = {playerHealth.GetInstanceID()}");
     }
@@ -60,8 +61,8 @@ public class HPRobotController : MonoBehaviour
 
     private void Start()
     {
-        playerHealth = playerController.playerHealth; // 여기 한번 다시봐야함
-        //playerHealth = playerController.playerHealth; 
+        //playerHealth = playerController.playerHealth; // 여기 한번 다시봐야함
+        playerHealth = GameManager.Instance.playerController.playerHealth;
         glowCooltime = new WaitForSeconds(glowCoolTime);
         originalColor = material.color;
 

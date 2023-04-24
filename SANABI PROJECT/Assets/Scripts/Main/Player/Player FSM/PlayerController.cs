@@ -86,7 +86,6 @@ public class PlayerController : MonoBehaviour
     private bool isPlayerInvincible;
     private float playerInvincibleTime;
     private WaitForSeconds playerInvincibleWaitTime;
-    private float damageTimer;
 
 
     private WaitForSeconds DashCooltime;
@@ -130,8 +129,10 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         StateMachine = new PlayerStateMachine();
-        playerData = GetComponentInParent<PlayerData>();
-        ArmController = GameObject.FindGameObjectWithTag("Arm").GetComponent<PlayerArmController>();
+        //playerData = GetComponentInParent<PlayerData>();
+        playerData = GameManager.Instance.playerData;
+        //ArmController = GameObject.FindGameObjectWithTag("Arm").GetComponent<PlayerArmController>();
+        ArmController = GameManager.Instance.armController;
         camShake = Camera.main.GetComponent<ShakeCamera>();
         camFollow = Camera.main.GetComponent<CameraFollow>();
         //gameManager = new GameManager();
@@ -163,6 +164,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        transform.position = GameManager.Instance.playerSpawnSpot.position;
         playerRigidBody = GetComponent<Rigidbody2D>();
         FacingDirection = RightDirection;
         _ShowAfterImage = ShowAfterImage();

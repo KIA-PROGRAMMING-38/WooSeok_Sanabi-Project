@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class TitleButtonController : TitleSceneController, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class TitleButtonController : TitleSceneController, IPointerEnterHandler, IPointerExitHandler//, IPointerClickHandler
 {
     Text textComponent;
     [SerializeField] private int buttonID;
@@ -15,21 +15,21 @@ public class TitleButtonController : TitleSceneController, IPointerEnterHandler,
         set => buttonID = value;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (buttonID == (int)SceneNumber.Settings)
-        {
-            SceneManager.LoadScene(buttonID, LoadSceneMode.Additive);
-            return;
-        }
-        //if (buttonID == (int)SceneNumber.Exit)
-        //{
-        //    Application.Quit();
-        //    return;
-        //}
+    //public void OnPointerClick(PointerEventData eventData)
+    //{
+    //    if (buttonID == (int)SceneNumber.Settings)
+    //    {
+    //        SceneManager.LoadScene(buttonID, LoadSceneMode.Additive);
+    //        return;
+    //    }
+    //    //if (buttonID == (int)SceneNumber.Exit)
+    //    //{
+    //    //    Application.Quit();
+    //    //    return;
+    //    //}
         
-        SceneManager.LoadScene(buttonID);
-    }
+    //    SceneManager.LoadScene(buttonID);
+    //}
 
     public void OnPointerEnter(PointerEventData eventData)
     {
