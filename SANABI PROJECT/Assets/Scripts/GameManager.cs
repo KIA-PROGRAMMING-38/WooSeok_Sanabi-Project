@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
     {
         set
         {
-            playerPrefab.transform.position = value + new Vector3(0f, 5f, 0f);
+            playerPrefab.transform.position = value;
         }
     }
 

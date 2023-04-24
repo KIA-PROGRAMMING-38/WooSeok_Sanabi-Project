@@ -7,8 +7,13 @@ public class BossScenePlayerSpawnSpot : MonoBehaviour
 {
     private void Awake()
     {
-        GameManager.Instance.bossScenePlayerSpawnSpot = transform.position;
-        GameManager.Instance.hasSceneChanged = true;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.bossScenePlayerSpawnSpot = transform.position;
+            GameManager.Instance.hasSceneChanged = true;
+        }
+        
+        
     }
     void Start()
     {
