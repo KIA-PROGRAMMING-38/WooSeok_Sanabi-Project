@@ -17,6 +17,8 @@ public class TurretSpawner : MonoBehaviour
     [SerializeField] private float phaseChangeWaitTime = 5f;
     private WaitForSeconds _phaseChangeWaitTime;
     private IEnumerator _WaitForPhaseChange;
+
+    public event Action OnAllTurretsDead;
     void Start()
     {
         alreadySpawnedSpots = new bool[turretSpawnSpots.Length];
@@ -31,6 +33,11 @@ public class TurretSpawner : MonoBehaviour
             isPhase1 = false;
             //StartWaitPhaseChange();  // second turrets get spawned defected.... :(
             SpawnTurrets();
+        }
+        else if (turretSpawnSpots.Length <= deadTurretNumber) // if all turrets dead
+        {
+            OnAllTurretsDead?.Invoke();
+            Debug.Log("ÅÍ·¿ ´Ù Á×À½");
         }
     }
 

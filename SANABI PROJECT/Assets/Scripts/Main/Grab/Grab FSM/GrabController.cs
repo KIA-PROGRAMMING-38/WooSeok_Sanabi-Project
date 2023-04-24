@@ -40,6 +40,8 @@ public class GrabController : MonoBehaviour
     public bool IsGrabReturned { get; set; }
     public bool isMouseInput;
 
+    public int TurretLayerNumber { get; private set; }
+    public int GrabLayerNumber { get; private set; }
     public int NormalWallLayerNumber { get; private set; }
     public int NoGrabWallLayerNumber { get; private set; }
     public int MagmaLayerNumber { get; private set; }
@@ -70,9 +72,10 @@ public class GrabController : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         trailRenderer = GetComponentInChildren<TrailRenderer>();
         Animator = GetComponent<Animator>();
-        playerInput = GetComponentInParent<PlayerInput>();  
-        
+        playerInput = GetComponentInParent<PlayerInput>();
 
+        TurretLayerNumber = LayerMask.NameToLayer("Turret");
+        GrabLayerNumber = LayerMask.NameToLayer("Grab");
         NormalWallLayerNumber = LayerMask.NameToLayer("NormalWall");
         NoGrabWallLayerNumber = LayerMask.NameToLayer("NoGrabWall");
         MagmaLayerNumber = LayerMask.NameToLayer("Magma");
@@ -136,6 +139,11 @@ public class GrabController : MonoBehaviour
         }
         
 
+    }
+
+    public void IgnoreTurretCollision(bool ignore)
+    {
+        Physics2D.IgnoreLayerCollision(GrabLayerNumber, TurretLayerNumber, ignore);
     }
 
     private Vector3 grabbedTurretPosition;

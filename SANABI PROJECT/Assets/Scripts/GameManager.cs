@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -22,21 +24,29 @@ public class GameManager : MonoBehaviour
     public TurretSpawner turretSpawner;
     public PlayerData playerData;
     public WireDashIconController wireDashIconController;
+
+    private SceneNumber initialSceneNumber;
     public SceneNumber currentSceneNumber;
-
-
-    [SerializeField] private Canvas pauseCanvas;
-    public bool isGamePaused;
+    public SceneNumber lastSceneNumber;
     public float ScreenShakeIntensity { get; set; }
+    public bool isGamePaused;
 
     public GameObject playerPrefab;
     public Transform playerSpawnSpot;
+
+    [Header("Canvas")]
+    [SerializeField] public Canvas TitleCanvas;
+    //[SerializeField] public Canvas SettingsCanvas;
+    [SerializeField] public Canvas pauseCanvas;
+    
+
     
     private void Awake()
     {
+        initialSceneNumber = SceneNumber.Title;
         ScreenShakeIntensity = 1f;
         Instance = this;
-        currentSceneNumber = SceneNumber.Main;
+        currentSceneNumber = initialSceneNumber;
 
     }
 
@@ -47,7 +57,22 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        
+        if (currentSceneNumber == SceneNumber.Title)
+        {
+            // it's almost click events, no keyboard is required to be honest
+        }
+
+        if (currentSceneNumber == SceneNumber.Settings)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                currentSceneNumber = lastSceneNumber;
+                lastSceneNumber = SceneNumber.Settings;
+                SceneManager.UnloadSceneAsync((int)lastSceneNumber);
+                TitleCanvas.gameObject.SetActive(true);
+            }
+        }
+
         if (currentSceneNumber == SceneNumber.Main)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -68,7 +93,6 @@ public class GameManager : MonoBehaviour
     public void SetGamePause()
     {
         isGamePaused = true;
-        //pauseCanvas.gameObject.SetActive(true);
         ShowPauseCanvas(isGamePaused);
         Time.timeScale = 0f;
     }
@@ -76,7 +100,6 @@ public class GameManager : MonoBehaviour
     public void SetGameContinue()
     {
         isGamePaused = false;
-        //pauseCanvas.gameObject.SetActive(false);
         ShowPauseCanvas(isGamePaused);
         Time.timeScale = 1f;
     }

@@ -38,7 +38,7 @@ public class PlayerApproachDash : PlayerAbilityState
     public override void Exit()
     {
         base.Exit();
-        playerController.playerRigidBody.bodyType = RigidbodyType2D.Dynamic; 
+        //playerController.playerRigidBody.bodyType = RigidbodyType2D.Dynamic; 
         playerController.PlayerIsDash(false);
         playerController.OnApproachDashToTurret -= ChangeToExecuteHoldedState;
         playerController.MakePlayerVulnerable();

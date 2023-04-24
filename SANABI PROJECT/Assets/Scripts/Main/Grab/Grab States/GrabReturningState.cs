@@ -14,6 +14,7 @@ public class GrabReturningState : GrabState
     {
         base.Enter();
         SetGrabStatus();
+        grabController.IgnoreTurretCollision(true);
     }
     public override void LogicUpdate()
     {
@@ -46,6 +47,7 @@ public class GrabReturningState : GrabState
         base.Exit();
         grabController.IsGrabReturned = true;
         SetStartPos();
+        grabController.IgnoreTurretCollision(false);
     }
 
     private void SetStartPos()
