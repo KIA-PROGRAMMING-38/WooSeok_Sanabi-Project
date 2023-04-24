@@ -17,7 +17,7 @@ public class BossIdleState : BossState
     {
         base.Enter();
         bossController.StartWaitIdleTime();
-        bossController.bossGunController.StartLookingAtTarget();
+        
     }
 
     public override void Exit()

@@ -16,6 +16,7 @@ public class BossShootState : BossState
     public override void Enter()
     {
         base.Enter();
+        
     }
 
     public override void Exit()

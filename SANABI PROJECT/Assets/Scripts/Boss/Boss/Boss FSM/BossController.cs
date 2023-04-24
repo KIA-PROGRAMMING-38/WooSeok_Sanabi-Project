@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,6 +41,12 @@ public class BossController : MonoBehaviour
 
     private IEnumerator _WaitIdleTime;
     private WaitForSeconds _waitidleTime;
+
+    #endregion
+
+    #region Events
+
+    public event Action OnShoot;
 
     #endregion
 
@@ -140,6 +147,11 @@ public class BossController : MonoBehaviour
     public void ChangeToShootState()
     {
         StateMachine.ChangeState(ShootState);
+    }
+
+    public void OnShootState()
+    {
+        OnShoot?.Invoke();
     }
 
     #endregion

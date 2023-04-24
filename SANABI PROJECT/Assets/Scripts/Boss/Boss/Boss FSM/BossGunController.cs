@@ -12,7 +12,7 @@ public class BossGunController : MonoBehaviour
 
     public Transform target;
 
-    private Vector2 gunTipDistance;
+    public Vector2 gunTipDistance { get; private set; }
     private RaycastHit2D hit;
     public LineRenderer lineRenderer;
     public Transform head;
@@ -48,6 +48,7 @@ public class BossGunController : MonoBehaviour
     #endregion
     void Start()
     {
+
         platformLayerNumber = LayerMask.GetMask("NormalWall");
         lineRenderer = GetComponentInChildren<LineRenderer>();
 
@@ -59,12 +60,18 @@ public class BossGunController : MonoBehaviour
         _aimLockTime = new WaitForSeconds(bossData.aimLockTime);
 
         _EnableLineColorChange = EnableLineColorChange();
+        _colorStayTime = new WaitForSeconds(colorStayTime);
     }
 
     void Update()
     {
         
     }
+
+    #region Laser Functions
+
+
+
 
     #region Aim Line Color Change 
     private void EnableLineInitialColor()
@@ -128,6 +135,9 @@ public class BossGunController : MonoBehaviour
     }
     #endregion
 
+
+    #endregion
+
     #region Coroutines
 
     #region LookingAtTarget
@@ -170,7 +180,6 @@ public class BossGunController : MonoBehaviour
     public void StopAimingAtTarget()
     {
         StopCoroutine(_AimAtTarget);
-        StopCoroutine(_LookAtTarget);
     }
 
     private IEnumerator AimAtTarget()

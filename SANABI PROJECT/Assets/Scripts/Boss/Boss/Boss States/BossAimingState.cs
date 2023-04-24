@@ -19,6 +19,7 @@ public class BossAimingState : BossState
         bossController.bossGunController.OnFinishedAiming -= ChangeToAimLockState;
         bossController.bossGunController.OnFinishedAiming += ChangeToAimLockState;
 
+        bossController.bossGunController.StartLookingAtTarget();
         bossController.bossGunController.StartAimingAtTarget();
     }
 
@@ -26,6 +27,7 @@ public class BossAimingState : BossState
     {
         base.Exit();
         bossController.bossGunController.OnFinishedAiming -= ChangeToAimLockState;
+        bossController.bossGunController.StopLookingAtTarget();
         bossController.bossGunController.StopAimingAtTarget();
     }
 
