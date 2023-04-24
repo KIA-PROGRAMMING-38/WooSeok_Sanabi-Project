@@ -1124,7 +1124,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
+        value: 0.39285278
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1132,17 +1132,35 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.4615957
-        value: 0.6428566
-        inSlope: 0.016822107
-        outSlope: 0.016822107
+        time: 0.24044304
+        value: 0.9166667
+        inSlope: 2.1373475
+        outSlope: 2.1373475
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0.5642383
         outWeight: 0.33333334
       - serializedVersion: 3
+        time: 0.56403196
+        value: 0.5529893
+        inSlope: -2.9665117
+        outSlope: -2.9665117
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.28980592
+        outWeight: 0.6757
+      - serializedVersion: 3
+        time: 0.7454035
+        value: 0.18195698
+        inSlope: -1.0390754
+        outSlope: -1.0390754
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.78404886
+        outWeight: 0.8678149
+      - serializedVersion: 3
         time: 1
-        value: 0.0119018555
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1206,7 +1224,7 @@ MonoBehaviour:
   bossGunController: {fileID: 1276345741}
   bulletRigid: {fileID: 0}
   trailRenderer: {fileID: 0}
-  shootSpeed: 150
+  shootSpeed: 300
   bulletReturnTime: 2
 --- !u!50 &812288038
 Rigidbody2D:
@@ -2322,7 +2340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   appearSpeed: 10
-  idleWaitTime: 5
+  idleWaitTime: 1
   rotateSpeed: 200
   aimWaitTime: 1.5
   aimLockTime: 0.5
@@ -2835,7 +2853,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7.61
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2859,7 +2877,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2027229304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 8.71, y: 0.28, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

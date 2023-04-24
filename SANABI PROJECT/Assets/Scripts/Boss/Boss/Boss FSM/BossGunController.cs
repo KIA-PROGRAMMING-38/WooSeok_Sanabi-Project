@@ -94,6 +94,7 @@ public class BossGunController : MonoBehaviour
     public void StartAimLineColorChange()
     {
         lineRenderer.enabled = true;
+        _EnableLineColorChange = EnableLineColorChange();
         StartCoroutine(_EnableLineColorChange);
     }
 
@@ -143,6 +144,7 @@ public class BossGunController : MonoBehaviour
     #region LookingAtTarget
     public void StartLookingAtTarget()
     {
+        _LookAtTarget = LookAtTarget();
         StartCoroutine(_LookAtTarget);
     }
 
@@ -173,8 +175,9 @@ public class BossGunController : MonoBehaviour
 
     public void StartAimingAtTarget()
     {
+        lineRenderer.enabled = true;
+        _AimAtTarget= AimAtTarget();
         StartCoroutine(_AimAtTarget);
-        
     }
 
     public void StopAimingAtTarget()
@@ -201,6 +204,7 @@ public class BossGunController : MonoBehaviour
 
     public void StartAimLock()
     {
+        _AimLockWait = AimLockWait();
         StartCoroutine(_AimLockWait);
     }
 

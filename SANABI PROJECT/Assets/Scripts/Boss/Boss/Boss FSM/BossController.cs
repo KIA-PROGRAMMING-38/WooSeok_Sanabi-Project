@@ -42,6 +42,12 @@ public class BossController : MonoBehaviour
     private IEnumerator _WaitIdleTime;
     private WaitForSeconds _waitidleTime;
 
+    private IEnumerator _WaitShootTime;
+    private WaitForSeconds _waitShootTime;
+
+    private IEnumerator _WaitCooldownTime;
+    private WaitForSeconds _waitCooldownTime;
+
     #endregion
 
     #region Events
@@ -79,6 +85,12 @@ public class BossController : MonoBehaviour
 
         _WaitIdleTime = WaitIdleTime();
         _waitidleTime = new WaitForSeconds(bossData.idleWaitTime);
+
+        _WaitShootTime = WaitShootTime();
+        _waitShootTime = new WaitForSeconds(bossData.shootWaitTime);
+
+        _WaitCooldownTime = WaitCooldownTime();
+        _waitCooldownTime = new WaitForSeconds(bossData.cooldownWaitTime);
 
         StateMachine.Initialize(AppearState);
     }
@@ -121,8 +133,49 @@ public class BossController : MonoBehaviour
 
     #endregion
 
+    #region bossShootState
 
+    public void StartWaitShootTime()
+    {
+        _WaitShootTime = WaitShootTime();
+        StartCoroutine(_WaitShootTime);
+    }
 
+    public void StopWaitShootTime()
+    {
+        StopCoroutine(_WaitShootTime);
+    }
+
+    private IEnumerator WaitShootTime()
+    {
+        yield return _waitShootTime;
+        StateMachine.ChangeState(CooldownState);
+        StopCoroutine(_WaitShootTime);
+    }
+
+    #endregion
+
+    #region bossCooldownState
+
+    public void StartWaitCooldownTime()
+    {
+        _WaitCooldownTime = WaitCooldownTime();
+        StartCoroutine(_WaitCooldownTime);
+    }
+
+    public void StopWaitCooldownTime()
+    {
+        StopCoroutine(_WaitCooldownTime);
+    }
+
+    private IEnumerator WaitCooldownTime()
+    {
+        yield return _waitCooldownTime;
+        StateMachine.ChangeState(AimingState);
+        StopCoroutine(_WaitCooldownTime);
+    }
+
+    #endregion
 
     #endregion
 
@@ -153,6 +206,7 @@ public class BossController : MonoBehaviour
     {
         OnShoot?.Invoke();
     }
+
 
     #endregion
 

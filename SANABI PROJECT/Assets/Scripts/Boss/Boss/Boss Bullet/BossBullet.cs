@@ -10,7 +10,7 @@ public class BossBullet : MonoBehaviour
     public TrailRenderer trailRenderer;
 
     private Vector2 shootDirection;
-    [SerializeField] private float shootSpeed = 150f;
+    [SerializeField] private float shootSpeed = 300f;
 
     private int platformLayer;
     private int playerLayer;
@@ -36,6 +36,8 @@ public class BossBullet : MonoBehaviour
         trailRenderer.emitting = false;
     }
 
+
+
     private void ShootBullet()
     {
         ReturnToHead();
@@ -54,6 +56,7 @@ public class BossBullet : MonoBehaviour
 
     private void StartWaitBullet()
     {
+        _WaitBullet = WaitBullet();
         StartCoroutine(_WaitBullet);
     }
 
@@ -68,6 +71,7 @@ public class BossBullet : MonoBehaviour
         ReturnToHead();
         StopWaitBullet();
     }
+
 
 
 

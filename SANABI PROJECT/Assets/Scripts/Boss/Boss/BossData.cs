@@ -17,6 +17,12 @@ public class BossData : MonoBehaviour
     [Header("AimLock State")]
     public float aimLockTime = 0.5f;
 
+    [Header("Shoot State")]
+    public float shootWaitTime = 1f;
+
+    [Header("Cooldown State")]
+    public float cooldownWaitTime = 0.5f;
+
     [Header("Check Variables")]
     public float groundCheckRadius = 0.5f;
     public LayerMask whatIsGround;

@@ -16,12 +16,13 @@ public class BossShootState : BossState
     public override void Enter()
     {
         base.Enter();
-        
+        bossController.StartWaitShootTime();
     }
 
     public override void Exit()
     {
         base.Exit();
+        bossController.StopWaitShootTime();
     }
 
     public override void LogicUpdate()

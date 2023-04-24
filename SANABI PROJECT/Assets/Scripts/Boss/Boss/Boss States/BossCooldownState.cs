@@ -16,11 +16,13 @@ public class BossCooldownState : BossState
     public override void Enter()
     {
         base.Enter();
+        bossController.StartWaitCooldownTime();
     }
 
     public override void Exit()
     {
         base.Exit();
+        bossController.StopWaitCooldownTime();
     }
 
     public override void LogicUpdate()
