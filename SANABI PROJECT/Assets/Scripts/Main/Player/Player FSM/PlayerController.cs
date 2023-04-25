@@ -680,6 +680,16 @@ public class PlayerController : MonoBehaviour
         {
             OnApproachDashToBoss?.Invoke();
         }
+        else if (collision.gameObject.CompareTag("BossBullet"))
+        {
+            if (!isPlayerInvincible)
+            {
+                StartCoroutine(MakePlayerInvincibleForCetainTime());
+                isPlayerDamaged = true;
+                ArmController.IsPlayerDamaged = isPlayerDamaged;
+                HPBarController.IsPlayerDamaged = isPlayerDamaged;
+            }
+        }
         else if (collision.gameObject.CompareTag("TurretBullet"))
         {
             if (!isPlayerInvincible)

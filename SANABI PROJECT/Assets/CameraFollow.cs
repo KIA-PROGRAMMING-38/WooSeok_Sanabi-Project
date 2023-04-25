@@ -119,8 +119,14 @@ public class CameraFollow : MonoBehaviour
     {
         SlowCameraMove();
         Camera.main.orthographicSize = 3f;
-        backGround.gameObject.SetActive(false);
-        mainGround.gameObject.SetActive(false);
+        if (backGround.gameObject != null)
+        {
+            backGround.gameObject.SetActive(false);
+        }
+        if (mainGround.gameObject != null)
+        {
+            mainGround.gameObject.SetActive(false);
+        }
         Camera.main.backgroundColor = Color.black;
     }
 
