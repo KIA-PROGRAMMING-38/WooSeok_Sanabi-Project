@@ -21,7 +21,11 @@ public class PlayerApproachDash : PlayerAbilityState
         base.DoChecks();
         GetDashDirection();
         ApproachDashForce = playerData.approachDashVelocity;
-        ifGoToPhase2 = GameManager.Instance.bossController.CheckIfGoToPhase2();
+        if (GameManager.Instance.bossController != null)
+        {
+            ifGoToPhase2 = GameManager.Instance.bossController.CheckIfGoToPhase2();
+        }
+        
     }
 
     public override void Enter()

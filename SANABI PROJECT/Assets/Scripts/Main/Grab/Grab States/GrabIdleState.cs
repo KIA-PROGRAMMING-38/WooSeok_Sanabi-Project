@@ -30,7 +30,7 @@ public class GrabIdleState : GrabState
         GrabAttachedToBody();
         
         
-        if (mouseInput)
+        if (mouseInput && !GameManager.Instance.playerController.isPlayerBossState)
         {
             stateMachine.ChangeState(grabController.FlyingState);
         }

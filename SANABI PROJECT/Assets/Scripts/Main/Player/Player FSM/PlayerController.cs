@@ -136,6 +136,7 @@ public class PlayerController : MonoBehaviour
 
     public event Action OnApproachDashToBoss;
 
+    public bool isPlayerBossState { get; set; }
     public event Action OnGetHit;
     public event Action OnQTE;
     #endregion

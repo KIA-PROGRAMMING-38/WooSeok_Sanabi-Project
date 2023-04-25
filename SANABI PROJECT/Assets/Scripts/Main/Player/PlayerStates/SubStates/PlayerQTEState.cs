@@ -31,6 +31,15 @@ public class PlayerQTEState : PlayerBossState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        if (MouseInput)
+        {
+            GameManager.Instance.bossCanvasController.IncreaseSliderGuageWhenClick();
+        }
+        else if (MouseInputHold)
+        {
+            GameManager.Instance.bossCanvasController.IncreaseSliderGuageWhenHold();
+        }
     }
 
     private void EternalZoomInPlayer()

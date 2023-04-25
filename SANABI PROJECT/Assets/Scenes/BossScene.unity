@@ -1108,7 +1108,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   QTESlider: {fileID: 2038086226}
   sliderScript: {fileID: 2038086229}
-  bossTransform: {fileID: 0}
 --- !u!1 &712283624
 GameObject:
   m_ObjectHideFlags: 0
@@ -2817,7 +2816,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!20 &2027229306
 Camera:
   m_ObjectHideFlags: 0
@@ -3012,8 +3011,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87f77b12ce2fdf540be39572344c7286, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  increaseAmount: 0
-  decreaseAmount: 0.05
+  offSetTime: 0.5
+  initialValue: 0.1
+  increaseAmount: 0.05
+  increaseHoldMultiplier: 0.05
+  decreaseAmount: 0.01
+  decreaseTimeGap: 0.1
 --- !u!1 &2084163194
 GameObject:
   m_ObjectHideFlags: 0

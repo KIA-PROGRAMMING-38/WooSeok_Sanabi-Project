@@ -30,6 +30,8 @@ public class BossQTEState : BossState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        
     }
 
     public override void PhysicsUpdate()
