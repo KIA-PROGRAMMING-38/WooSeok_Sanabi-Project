@@ -66,6 +66,9 @@ public class BossController : MonoBehaviour
     public int hitCount;
     private int hitPhase2Count;
     public bool isPhase1;
+
+    private int rightDirection = 1;
+    private int FacingDirection;
     #endregion
 
     private void Awake()
@@ -114,7 +117,7 @@ public class BossController : MonoBehaviour
 
         isPhase1 = true;
         hitPhase2Count = bossData.hitPhase2Count;
-
+        FacingDirection = rightDirection;
 
         StateMachine.Initialize(AppearState);
     }
@@ -126,16 +129,25 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(GameManager.Instance.bossGunController.targetDistance.x);
         StateMachine.CurrentState.LogicUpdate();
         //Debug.Log(StateMachine.CurrentState);
     }
 
-    #region 
+    #region Other Functions
 
     public void BossRunAway()
     {
         int randomIndex = UnityEngine.Random.Range(0, bossRunAwaySpots.Length - 1);
         transform.position = bossRunAwaySpots[randomIndex].position;
+    }
+
+    private void Flip()
+    {
+        FacingDirection *= -1;
+        Vector3 newScale = Vector3.one;
+        newScale.x = FacingDirection;
+        transform.localScale = newScale;
     }
 
 
@@ -233,6 +245,24 @@ public class BossController : MonoBehaviour
         return Physics2D.OverlapCircle(groundCheck.position, bossData.groundCheckRadius, bossData.whatIsGround);
     }
 
+    public void CheckIfShouldFlip()
+    {
+        if (1 <= FacingDirection) // if boss is looking right
+        {
+            if (0f < GameManager.Instance.bossGunController.targetDistance.x) // but player is on leftside
+            {
+                Flip();
+            }
+        }
+        else // if boss is looking left
+        {
+            if (GameManager.Instance.bossGunController.targetDistance.x < 0f) // but player is on rightside
+            {
+                Flip();
+            }
+        }
+
+    }
     
 
     public bool CheckIfPhase1()

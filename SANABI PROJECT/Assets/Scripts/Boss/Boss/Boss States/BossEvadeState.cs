@@ -11,6 +11,7 @@ public class BossEvadeState : BossState
     public override void DoChecks()
     {
         base.DoChecks();
+        bossController.CheckIfShouldFlip();
     }
 
     public override void Enter()

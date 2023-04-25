@@ -25,7 +25,7 @@ public class BossGunController : MonoBehaviour
     private WaitForSeconds _colorStayTime;
     private IEnumerator _EnableLineColorChange;
 
-    private Vector2 targetDistance;
+    public Vector2 targetDistance;
     private float rotationAngle;
 
     #region Coroutine Optimization

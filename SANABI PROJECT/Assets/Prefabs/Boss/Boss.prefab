@@ -587,6 +587,7 @@ MonoBehaviour:
   head: {fileID: 851236261043811464}
   gunTip: {fileID: 851236261135390867}
   colorStayTime: 0.05
+  targetDistance: {x: 0, y: 0}
 --- !u!1 &851236262925654718
 GameObject:
   m_ObjectHideFlags: 0
