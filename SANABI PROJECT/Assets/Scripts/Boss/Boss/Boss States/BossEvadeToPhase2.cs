@@ -1,10 +1,14 @@
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 
-public class PlayerGetHitState : PlayerBossState
+
+public class BossEvadeToPhase2 : BossState
 {
-    public PlayerGetHitState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+    public BossEvadeToPhase2(BossController bossController, BossStateMachine bossStateMachine, BossData bossData, string animBoolName) : base(bossController, bossStateMachine, bossData, animBoolName)
     {
     }
 
@@ -16,6 +20,7 @@ public class PlayerGetHitState : PlayerBossState
     public override void Enter()
     {
         base.Enter();
+        bossController.isPhase1 = false;
     }
 
     public override void Exit()
@@ -26,16 +31,11 @@ public class PlayerGetHitState : PlayerBossState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        HoldPosition();
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
     }
-
-    private void HoldPosition()
-    {
-        playerController.SetVelocityAll(0f, 0f);
-    }
 }
+

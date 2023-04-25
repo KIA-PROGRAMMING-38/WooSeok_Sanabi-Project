@@ -612,6 +612,11 @@ public class PlayerController : MonoBehaviour
     private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
     private void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
 
+    public void TransformMove(Vector2 direction, float speed)
+    {
+        transform.Translate(direction * speed * Time.deltaTime);
+    }
+
     public void ChangeToIdleState()
     {
         StateMachine.ChangeState(IdleState);

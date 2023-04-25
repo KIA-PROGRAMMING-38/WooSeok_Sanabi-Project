@@ -77,15 +77,4 @@ public class BossBullet : MonoBehaviour
     }
 
 
-
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == playerLayer)
-        {
-            Debug.Log("플레이어가 맞았다!");
-        }
-
-        
-    }
 }

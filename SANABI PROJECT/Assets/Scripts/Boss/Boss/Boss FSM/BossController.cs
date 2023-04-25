@@ -21,6 +21,7 @@ public class BossController : MonoBehaviour
     public BossEvadeState EvadeState { get; private set; }
     public BossRunAwayState RunAwayState { get; private set; }
     public BossQTEState QTEState { get; private set; }
+    public BossEvadeToPhase2 EvadeToPhase2 { get; private set; }
     public BossExecutedState ExecutedState { get; private set; }
     public BossDeadState DeadState { get; private set; }
 
@@ -60,6 +61,13 @@ public class BossController : MonoBehaviour
 
     #endregion
 
+    #region Variables
+
+    public int hitCount;
+    private int hitPhase2Count;
+    public bool isPhase1;
+    #endregion
+
     private void Awake()
     {
         StateMachine = new BossStateMachine();
@@ -79,6 +87,7 @@ public class BossController : MonoBehaviour
         EvadeState = new BossEvadeState(this, StateMachine, bossData, "evade");
         RunAwayState = new BossRunAwayState(this, StateMachine, bossData, "runAway");
         QTEState = new BossQTEState(this, StateMachine, bossData, "QTE");
+        EvadeToPhase2 = new BossEvadeToPhase2(this, StateMachine, bossData, "toPhase2");
         ExecutedState = new BossExecutedState(this, StateMachine, bossData, "executed");
         DeadState = new BossDeadState(this, StateMachine, bossData, "dead");
     }
@@ -86,6 +95,7 @@ public class BossController : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.bossController = this;
+        
     }
 
     private void Start()
@@ -100,6 +110,11 @@ public class BossController : MonoBehaviour
 
         _WaitCooldownTime = WaitCooldownTime();
         _waitCooldownTime = new WaitForSeconds(bossData.cooldownWaitTime);
+
+
+        isPhase1 = true;
+        hitPhase2Count = bossData.hitPhase2Count;
+
 
         StateMachine.Initialize(AppearState);
     }
@@ -208,13 +223,42 @@ public class BossController : MonoBehaviour
         bossRigidbody.velocity = velocity;
     }
 
+
+
+    #endregion
+
+    #region CheckFunctions
     public bool CheckIfGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, bossData.groundCheckRadius, bossData.whatIsGround);
     }
 
-    #endregion
+    
 
+    public bool CheckIfPhase1()
+    {
+        if (isPhase1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool CheckIfGoToPhase2()
+    {
+        if (hitPhase2Count <= hitCount)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    #endregion
 
     #region Animation Call Events
 

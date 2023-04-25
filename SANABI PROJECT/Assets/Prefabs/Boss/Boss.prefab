@@ -761,7 +761,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   appearSpeed: 10
   idleWaitTime: 1
-  rotateSpeed: 200
+  rotateSpeed: 150
   aimWaitTime: 1.5
   aimLockTime: 0.5
   shootWaitTime: 1
@@ -770,6 +770,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  hitPhase2Count: 3
 --- !u!114 &851236262925654695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -788,3 +789,5 @@ MonoBehaviour:
   bossInitialSpawnSpot: {fileID: 0}
   groundCheck: {fileID: 851236261086954764}
   bossRunAwaySpots: []
+  hitCount: 0
+  isPhase1: 0

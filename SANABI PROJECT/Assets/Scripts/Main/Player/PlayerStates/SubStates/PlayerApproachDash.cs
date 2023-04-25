@@ -32,9 +32,8 @@ public class PlayerApproachDash : PlayerAbilityState
         playerController.OnApproachDashToTurret += ChangeToExecuteHoldedState;
         playerController.OnApproachDashToBoss -= ChangeToGetHitState;
         playerController.OnApproachDashToBoss += ChangeToGetHitState;
-        //playerController.PlayerIsDash(true);
-        playerController.SetVelocityAll(approachDashDirection.x * ApproachDashForce, approachDashDirection.y * ApproachDashForce);
-        //playerController.PlayerApproachDash();
+        //playerController.SetVelocityAll(approachDashDirection.x * ApproachDashForce, approachDashDirection.y * ApproachDashForce);
+        
         playerController.StartShowAfterImage();
     }
 
@@ -52,6 +51,7 @@ public class PlayerApproachDash : PlayerAbilityState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        playerController.TransformMove(approachDashDirection, ApproachDashForce);
     }
 
     public override void PhysicsUpdate()

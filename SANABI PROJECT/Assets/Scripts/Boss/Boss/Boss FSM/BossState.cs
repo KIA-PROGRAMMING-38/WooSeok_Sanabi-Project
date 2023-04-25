@@ -10,6 +10,9 @@ public class BossState
 
     private string animBoolName;
 
+    protected bool isPhase1;
+    protected bool ifGoToPhase2;
+
     public BossState(BossController bossController, BossStateMachine bossStateMachine, BossData bossData, string animBoolName)
     {
         this.bossController = bossController;
@@ -19,7 +22,8 @@ public class BossState
     }
     public virtual void DoChecks()
     {
-
+        isPhase1 = bossController.CheckIfPhase1();
+        ifGoToPhase2 = bossController.CheckIfGoToPhase2();
     }
     public virtual void Enter()
     {
@@ -33,6 +37,7 @@ public class BossState
 
     public virtual void Exit()
     {
+        GameManager.Instance.playerController.OnApproachDashToBoss -= ChangeToEvadeState;
         bossController.BodyAnimator.SetBool(animBoolName, false);
         bossController.HeadAnimator.SetBool(animBoolName, false);
     }
@@ -49,6 +54,14 @@ public class BossState
 
     private void ChangeToEvadeState()
     {
-        stateMachine.ChangeState(bossController.EvadeState);
+        if (!ifGoToPhase2)
+        {
+            stateMachine.ChangeState(bossController.EvadeState);
+        }
+        else
+        {
+            stateMachine.ChangeState(bossController.QTEState);
+        }
+        
     }
 }

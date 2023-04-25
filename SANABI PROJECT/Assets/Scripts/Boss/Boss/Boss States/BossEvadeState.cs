@@ -16,6 +16,7 @@ public class BossEvadeState : BossState
     public override void Enter()
     {
         base.Enter();
+        ++bossController.hitCount;
         GameManager.Instance.bossGunController.lineRenderer.enabled = false;
     }
 

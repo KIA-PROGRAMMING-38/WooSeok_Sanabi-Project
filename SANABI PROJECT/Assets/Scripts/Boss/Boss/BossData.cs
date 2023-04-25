@@ -23,9 +23,12 @@ public class BossData : MonoBehaviour
     [Header("Cooldown State")]
     public float cooldownWaitTime = 0.5f;
 
+
+
     [Header("Check Variables")]
     public float groundCheckRadius = 0.5f;
     public LayerMask whatIsGround;
+    public int hitPhase2Count = 3;
 
 
     private void OnEnable()
