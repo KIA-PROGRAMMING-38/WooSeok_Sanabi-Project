@@ -65,6 +65,16 @@ public class BossGunController : MonoBehaviour
         
     }
 
+
+    #region SetTarget
+
+    public void SetTarget(Transform targetTransform)
+    {
+        target = targetTransform;
+    }
+
+    #endregion
+
     #region Laser Functions
 
 
@@ -133,7 +143,11 @@ public class BossGunController : MonoBehaviour
     public void StartLookingAtTarget()
     {
         _LookAtTarget = LookAtTarget();
-        StartCoroutine(_LookAtTarget);
+        if (target != null)
+        {
+            StartCoroutine(_LookAtTarget);
+        }
+        //StartCoroutine(_LookAtTarget);
     }
 
     public void StopLookingAtTarget()

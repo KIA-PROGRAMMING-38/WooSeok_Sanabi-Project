@@ -20,7 +20,7 @@ public class BossAppearState : BossState
     public override void Enter()
     {
         base.Enter();
-        bossController.transform.position = bossController.bossSpawnSpot.position;
+        //bossController.transform.position = bossController.bossSpawnSpot.position;
         appearVelocity = appearDirection * appearSpeed;
         bossController.SetBossVelocity(appearVelocity);
     }

@@ -11,6 +11,10 @@ public class BossRoomEnterance : MonoBehaviour
     public BoxCollider2D enteranceCollider;
     private bool hasPlayerEnteredRoom;
 
+    public GameObject bossPrefab;
+    public Transform bossSpawnSpot;
+    public BossGunController bossGunController; 
+
     private void Awake()
     {
         playerLayerMask = LayerMask.NameToLayer("SNB");
@@ -28,6 +32,11 @@ public class BossRoomEnterance : MonoBehaviour
             enteranceCollider.isTrigger = false;
             boxCollider.enabled = false;
             hasPlayerEnteredRoom = true;
+            Instantiate(bossPrefab, bossSpawnSpot);
+            GameManager.Instance.bossData = bossPrefab.GetComponent<BossData>();
+            GameManager.Instance.bossController = bossPrefab.GetComponent<BossController>();
+            GameManager.Instance.bossGunController = bossPrefab.GetComponentInChildren<BossGunController>();
+            GameManager.Instance.bossGunController.target = GameManager.Instance.playerController.transform;
         }
     }
 

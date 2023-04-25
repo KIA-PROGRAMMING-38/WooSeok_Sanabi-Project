@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
 
     public CameraFollow camFollow;
 
+    public Transform playerTransform;
     //public GameManager gameManager;
 
     public TimeSlow timeSlower;
@@ -138,6 +139,7 @@ public class PlayerController : MonoBehaviour
         ArmController = GameManager.Instance.armController;
         camShake = Camera.main.GetComponent<ShakeCamera>();
         camFollow = Camera.main.GetComponent<CameraFollow>();
+        playerTransform = GetComponent<Transform>();    
         //gameManager = new GameManager();
         
         playerHealth = GetComponentInParent<PlayerHealth>();

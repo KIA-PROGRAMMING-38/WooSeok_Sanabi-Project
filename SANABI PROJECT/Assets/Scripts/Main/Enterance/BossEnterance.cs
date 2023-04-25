@@ -22,7 +22,7 @@ public class BossEnterance : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(isAllTurretsDead);
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -32,12 +32,14 @@ public class GameManager : MonoBehaviour
 
     }
 
+    [Header("Player")]
     public PlayerController playerController;
     public GrabController grabController;
     public PlayerArmController armController;
     public TurretSpawner turretSpawner;
     public PlayerData playerData;
     public WireDashIconController wireDashIconController;
+    public GameObject playerPrefab;
 
     private SceneNumber initialSceneNumber;
     public SceneNumber currentSceneNumber;
@@ -45,8 +47,12 @@ public class GameManager : MonoBehaviour
     public float ScreenShakeIntensity { get; set; }
     public bool isGamePaused;
 
-    public GameObject playerPrefab;
+    [Header("Boss")]
     public Transform playerSpawnSpot;
+    public BossData bossData;
+    public BossController bossController;
+    public BossGunController bossGunController;
+
     public Vector3 bossScenePlayerSpawnSpot
     {
         set
