@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossEvadeState : BossState
+public class BossRunAwayState : BossState
 {
-    public BossEvadeState(BossController bossController, BossStateMachine bossStateMachine, BossData bossData, string animBoolName) : base(bossController, bossStateMachine, bossData, animBoolName)
+    public BossRunAwayState(BossController bossController, BossStateMachine bossStateMachine, BossData bossData, string animBoolName) : base(bossController, bossStateMachine, bossData, animBoolName)
     {
     }
 
@@ -16,7 +16,7 @@ public class BossEvadeState : BossState
     public override void Enter()
     {
         base.Enter();
-        GameManager.Instance.bossGunController.lineRenderer.enabled = false;
+        bossController.BossRunAway();
     }
 
     public override void Exit()

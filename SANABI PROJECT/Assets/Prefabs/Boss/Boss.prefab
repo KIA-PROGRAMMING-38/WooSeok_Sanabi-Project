@@ -1,5 +1,63 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &199250651120121764
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 609886581602778399}
+  - component: {fileID: 8253425879560533077}
+  m_Layer: 0
+  m_Name: GrabCheck
+  m_TagString: Boss
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &609886581602778399
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199250651120121764}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 851236262925654717}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &8253425879560533077
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199250651120121764}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.21}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.26, y: 1.7}
+  m_EdgeRadius: 0
 --- !u!1 &851236261043811465
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,7 +279,7 @@ GameObject:
   - component: {fileID: 851236261067164051}
   - component: {fileID: 851236261067164049}
   - component: {fileID: 851236261067164048}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BossBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -259,6 +317,7 @@ MonoBehaviour:
   bossGunController: {fileID: 851236262608043066}
   bulletRigid: {fileID: 0}
   trailRenderer: {fileID: 0}
+  circleCollider: {fileID: 0}
   shootSpeed: 300
   bulletReturnTime: 1
 --- !u!96 &851236261067164051
@@ -543,9 +602,9 @@ GameObject:
   - component: {fileID: 851236262925654713}
   - component: {fileID: 851236262925654712}
   - component: {fileID: 851236262925654695}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -564,6 +623,7 @@ Transform:
   m_Children:
   - {fileID: 851236262608043067}
   - {fileID: 851236261086954764}
+  - {fileID: 609886581602778399}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -631,7 +691,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 100
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -664,7 +724,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.96875, y: 1.13}
+  m_Size: {x: 0.96875, y: 1.01}
   m_EdgeRadius: 0
 --- !u!95 &851236262925654713
 Animator:
@@ -725,5 +785,6 @@ MonoBehaviour:
   bossRigidbody: {fileID: 0}
   BodyAnimator: {fileID: 0}
   HeadAnimator: {fileID: 851236261043811574}
-  bossSpawnSpot: {fileID: 0}
+  bossInitialSpawnSpot: {fileID: 0}
   groundCheck: {fileID: 851236261086954764}
+  bossRunAwaySpots: []

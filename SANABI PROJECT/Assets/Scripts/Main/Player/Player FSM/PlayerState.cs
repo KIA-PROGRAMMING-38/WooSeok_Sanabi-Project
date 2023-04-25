@@ -33,6 +33,8 @@ public class PlayerState
         playerController.playerHealth.OnDead += ChangeToDeadState;
         playerController.GrabController.OnGrabTurret -= ChangeToApproachDashState;
         playerController.GrabController.OnGrabTurret += ChangeToApproachDashState;
+        GameManager.Instance.grabController.OnGrabBoss -= ChangeToApproachDashState;
+        GameManager.Instance.grabController.OnGrabBoss += ChangeToApproachDashState;
         startTime = Time.time;
         isAnimationFinished = false;
         isExitingState = false;
@@ -44,6 +46,7 @@ public class PlayerState
         playerController.ArmAnimator.SetBool(animBoolName, false);
         playerController.playerHealth.OnDead -= ChangeToDeadState;
         playerController.GrabController.OnGrabTurret -= ChangeToApproachDashState;
+        GameManager.Instance.grabController.OnGrabBoss -= ChangeToApproachDashState;
         isExitingState = true;
     }
 

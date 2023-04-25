@@ -8,6 +8,7 @@ public class BossBullet : MonoBehaviour
     public BossGunController bossGunController;
     public Rigidbody2D bulletRigid;
     public TrailRenderer trailRenderer;
+    public CircleCollider2D circleCollider;
 
     private Vector2 shootDirection;
     [SerializeField] private float shootSpeed = 300f;
@@ -25,6 +26,7 @@ public class BossBullet : MonoBehaviour
         trailRenderer = GetComponent<TrailRenderer>();
         platformLayer = LayerMask.NameToLayer("NormalWall");
         playerLayer = LayerMask.NameToLayer("SNB");
+        circleCollider= GetComponent<CircleCollider2D>();   
     }
     private void Start()
     {
@@ -44,6 +46,7 @@ public class BossBullet : MonoBehaviour
         trailRenderer.emitting = true;
         shootDirection = bossGunController.gunTipDistance.normalized;
         bulletRigid.velocity = shootDirection * shootSpeed;
+        circleCollider.enabled = true;
     }
 
     private void ReturnToHead()
@@ -67,6 +70,7 @@ public class BossBullet : MonoBehaviour
 
     private IEnumerator WaitBullet()
     {
+        circleCollider.enabled = false;
         yield return _bulletReturnTime;
         ReturnToHead();
         StopWaitBullet();

@@ -44,6 +44,13 @@ public class BossGunController : MonoBehaviour
     public event Action OnFinishedAimLock;
 
     #endregion
+
+    private void OnEnable()
+    {
+        GameManager.Instance.bossGunController = this;
+        target = GameManager.Instance.playerController.transform;
+    }
+
     void Start()
     {
 

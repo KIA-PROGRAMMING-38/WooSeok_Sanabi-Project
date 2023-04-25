@@ -26,4 +26,10 @@ public class BossData : MonoBehaviour
     [Header("Check Variables")]
     public float groundCheckRadius = 0.5f;
     public LayerMask whatIsGround;
+
+
+    private void OnEnable()
+    {
+        GameManager.Instance.bossData = this;
+    }
 }

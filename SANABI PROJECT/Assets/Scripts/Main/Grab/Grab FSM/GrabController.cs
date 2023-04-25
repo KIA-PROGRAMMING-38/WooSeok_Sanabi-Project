@@ -51,8 +51,16 @@ public class GrabController : MonoBehaviour
     public Vector2 workSpace;
     public Vector2 AnchorPosition { get; set; }
 
+    #region Events
     public event Action OnGrabTurret;
 
+    public event Action OnGrabBoss;
+
+    public bool hasGrabbedTurret { get; set; }
+
+    public bool hasGrabbedBoss { get; set; }    
+
+    #endregion
     #endregion
     private void Awake()
     {
@@ -146,15 +154,15 @@ public class GrabController : MonoBehaviour
         Physics2D.IgnoreLayerCollision(GrabLayerNumber, TurretLayerNumber, ignore);
     }
 
-    private Vector3 grabbedTurretPosition;
-    public void SetGrabbedTurretPosition(Transform turret)
+    private Vector3 grabbedPosition;
+    public void SetGrabbedPosition(Transform enemy)
     {
-        grabbedTurretPosition= turret.position;
+        grabbedPosition= enemy.position;
     }
 
-    public Vector3 GetGrabbedTurretPosition()
+    public Vector3 GetGrabbedPosition()
     {
-        return grabbedTurretPosition;
+        return grabbedPosition;
     }
 
 
@@ -168,11 +176,18 @@ public class GrabController : MonoBehaviour
         else if (collision.gameObject.CompareTag("Turret"))
         {
             SetGrabbedTurretInstanceID(collision.gameObject.GetInstanceID());
-            SetGrabbedTurretPosition(collision.transform);
+            SetGrabbedPosition(collision.transform);
             grabbedTurret = collision.gameObject;
+            hasGrabbedTurret = true;
             OnGrabTurret?.Invoke();
         }
+        else if (collision.gameObject.CompareTag("Boss"))
+        {
+            SetGrabbedPosition(collision.transform);
+            OnGrabBoss?.Invoke();
+        }
     }
+
 
     private GameObject grabbedTurret;
     public TurretController GetGrabbedTurretObject()

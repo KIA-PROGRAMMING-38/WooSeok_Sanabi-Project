@@ -19,6 +19,7 @@ public class BossController : MonoBehaviour
     public BossShootState ShootState { get; private set; }
     public BossCooldownState CooldownState { get; private set; }
     public BossEvadeState EvadeState { get; private set; }
+    public BossRunAwayState RunAwayState { get; private set; }
     public BossQTEState QTEState { get; private set; }
     public BossExecutedState ExecutedState { get; private set; }
     public BossDeadState DeadState { get; private set; }
@@ -32,8 +33,9 @@ public class BossController : MonoBehaviour
     public Animator BodyAnimator;
     public Animator HeadAnimator;
 
-    public Transform bossSpawnSpot;
+    public Transform bossInitialSpawnSpot;
     public Transform groundCheck;
+
 
     #endregion
 
@@ -47,6 +49,8 @@ public class BossController : MonoBehaviour
 
     private IEnumerator _WaitCooldownTime;
     private WaitForSeconds _waitCooldownTime;
+
+    public Transform[] bossRunAwaySpots;
 
     #endregion
 
@@ -73,11 +77,16 @@ public class BossController : MonoBehaviour
         ShootState = new BossShootState(this, StateMachine, bossData, "shoot");
         CooldownState = new BossCooldownState(this, StateMachine, bossData, "cooldown");
         EvadeState = new BossEvadeState(this, StateMachine, bossData, "evade");
+        RunAwayState = new BossRunAwayState(this, StateMachine, bossData, "runAway");
         QTEState = new BossQTEState(this, StateMachine, bossData, "QTE");
         ExecutedState = new BossExecutedState(this, StateMachine, bossData, "executed");
         DeadState = new BossDeadState(this, StateMachine, bossData, "dead");
     }
 
+    private void OnEnable()
+    {
+        GameManager.Instance.bossController = this;
+    }
 
     private void Start()
     {
@@ -105,6 +114,18 @@ public class BossController : MonoBehaviour
         StateMachine.CurrentState.LogicUpdate();
         //Debug.Log(StateMachine.CurrentState);
     }
+
+    #region 
+
+    public void BossRunAway()
+    {
+        int randomIndex = UnityEngine.Random.Range(0, bossRunAwaySpots.Length - 1);
+        transform.position = bossRunAwaySpots[randomIndex].position;
+    }
+
+
+    #endregion
+
 
     #region Coroutines
 
@@ -207,7 +228,15 @@ public class BossController : MonoBehaviour
         OnShoot?.Invoke();
     }
 
+    public void ChangeToRunAwayState()
+    {
+        StateMachine.ChangeState(RunAwayState);
+    }
 
+    public void ChangeToCooldownState()
+    {
+        StateMachine.ChangeState(CooldownState);    
+    }
     #endregion
 
 }

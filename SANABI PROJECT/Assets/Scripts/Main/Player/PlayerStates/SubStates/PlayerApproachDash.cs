@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 public class PlayerApproachDash : PlayerAbilityState
 {
-    private Vector3 grabbedTurretPosition;
+    private Vector3 grabbedPosition;
     private Vector3 approachDashDirection;
     private float ApproachDashForce;
     public PlayerApproachDash(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
@@ -30,6 +30,8 @@ public class PlayerApproachDash : PlayerAbilityState
         //playerController.playerRigidBody.bodyType = RigidbodyType2D.Kinematic;
         playerController.OnApproachDashToTurret -= ChangeToExecuteHoldedState;
         playerController.OnApproachDashToTurret += ChangeToExecuteHoldedState;
+        playerController.OnApproachDashToBoss -= ChangeToGetHitState;
+        playerController.OnApproachDashToBoss += ChangeToGetHitState;
         //playerController.PlayerIsDash(true);
         playerController.SetVelocityAll(approachDashDirection.x * ApproachDashForce, approachDashDirection.y * ApproachDashForce);
         //playerController.PlayerApproachDash();
@@ -59,14 +61,19 @@ public class PlayerApproachDash : PlayerAbilityState
 
     private void GetDashDirection()
     {
-        grabbedTurretPosition = playerController.GrabController.GetGrabbedTurretPosition();
-        approachDashDirection = grabbedTurretPosition - playerController.transform.position;
+        grabbedPosition = playerController.GrabController.GetGrabbedPosition();
+        approachDashDirection = grabbedPosition - playerController.transform.position;
         approachDashDirection.Normalize();
     }
 
     private void ChangeToExecuteHoldedState()
     {
         stateMachine.ChangeState(playerController.ExecuteHolded);
+    }
+
+    private void ChangeToGetHitState()
+    {
+        stateMachine.ChangeState(playerController.GetHitState);
     }
 }
 

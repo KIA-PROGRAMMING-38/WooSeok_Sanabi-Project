@@ -17,6 +17,7 @@ TagManager:
   - Platform
   - TurretBullet
   - DeathPlatform
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -32,9 +33,9 @@ TagManager:
   - TurretBullet
   - TurretBrokenParts
   - Turret
-  - 
-  - 
-  - 
+  - BossBullet
+  - BossEnterance
+  - Boss
   - 
   - 
   - 

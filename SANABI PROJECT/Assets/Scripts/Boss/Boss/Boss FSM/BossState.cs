@@ -24,8 +24,11 @@ public class BossState
     public virtual void Enter()
     {
         DoChecks();
+        GameManager.Instance.playerController.OnApproachDashToBoss -= ChangeToEvadeState;
+        GameManager.Instance.playerController.OnApproachDashToBoss += ChangeToEvadeState;
         bossController.BodyAnimator.SetBool(animBoolName, true);
         bossController.HeadAnimator.SetBool(animBoolName, true);
+        
     }
 
     public virtual void Exit()
@@ -42,5 +45,10 @@ public class BossState
     public virtual void PhysicsUpdate()
     {
         DoChecks();
+    }
+
+    private void ChangeToEvadeState()
+    {
+        stateMachine.ChangeState(bossController.EvadeState);
     }
 }

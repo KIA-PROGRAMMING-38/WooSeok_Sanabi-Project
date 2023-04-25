@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
     public PlayerExecuteHolded ExecuteHolded { get; private set; }
     public PlayerExecuteDash ExecuteDash { get; private set; }
 
+    public PlayerGetHitState GetHitState { get; private set; }
+
     #endregion
 
     public Rigidbody2D playerRigidBody { get; private set; }
@@ -129,6 +131,9 @@ public class PlayerController : MonoBehaviour
     private IEnumerator _ShowWallSlideDust;
     [SerializeField] private float dustCreateTime = 0.05f;
     private WaitForSeconds _dustCreateTime;
+
+
+    public event Action OnApproachDashToBoss;
     #endregion
     private void Awake()
     {
@@ -165,6 +170,7 @@ public class PlayerController : MonoBehaviour
         ApproachDash = new PlayerApproachDash(this, StateMachine, playerData, "approachDash");
         ExecuteHolded = new PlayerExecuteHolded(this, StateMachine, playerData, "executeHolded");
         ExecuteDash = new PlayerExecuteDash(this, StateMachine, playerData, "executeDash");
+        GetHitState = new PlayerGetHitState(this, StateMachine, playerData, "getHit");
     }
 
     private void Start()
@@ -606,7 +612,10 @@ public class PlayerController : MonoBehaviour
     private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
     private void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
 
-
+    public void ChangeToIdleState()
+    {
+        StateMachine.ChangeState(IdleState);
+    }
     private void Flip()
     {
         FacingDirection *= -1;
@@ -666,6 +675,10 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Turret"))
         {
             OnApproachDashToTurret?.Invoke();
+        }
+        else if (collision.gameObject.CompareTag("Boss"))
+        {
+            OnApproachDashToBoss?.Invoke();
         }
         else if (collision.gameObject.CompareTag("TurretBullet"))
         {
