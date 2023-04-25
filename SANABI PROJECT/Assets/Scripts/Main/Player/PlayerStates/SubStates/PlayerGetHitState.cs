@@ -16,17 +16,22 @@ public class PlayerGetHitState : PlayerBossState
     public override void Enter()
     {
         base.Enter();
+        playerController.OnGetHit -= TemporaryZoomInPlayer;
+        playerController.OnGetHit += TemporaryZoomInPlayer;
+        playerController.InvokeOnGetHit();
+        //playerController.transform.position = GameManager.Instance.playerGrabPos.position;
     }
 
     public override void Exit()
     {
         base.Exit();
+        playerController.OnGetHit -= TemporaryZoomInPlayer;
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        HoldPosition();
+        //HoldPosition();
     }
 
     public override void PhysicsUpdate()
@@ -34,8 +39,8 @@ public class PlayerGetHitState : PlayerBossState
         base.PhysicsUpdate();
     }
 
-    private void HoldPosition()
+    private void TemporaryZoomInPlayer()
     {
-        playerController.SetVelocityAll(0f, 0f);
+        GameManager.Instance.cameraFollow.StartTemporaryZoomInPlayer();
     }
 }

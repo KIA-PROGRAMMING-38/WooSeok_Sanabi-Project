@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     public PlayerExecuteDash ExecuteDash { get; private set; }
 
     public PlayerGetHitState GetHitState { get; private set; }
+    public PlayerQTEState QTEState { get; private set; }
 
     #endregion
 
@@ -134,6 +135,9 @@ public class PlayerController : MonoBehaviour
 
 
     public event Action OnApproachDashToBoss;
+
+    public event Action OnGetHit;
+    public event Action OnQTE;
     #endregion
     private void Awake()
     {
@@ -171,6 +175,7 @@ public class PlayerController : MonoBehaviour
         ExecuteHolded = new PlayerExecuteHolded(this, StateMachine, playerData, "executeHolded");
         ExecuteDash = new PlayerExecuteDash(this, StateMachine, playerData, "executeDash");
         GetHitState = new PlayerGetHitState(this, StateMachine, playerData, "getHit");
+        QTEState = new PlayerQTEState(this, StateMachine, playerData, "QTE");
     }
 
     private void Start()
@@ -281,6 +286,16 @@ public class PlayerController : MonoBehaviour
     //        StartCoroutine(CountDashCooltime());
     //    }
     //}
+
+    public void InvokeOnGetHit()
+    {
+        OnGetHit?.Invoke();
+    }
+
+    public void InvokeOnQTE()
+    {
+        OnQTE?.Invoke();
+    }
 
     public void TurretHasBeenReleased()
     {
@@ -685,17 +700,7 @@ public class PlayerController : MonoBehaviour
         {
             OnApproachDashToBoss?.Invoke();
         }
-        else if (collision.gameObject.CompareTag("BossBullet"))
-        {
-            if (!isPlayerInvincible)
-            {
-                StartCoroutine(MakePlayerInvincibleForCetainTime());
-                isPlayerDamaged = true;
-                ArmController.IsPlayerDamaged = isPlayerDamaged;
-                HPBarController.IsPlayerDamaged = isPlayerDamaged;
-            }
-        }
-        else if (collision.gameObject.CompareTag("TurretBullet"))
+        else if (collision.gameObject.CompareTag("TurretBullet") || collision.gameObject.CompareTag("BossBullet"))
         {
             if (!isPlayerInvincible)
             {

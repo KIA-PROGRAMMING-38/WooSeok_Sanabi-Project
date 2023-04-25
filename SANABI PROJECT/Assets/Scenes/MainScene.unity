@@ -61713,11 +61713,17 @@ MonoBehaviour:
   turretSpawner: {fileID: 1499015482}
   playerData: {fileID: 1054605044}
   wireDashIconController: {fileID: 1805863576}
+  playerPrefab: {fileID: 979176184}
+  cameraFollow: {fileID: 1444619816}
   currentSceneNumber: 0
   lastSceneNumber: 0
   isGamePaused: 0
-  playerPrefab: {fileID: 979176184}
   playerSpawnSpot: {fileID: 1501053237}
+  bossData: {fileID: 0}
+  bossController: {fileID: 0}
+  bossGunController: {fileID: 0}
+  playerGrabPos: {fileID: 0}
+  bossCanvasController: {fileID: 0}
   TitleCanvas: {fileID: 0}
   pauseCanvas: {fileID: 1517556842}
   hasSceneChanged: 0
@@ -66318,6 +66324,9 @@ MonoBehaviour:
   backGround: {fileID: 284718778}
   mainGround: {fileID: 1717841929}
   ColorChangeTime: 0.07
+  zoomInAmount: 3
+  zoomInTime: 1
+  zoomInControl: 0.04
 --- !u!114 &1444619817
 MonoBehaviour:
   m_ObjectHideFlags: 0

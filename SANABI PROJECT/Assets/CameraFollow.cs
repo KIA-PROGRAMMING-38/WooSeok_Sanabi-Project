@@ -12,6 +12,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private GameObject mainGround;
     private ShakeCamera camShake;
     private Vector3 offSet;
+    
 
     Volume volume;
     Bloom bloom;
@@ -21,14 +22,23 @@ public class CameraFollow : MonoBehaviour
     [SerializeField][Range(0f, 0.4f)] private float ColorChangeTime = 0.07f;
     private bool isColorChange;
     private WaitForSeconds colorChangeTime;
-    private bool isPlayerDead;
-    Vector2 referenceVelocity = Vector2.zero;   
+    Vector2 referenceVelocity = Vector2.zero;
+
+    //private bool isPlayerDead;
+    private bool isPlayerHit;
+
+    [Header("Camera Zoom-In")]
+    private float initialZoomAmount;
+    [SerializeField] private float zoomInAmount = 3f;
+    [SerializeField] private float zoomInTime = 1f;
+    [SerializeField] [Range(0.01f, 0.05f)] private float zoomInControl = 0.04f;
 
     private void Awake()
     {
         camShake = GetComponent<ShakeCamera>();
         volume = GetComponent<Volume>();
         volume.profile.TryGet(out bloom);
+        initialZoomAmount = Camera.main.orthographicSize;
     }
     private void Start()
     {
@@ -37,7 +47,7 @@ public class CameraFollow : MonoBehaviour
         offSet = transform.position - playerTransform.position;
         initialColor = bloom.tint.value;
         colorChangeTime = new WaitForSeconds(ColorChangeTime);
-        isPlayerDead = playerHealth.CheckIfDead();
+        //isPlayerDead = playerHealth.CheckIfDead();
     }
 
     private void Update()
@@ -47,54 +57,92 @@ public class CameraFollow : MonoBehaviour
         {
             TryChangeColor();
         }
+
     }
 
-    Vector2 playerDeathPlatformHitPosition;
-    Vector2 fixedPosition;
+
     private void LateUpdate()
     {
-        //if (!isPlayerDead)
-        //{
-        //    transform.position = playerTransform.position + offSet + camShake.shakeMovePosition; // 카메라가 흔들리는 만큼 추가로 이동해줌
-        //}
-        if (!isPlayerDead && !isPlayerNearDeathPlatform)
-        {
-            transform.position = playerTransform.position + offSet + camShake.shakeMovePosition; // 카메라가 흔들리는 만큼 추가로 이동해줌
-        }
-        else if (isPlayerNearDeathPlatform)
-        {
-            fixedPosition.Set(playerTransform.position.x, playerDeathPlatformHitPosition.y);
-            transform.position = (Vector3)fixedPosition + offSet + camShake.shakeMovePosition;
-        }
+
+        FollowPlayer();
+        //transform.position = playerTransform.position + offSet + camShake.shakeMovePosition; // 카메라가 흔들리는 만큼 추가로 이동해줌
+
+        
+
+    }
+
+
+    private void FollowPlayer()
+    {
+        transform.position = playerTransform.position + offSet + camShake.shakeMovePosition; // 카메라가 흔들리는 만큼 추가로 이동해줌
+    }
+
+    public void StartTemporaryZoomInPlayer()
+    {
+        StartCoroutine(TemporaryZoomInPlayer());
         
     }
 
-    private bool isPlayerNearDeathPlatform;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private IEnumerator TemporaryZoomInPlayer()
     {
-        if (collision.gameObject.CompareTag("DeathPlatform"))
+        while (true)
         {
-            playerDeathPlatformHitPosition = transform.position;
-            isPlayerNearDeathPlatform = true;
+            Camera.main.orthographicSize -= zoomInControl;
+            yield return null;
+            if (Camera.main.orthographicSize <= zoomInAmount)
+            {
+                break;
+            }
         }
+
+        yield return new WaitForSeconds(zoomInTime);
         
-    }
-    //private void OnTriggerStay2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("DeathPlatform"))
-    //    {
-    //        Debug.Log("deathplatform이랑 닿는중");
-    //        isPlayerNearDeathPlatform = true;
-    //    }
-    //}
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("DeathPlatform"))
+        while (true)
         {
-            isPlayerNearDeathPlatform = false;
+            Camera.main.orthographicSize += zoomInControl;
+            yield return null;
+            if (initialZoomAmount <= Camera.main.orthographicSize)
+            {
+                break;
+            }
         }
+        Camera.main.orthographicSize = initialZoomAmount;
+    }
+
+    public void StartEternalZoomInPlayer()
+    {
+        StartCoroutine(EternalZoomInPlayer());
+    }
+
+    public void StopEternalZoomOutPlayer()
+    {
+        StartCoroutine(EternalZoomOutPlayer());
+    }
+    private IEnumerator EternalZoomInPlayer()
+    {
+        while (true)
+        {
+            Camera.main.orthographicSize -= zoomInControl;
+            yield return null;
+            if (Camera.main.orthographicSize <= zoomInAmount)
+            {
+                break;
+            }
+        }
+    }
+
+    private IEnumerator EternalZoomOutPlayer()
+    {
+        while (true)
+        {
+            Camera.main.orthographicSize += zoomInControl;
+            yield return null;
+            if (initialZoomAmount <= Camera.main.orthographicSize)
+            {
+                break;
+            }
+        }
+        Camera.main.orthographicSize = initialZoomAmount;
     }
 
     private void TryChangeColor()
@@ -114,11 +162,11 @@ public class CameraFollow : MonoBehaviour
     {
         isColorChange = true;
     }
-    
+
     private void WatchPlayerDie()
     {
         SlowCameraMove();
-        Camera.main.orthographicSize = 3f;
+        Camera.main.orthographicSize = zoomInAmount;
         if (backGround.gameObject != null)
         {
             backGround.gameObject.SetActive(false);

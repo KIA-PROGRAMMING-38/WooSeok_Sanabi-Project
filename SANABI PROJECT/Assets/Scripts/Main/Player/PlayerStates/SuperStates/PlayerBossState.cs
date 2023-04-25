@@ -16,6 +16,8 @@ public class PlayerBossState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        playerController.transform.position = GameManager.Instance.playerGrabPos.position;
+        playerController.SetVelocityAll(0f, 0f);
     }
 
     public override void Exit()

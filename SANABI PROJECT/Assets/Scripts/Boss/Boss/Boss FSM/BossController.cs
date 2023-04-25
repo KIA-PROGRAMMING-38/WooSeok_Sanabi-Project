@@ -36,6 +36,7 @@ public class BossController : MonoBehaviour
 
     public Transform bossInitialSpawnSpot;
     public Transform groundCheck;
+    public Transform playerGrabPos;
 
 
     #endregion
@@ -98,7 +99,7 @@ public class BossController : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.bossController = this;
-        
+        GameManager.Instance.playerGrabPos = playerGrabPos;
     }
 
     private void Start()
@@ -129,7 +130,6 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(GameManager.Instance.bossGunController.targetDistance.x);
         StateMachine.CurrentState.LogicUpdate();
         //Debug.Log(StateMachine.CurrentState);
     }

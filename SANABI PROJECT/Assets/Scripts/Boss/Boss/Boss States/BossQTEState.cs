@@ -11,11 +11,15 @@ public class BossQTEState : BossState
     public override void DoChecks()
     {
         base.DoChecks();
+        bossController.CheckIfShouldFlip();
     }
 
     public override void Enter()
     {
         base.Enter();
+        GameManager.Instance.bossGunController.lineRenderer.enabled = false;
+        GameManager.Instance.bossCanvasController.bossTransform = bossController.transform;
+        GameManager.Instance.bossCanvasController.TurnOnSlider();
     }
 
     public override void Exit()

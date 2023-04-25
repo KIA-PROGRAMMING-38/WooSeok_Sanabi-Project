@@ -28,8 +28,8 @@ public class BossState
     public virtual void Enter()
     {
         DoChecks();
-        GameManager.Instance.playerController.OnApproachDashToBoss -= ChangeToEvadeState;
-        GameManager.Instance.playerController.OnApproachDashToBoss += ChangeToEvadeState;
+        GameManager.Instance.playerController.OnApproachDashToBoss -= ChangeTo_Evade_OR_QTEState;
+        GameManager.Instance.playerController.OnApproachDashToBoss += ChangeTo_Evade_OR_QTEState;
         bossController.BodyAnimator.SetBool(animBoolName, true);
         bossController.HeadAnimator.SetBool(animBoolName, true);
         
@@ -37,7 +37,7 @@ public class BossState
 
     public virtual void Exit()
     {
-        GameManager.Instance.playerController.OnApproachDashToBoss -= ChangeToEvadeState;
+        GameManager.Instance.playerController.OnApproachDashToBoss -= ChangeTo_Evade_OR_QTEState;
         bossController.BodyAnimator.SetBool(animBoolName, false);
         bossController.HeadAnimator.SetBool(animBoolName, false);
     }
@@ -52,16 +52,20 @@ public class BossState
         DoChecks();
     }
 
-    private void ChangeToEvadeState()
+    private void ChangeTo_Evade_OR_QTEState()
     {
-        if (!ifGoToPhase2)
+        if (GameManager.Instance.grabController.hasGrabbedBoss)
         {
-            stateMachine.ChangeState(bossController.EvadeState);
+            if (!ifGoToPhase2)
+            {
+                stateMachine.ChangeState(bossController.EvadeState);
+            }
+            else
+            {
+                stateMachine.ChangeState(bossController.QTEState);
+            }
         }
-        else
-        {
-            stateMachine.ChangeState(bossController.QTEState);
-        }
+        
         
     }
 }

@@ -19,6 +19,7 @@ public class BossEvadeState : BossState
         base.Enter();
         ++bossController.hitCount;
         GameManager.Instance.bossGunController.lineRenderer.enabled = false;
+        GameManager.Instance.grabController.hasGrabbedBoss = false;
     }
 
     public override void Exit()

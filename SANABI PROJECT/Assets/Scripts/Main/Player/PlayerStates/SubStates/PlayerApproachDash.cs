@@ -11,6 +11,7 @@ public class PlayerApproachDash : PlayerAbilityState
     private Vector3 grabbedPosition;
     private Vector3 approachDashDirection;
     private float ApproachDashForce;
+    private bool ifGoToPhase2;
     public PlayerApproachDash(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -20,6 +21,7 @@ public class PlayerApproachDash : PlayerAbilityState
         base.DoChecks();
         GetDashDirection();
         ApproachDashForce = playerData.approachDashVelocity;
+        ifGoToPhase2 = GameManager.Instance.bossController.CheckIfGoToPhase2();
     }
 
     public override void Enter()
@@ -30,8 +32,8 @@ public class PlayerApproachDash : PlayerAbilityState
         //playerController.playerRigidBody.bodyType = RigidbodyType2D.Kinematic;
         playerController.OnApproachDashToTurret -= ChangeToExecuteHoldedState;
         playerController.OnApproachDashToTurret += ChangeToExecuteHoldedState;
-        playerController.OnApproachDashToBoss -= ChangeToGetHitState;
-        playerController.OnApproachDashToBoss += ChangeToGetHitState;
+        playerController.OnApproachDashToBoss -= ChangeTo_GetHit_Or_QTEState;
+        playerController.OnApproachDashToBoss += ChangeTo_GetHit_Or_QTEState;
         //playerController.SetVelocityAll(approachDashDirection.x * ApproachDashForce, approachDashDirection.y * ApproachDashForce);
         
         playerController.StartShowAfterImage();
@@ -44,6 +46,7 @@ public class PlayerApproachDash : PlayerAbilityState
         playerController.IgnorePlatformCollision(false);
         playerController.PlayerIsDash(false);
         playerController.OnApproachDashToTurret -= ChangeToExecuteHoldedState;
+        playerController.OnApproachDashToBoss -= ChangeTo_GetHit_Or_QTEState;
         playerController.MakePlayerVulnerable();
         //playerController.StopShowAfterImage();
     }
@@ -71,9 +74,17 @@ public class PlayerApproachDash : PlayerAbilityState
         stateMachine.ChangeState(playerController.ExecuteHolded);
     }
 
-    private void ChangeToGetHitState()
+    private void ChangeTo_GetHit_Or_QTEState()
     {
-        stateMachine.ChangeState(playerController.GetHitState);
+        if (!ifGoToPhase2) // qte 조건 발동 전이라면
+        {
+            stateMachine.ChangeState(playerController.GetHitState);
+        }
+        else // qte 조건 발동 on 이라면
+        {
+            stateMachine.ChangeState(playerController.QTEState);
+        }
+        
     }
 }
 

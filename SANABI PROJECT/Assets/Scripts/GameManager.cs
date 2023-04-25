@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     public PlayerData playerData;
     public WireDashIconController wireDashIconController;
     public GameObject playerPrefab;
+    public CameraFollow cameraFollow;
 
     private SceneNumber initialSceneNumber;
     public SceneNumber currentSceneNumber;
@@ -52,6 +53,8 @@ public class GameManager : MonoBehaviour
     public BossData bossData;
     public BossController bossController;
     public BossGunController bossGunController;
+    public Transform playerGrabPos;
+    public BossCanvasController bossCanvasController;
 
     public Vector3 bossScenePlayerSpawnSpot
     {

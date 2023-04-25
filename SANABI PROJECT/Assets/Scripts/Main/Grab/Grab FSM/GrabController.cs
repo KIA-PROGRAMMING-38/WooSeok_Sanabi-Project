@@ -184,6 +184,7 @@ public class GrabController : MonoBehaviour
         else if (collision.gameObject.CompareTag("Boss"))
         {
             SetGrabbedPosition(collision.transform);
+            hasGrabbedBoss = true;
             OnGrabBoss?.Invoke();
         }
     }
