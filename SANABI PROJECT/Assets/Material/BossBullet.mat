@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PauseText
-  m_Shader: {fileID: -6465566751694194690, guid: e2ffb96d016392e42ac669d84e57c84d, type: 3}
+  m_Name: BossBullet
+  m_Shader: {fileID: -6465566751694194690, guid: 5e29386f2921ca143a4235daf4af7bcd, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -36,9 +36,10 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    m_Colors: []
+    m_Colors:
+    - _BulletColor: {r: 1601.3658, g: 37.76806, b: 1005.70886, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &1343641550720500115
+--- !u!114 &3109433977339137471
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

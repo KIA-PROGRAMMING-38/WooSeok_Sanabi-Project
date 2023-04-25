@@ -13,11 +13,9 @@ public class BossGunController : MonoBehaviour
     public Transform target;
 
     public Vector2 gunTipDistance { get; private set; }
-    private RaycastHit2D hit;
     public LineRenderer lineRenderer;
     public Transform head;
     public Transform gunTip;
-    private int platformLayerNumber;
 
 
     private Color initialColor = Color.red;
@@ -49,7 +47,6 @@ public class BossGunController : MonoBehaviour
     void Start()
     {
 
-        platformLayerNumber = LayerMask.GetMask("NormalWall");
         lineRenderer = GetComponentInChildren<LineRenderer>();
 
         _LookAtTarget = LookAtTarget();
@@ -122,17 +119,8 @@ public class BossGunController : MonoBehaviour
     public void DrawAimLineTowardsPlayer()
     {
         gunTipDistance = gunTip.position - head.transform.position;
-        hit = Physics2D.Raycast(head.transform.position, gunTipDistance.normalized, 1000f, platformLayerNumber);
         lineRenderer.SetPosition(0, gunTip.position);
-
-        if (hit.collider != null)
-        {
-            lineRenderer.SetPosition(1, hit.point);
-        }
-        else
-        {
-            lineRenderer.SetPosition(1, gunTipDistance * 1000f);
-        }
+        lineRenderer.SetPosition(1, gunTipDistance * 1000f);
     }
     #endregion
 

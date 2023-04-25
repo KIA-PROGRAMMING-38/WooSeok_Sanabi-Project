@@ -16,7 +16,7 @@ public class BossBullet : MonoBehaviour
     private int playerLayer;
 
     private IEnumerator _WaitBullet;
-    [SerializeField] private float bulletReturnTime = 2f;
+    [SerializeField] private float bulletReturnTime = 1f;
     private WaitForSeconds _bulletReturnTime;
 
     private void Awake()
@@ -48,8 +48,8 @@ public class BossBullet : MonoBehaviour
 
     private void ReturnToHead()
     {
-        bulletRigid.velocity = Vector2.zero;
         trailRenderer.emitting = false;
+        bulletRigid.velocity = Vector2.zero;
         transform.position = bossGunController.transform.position;
         StartWaitBullet();
     }
