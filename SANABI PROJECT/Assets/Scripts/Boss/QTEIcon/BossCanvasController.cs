@@ -8,6 +8,7 @@ public class BossCanvasController : MonoBehaviour
     public QTEUISlider sliderScript;
 
     public bool isClickPhase { get; set; }
+    public bool isAllPhaseFinished { get; set; }
     
 
     public Transform bossTransform { private get; set; }    

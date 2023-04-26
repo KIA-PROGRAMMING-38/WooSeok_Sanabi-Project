@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 public class PlayerQTEHitState : PlayerBossState
 {
+
     public PlayerQTEHitState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -14,6 +15,7 @@ public class PlayerQTEHitState : PlayerBossState
     public override void DoChecks()
     {
         base.DoChecks();
+
     }
 
     public override void Enter()
@@ -21,6 +23,7 @@ public class PlayerQTEHitState : PlayerBossState
         base.Enter();
         playerController.OnQTEHitFinished -= ChangeToQTEState;
         playerController.OnQTEHitFinished += ChangeToQTEState;
+
     }
 
     public override void Exit()
@@ -43,5 +46,6 @@ public class PlayerQTEHitState : PlayerBossState
     {
         stateMachine.ChangeState(playerController.QTEState);
     }
+    
 }
 

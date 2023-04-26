@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     public PlayerGetHitState GetHitState { get; private set; }
     public PlayerQTEState QTEState { get; private set; }
     public PlayerQTEHitState QTEHitState { get; private set; }
+    public PlayerEvadeToPhase2State EvadeToPhase2State { get; private set; }
    
 
     #endregion
@@ -182,6 +183,7 @@ public class PlayerController : MonoBehaviour
         GetHitState = new PlayerGetHitState(this, StateMachine, playerData, "getHit");
         QTEState = new PlayerQTEState(this, StateMachine, playerData, "QTE");
         QTEHitState = new PlayerQTEHitState(this, StateMachine, playerData, "QTEHit");
+        EvadeToPhase2State = new PlayerEvadeToPhase2State(this,StateMachine, playerData, "evadeToPhase2");
     }
 
     private void Start()
@@ -301,6 +303,13 @@ public class PlayerController : MonoBehaviour
     public void InvokeOnQTEHit()
     {
         OnQTEHit?.Invoke();
+        camShake.TurnOnShake(camShake.QTEHitShakeTime, camShake.QTEHitShakeIntensity);
+        //camShake.TurnOnShake(cameraShakeTime, cameraShakeIntensity);
+    }
+
+    public void TurnOnGetHitCamShake()
+    {
+        camShake.TurnOnShake(camShake.QTEHitShakeTime, camShake.QTEHitShakeIntensity);
     }
 
     public void InvokeOnGetHit()

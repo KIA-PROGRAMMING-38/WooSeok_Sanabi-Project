@@ -22,7 +22,7 @@ public class BossController : MonoBehaviour
     public BossRunAwayState RunAwayState { get; private set; }
     public BossQTEState QTEState { get; private set; }
     public BossQTEGotHitState QTEGotHitState { get; private set; }
-    public BossEvadeToPhase2 EvadeToPhase2 { get; private set; }
+    public BossEvadeToPhase2 EvadeToPhase2State { get; private set; }
     public BossExecutedState ExecutedState { get; private set; }
     public BossDeadState DeadState { get; private set; }
 
@@ -93,7 +93,7 @@ public class BossController : MonoBehaviour
         RunAwayState = new BossRunAwayState(this, StateMachine, bossData, "runAway");
         QTEState = new BossQTEState(this, StateMachine, bossData, "QTE");
         QTEGotHitState = new BossQTEGotHitState(this, StateMachine, bossData, "QTEGotHit");
-        EvadeToPhase2 = new BossEvadeToPhase2(this, StateMachine, bossData, "toPhase2");
+        EvadeToPhase2State = new BossEvadeToPhase2(this, StateMachine, bossData, "toPhase2");
         ExecutedState = new BossExecutedState(this, StateMachine, bossData, "executed");
         DeadState = new BossDeadState(this, StateMachine, bossData, "dead");
     }
@@ -142,6 +142,7 @@ public class BossController : MonoBehaviour
 
     private void ChangeToQTEGotHitState()
     {
+        GameManager.Instance.playerController.camShake.TurnOnShake(0.1f, 0.2f);
         StateMachine.ChangeState(QTEGotHitState);
     }
 

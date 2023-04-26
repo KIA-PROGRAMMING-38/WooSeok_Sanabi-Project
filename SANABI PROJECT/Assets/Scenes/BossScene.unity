@@ -1108,6 +1108,71 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   QTESlider: {fileID: 2038086226}
   sliderScript: {fileID: 2038086229}
+--- !u!1001 &663669761
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 851236262608043068, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 851236262925654717, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 851236262925654717, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 851236262925654717, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 851236262925654717, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 851236262925654717, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 851236262925654717, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 851236262925654717, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 851236262925654717, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 851236262925654717, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 851236262925654717, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 851236262925654717, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 851236262925654718, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
+      propertyPath: m_Name
+      value: Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 851236262925654718, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
 --- !u!1 &712283624
 GameObject:
   m_ObjectHideFlags: 0
@@ -2945,7 +3010,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -219, y: 75}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2038086228

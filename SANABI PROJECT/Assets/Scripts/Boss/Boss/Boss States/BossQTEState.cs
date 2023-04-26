@@ -21,11 +21,17 @@ public class BossQTEState : BossState
         GameManager.Instance.playerController.transform.position = GameManager.Instance.playerGrabPos.position;
         GameManager.Instance.bossCanvasController.bossTransform = bossController.transform;
         GameManager.Instance.bossCanvasController.TurnOnSlider();
+        GameManager.Instance.bossCanvasController.sliderScript.OnFinishAllPhase -= ChangeToEvadeToPhase2State;
+        GameManager.Instance.bossCanvasController.sliderScript.OnFinishAllPhase += ChangeToEvadeToPhase2State;
+        GameManager.Instance.bossCanvasController.sliderScript.OnFailAnyPhase -= ChangeToEvadeState;
+        GameManager.Instance.bossCanvasController.sliderScript.OnFailAnyPhase += ChangeToEvadeState;
     }
 
     public override void Exit()
     {
         base.Exit();
+        GameManager.Instance.bossCanvasController.sliderScript.OnFinishAllPhase -= ChangeToEvadeToPhase2State;
+        GameManager.Instance.bossCanvasController.sliderScript.OnFailAnyPhase -= ChangeToEvadeState;
     }
 
     public override void LogicUpdate()
@@ -34,9 +40,15 @@ public class BossQTEState : BossState
 
         
     }
-
-    public override void PhysicsUpdate()
+    
+    private void ChangeToEvadeToPhase2State()
     {
-        base.PhysicsUpdate();
+        stateMachine.ChangeState(bossController.EvadeToPhase2State);
     }
+
+    private void ChangeToEvadeState()
+    {
+        stateMachine.ChangeState(bossController.EvadeState);
+    }
+
 }

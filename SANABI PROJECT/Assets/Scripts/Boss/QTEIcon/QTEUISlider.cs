@@ -75,32 +75,35 @@ public class QTEUISlider : MonoBehaviour
         {
             if (1f <= QTESlider.value)
             {
-                isClickPhase = false;
+                //isClickPhase = false;
                 GameManager.Instance.bossCanvasController.isClickPhase = false;
                 iconAnimator.SetBool("click", false);
                 OnFinishClickPhase?.Invoke();
                 //iconAnimator.SetBool("hold", true);
-                QTESlider.value = initialValue;
+                //QTESlider.value = initialValue;
             }
             else if (QTESlider.value <= 0f) // if fail.....
             {
-                Debug.Log($"클릭 phase에서 0 도달");
                 OnFailAnyPhase?.Invoke();
+                GameManager.Instance.bossCanvasController.isClickPhase = true;
+                GameManager.Instance.bossController.hitCount = 0;
             }
         }
         else // if hold phase
         {
             if (1f <= QTESlider.value)
             {
-                isClickPhase = true;
+                //isClickPhase = true;
                 GameManager.Instance.bossCanvasController.isClickPhase = true;
+                GameManager.Instance.bossCanvasController.isAllPhaseFinished = true;
                 iconAnimator.SetBool("hold", false);
                 OnFinishAllPhase?.Invoke();
             }
             else if (QTESlider.value <= 0f) // if fail.....
             {
-                Debug.Log($"홀드 phase에서 0 도달");
                 OnFailAnyPhase?.Invoke();
+                GameManager.Instance.bossCanvasController.isClickPhase = true;
+                GameManager.Instance.bossController.hitCount = 0;
             }
         }
 

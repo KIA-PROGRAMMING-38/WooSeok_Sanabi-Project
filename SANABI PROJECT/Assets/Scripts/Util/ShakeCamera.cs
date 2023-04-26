@@ -12,6 +12,9 @@ public class ShakeCamera : MonoBehaviour
     [Range(0.1f, 1f)] public float damagedShakeTime = 0.5f;
     [Range(0.1f, 1f)] public float damagedShakeIntensity = 0.45f;
 
+    [Header("QTEHit State")]
+    [Range(0.1f, 1f)] public float QTEHitShakeTime = 0.1f;
+    [Range(0.1f, 1f)] public float QTEHitShakeIntensity = 0.2f;
 
     private float shakeTime;
     private float shakeIntensity;

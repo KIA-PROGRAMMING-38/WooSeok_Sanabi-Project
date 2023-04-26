@@ -76,6 +76,8 @@ public class PlayerData : MonoBehaviour
     [Range(0f, 0.5f)] public float executeDashSlowTime = 0.005f;
     [Range(0f, 1f)] public float executeDashTimeScale = 0.05f;
 
+    [Header("QTEHit")]
+
     [Header("Check Variables")]
     [Range(0f, 0.3f)] public float groundCheckRadius = 0.1f;
     [Range(0f, 0.7f)] public float wallCheckDistance = 0.5f;
