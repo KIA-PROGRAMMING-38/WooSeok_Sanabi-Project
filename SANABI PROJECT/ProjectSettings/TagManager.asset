@@ -20,6 +20,7 @@ TagManager:
   - Boss
   - BossBullet
   - WholePlayer
+  - BulletDeadZone
   layers:
   - Default
   - TransparentFX

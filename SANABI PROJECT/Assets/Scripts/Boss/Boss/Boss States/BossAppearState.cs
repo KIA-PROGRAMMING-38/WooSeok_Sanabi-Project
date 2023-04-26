@@ -41,6 +41,7 @@ public class BossAppearState : BossState
         if (bossController.CheckIfGrounded())
         {
             GameManager.Instance.playerController.TurnOnGetHitCamShake();
+            
             stateMachine.ChangeState(bossController.IdleState);
         }
     }

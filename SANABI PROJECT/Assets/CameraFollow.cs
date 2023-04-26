@@ -250,36 +250,56 @@ public class CameraFollow : MonoBehaviour
         //Camera.main.orthographicSize = zoomInAmount;
         //StartCoroutine(PlayerDeadZoomIn());
         StartCoroutine(_PlayerDeadZoomIn);
-        TurnOffEverythingExceptPlayer();
-        //if (backGround.gameObject != null)
-        //{
-        //    backGround.gameObject.SetActive(false);
-        //}
-        //if (mainGround.gameObject != null)
-        //{
-        //    mainGround.gameObject.SetActive(false);
-        //}
+        //StartCoroutine(BlinkEverything());
+        TurnOffEverythingExceptPlayerAndCamera();
         Camera.main.backgroundColor = Color.black;
     }
 
-    private void TurnOffEverythingExceptPlayer()
+    private void TurnOffEverythingExceptPlayerAndCamera()
     {
         foreach (GameObject obj in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
         {
-            // Check if the current object is the one you want to keep active
             if (obj.CompareTag("WholePlayer") || obj.CompareTag("MainCamera"))
             {
-                // If it is, set it to active
                 obj.SetActive(true);
             }
             else
             {
-                // If it's not, set it to inactive
                 obj.SetActive(false);
             }
         }
-
     }
+
+
+    //private void TurnOnEverything()
+    //{
+    //    foreach (GameObject obj in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
+    //    {
+    //        if (obj.layer == LayerMask.NameToLayer("UI"))
+    //        {
+    //            continue;
+    //        }
+    //        obj.SetActive(true);
+    //    }
+    //}
+
+    //private IEnumerator BlinkEverything()
+    //{
+    //    int count = 0;
+    //    while (true)
+    //    {
+    //        TurnOffEverythingExceptPlayerAndCamera();
+    //        ++count;
+    //        yield return new WaitForSeconds(0.05f);
+    //        TurnOnEverything();
+    //        yield return new WaitForSeconds(0.05f);
+    //        if (10 <= count)
+    //        {
+    //            break;
+    //        }
+    //    }
+    //    TurnOffEverythingExceptPlayerAndCamera();
+    //}
 
 
 
@@ -294,5 +314,6 @@ public class CameraFollow : MonoBehaviour
                 break;
             }
         }
+        
     }
 }
