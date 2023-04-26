@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
 
     public PlayerGetHitState GetHitState { get; private set; }
     public PlayerQTEState QTEState { get; private set; }
+    public PlayerQTEHitState QTEHitState { get; private set; }
+   
 
     #endregion
 
@@ -139,6 +141,8 @@ public class PlayerController : MonoBehaviour
     public bool isPlayerBossState { get; set; }
     public event Action OnGetHit;
     public event Action OnQTE;
+    public event Action OnQTEHit;
+    public event Action OnQTEHitFinished;
     #endregion
     private void Awake()
     {
@@ -177,6 +181,7 @@ public class PlayerController : MonoBehaviour
         ExecuteDash = new PlayerExecuteDash(this, StateMachine, playerData, "executeDash");
         GetHitState = new PlayerGetHitState(this, StateMachine, playerData, "getHit");
         QTEState = new PlayerQTEState(this, StateMachine, playerData, "QTE");
+        QTEHitState = new PlayerQTEHitState(this, StateMachine, playerData, "QTEHit");
     }
 
     private void Start()
@@ -288,6 +293,16 @@ public class PlayerController : MonoBehaviour
     //    }
     //}
 
+    public void InvokeOnQTEHitFinished()
+    {
+        OnQTEHitFinished?.Invoke();
+    }
+
+    public void InvokeOnQTEHit()
+    {
+        OnQTEHit?.Invoke();
+    }
+
     public void InvokeOnGetHit()
     {
         OnGetHit?.Invoke();
@@ -307,23 +322,6 @@ public class PlayerController : MonoBehaviour
     {
         isDashing = isPlayerDashing;
     }
-
-    //public void AfterImage()
-    //{
-    //    if (isDashing)
-    //    {
-    //        if (dashTimeLeft > 0)
-    //        {
-    //            dashTimeLeft -= Time.deltaTime;
-    //            WireDashPool.GetFromPool();
-    //        }
-    //        else
-    //        {
-    //            //isDashing = false;
-    //            PlayerIsDash(false);
-    //        }
-    //    }
-    //}
 
     public void StartShowAfterImage()
     {

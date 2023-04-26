@@ -18,6 +18,7 @@ public class BossQTEState : BossState
     {
         base.Enter();
         GameManager.Instance.bossGunController.lineRenderer.enabled = false;
+        GameManager.Instance.playerController.transform.position = GameManager.Instance.playerGrabPos.position;
         GameManager.Instance.bossCanvasController.bossTransform = bossController.transform;
         GameManager.Instance.bossCanvasController.TurnOnSlider();
     }

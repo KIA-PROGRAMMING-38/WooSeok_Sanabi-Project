@@ -65,10 +65,10 @@ AnimatorStateMachine:
     m_Position: {x: 480, y: 510, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7444305368702349573}
-    m_Position: {x: 480, y: 610, z: 0}
+    m_Position: {x: 480, y: 660, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4493971833714496602}
-    m_Position: {x: 480, y: 660, z: 0}
+    m_Position: {x: 480, y: 710, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4753253955808295357}
     m_Position: {x: 480, y: 240, z: 0}
@@ -77,6 +77,9 @@ AnimatorStateMachine:
     m_Position: {x: 480, y: 460, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1480161708107501490}
+    m_Position: {x: 480, y: 610, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 6599916980480181614}
     m_Position: {x: 480, y: 560, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
@@ -521,6 +524,56 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1101 &-788668654431542777
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: QTEGotHit
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 6599916980480181614}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0.75
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1101 &-228855155429605814
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: QTEGotHit
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 0}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 1
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0.5
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &-156182304861056502
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -628,6 +681,12 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: toPhase2
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: QTEGotHit
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -982,6 +1041,33 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1102 &6599916980480181614
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Boss_QTEGotHit_Body
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: -228855155429605814}
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 5e10b4fddef731b44a9b31fa43d3e7f3, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &6707305279343565379
 AnimatorState:
   serializedVersion: 6
@@ -1006,6 +1092,7 @@ AnimatorState:
   - {fileID: -8019127690447973970}
   - {fileID: 6073166562643375041}
   - {fileID: 6093120200192985613}
+  - {fileID: -788668654431542777}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0

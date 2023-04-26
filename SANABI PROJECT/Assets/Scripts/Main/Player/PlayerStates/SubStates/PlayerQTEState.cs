@@ -18,12 +18,15 @@ public class PlayerQTEState : PlayerBossState
         base.Enter();
         playerController.OnQTE -= EternalZoomInPlayer;
         playerController.OnQTE += EternalZoomInPlayer;
+        GameManager.Instance.bossCanvasController.sliderScript.OnFinishClickPhase -= ChangeToQTEHitState;
+        GameManager.Instance.bossCanvasController.sliderScript.OnFinishClickPhase += ChangeToQTEHitState;
         playerController.InvokeOnQTE();
     }
 
     public override void Exit()
     {
         base.Exit();
+        GameManager.Instance.bossCanvasController.sliderScript.OnFinishClickPhase -= ChangeToQTEHitState;
         playerController.OnQTE -= EternalZoomInPlayer;
         EternalZoomOutPlayer();
     }
@@ -50,5 +53,10 @@ public class PlayerQTEState : PlayerBossState
     private void EternalZoomOutPlayer()
     {
         GameManager.Instance.cameraFollow.StopEternalZoomOutPlayer();
+    }
+
+    private void ChangeToQTEHitState()
+    {
+        stateMachine.ChangeState(playerController.QTEHitState);
     }
 }

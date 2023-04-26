@@ -19,7 +19,7 @@ public class PlayerBossState : PlayerState
     {
         base.Enter();
         playerController.isPlayerBossState = true;
-        playerController.transform.position = GameManager.Instance.playerGrabPos.position;
+        //playerController.transform.position = GameManager.Instance.playerGrabPos.position;
         playerController.SetVelocityAll(0f, 0f);
     }
 

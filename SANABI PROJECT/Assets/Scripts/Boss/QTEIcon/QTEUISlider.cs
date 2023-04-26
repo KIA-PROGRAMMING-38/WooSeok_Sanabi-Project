@@ -22,7 +22,9 @@ public class QTEUISlider : MonoBehaviour
 
     public bool isClickPhase { get; private set; }
 
-    public event Action OnFinishAllPhase;
+    public event Action OnFinishClickPhase;
+    public event Action OnFinishAllPhase; // finish 햇을대 event 넘겨줄 것
+    public event Action OnFailAnyPhase; // fail 했을대 evetn 넘겨줄것
 
 
     public Transform bossTransform { private get; set; }
@@ -42,7 +44,15 @@ public class QTEUISlider : MonoBehaviour
     {
         isClickPhase = GameManager.Instance.bossCanvasController.isClickPhase;
 
-        iconAnimator.SetBool("click", true);
+        if (isClickPhase)
+        {
+            iconAnimator.SetBool("click", true);
+        }
+        else
+        {
+            iconAnimator.SetBool("hold", true);
+        }
+        
 
         if (bossTransform != null)
         {
@@ -68,8 +78,14 @@ public class QTEUISlider : MonoBehaviour
                 isClickPhase = false;
                 GameManager.Instance.bossCanvasController.isClickPhase = false;
                 iconAnimator.SetBool("click", false);
-                iconAnimator.SetBool("hold", true);
+                OnFinishClickPhase?.Invoke();
+                //iconAnimator.SetBool("hold", true);
                 QTESlider.value = initialValue;
+            }
+            else if (QTESlider.value <= 0f) // if fail.....
+            {
+                Debug.Log($"클릭 phase에서 0 도달");
+                OnFailAnyPhase?.Invoke();
             }
         }
         else // if hold phase
@@ -80,6 +96,11 @@ public class QTEUISlider : MonoBehaviour
                 GameManager.Instance.bossCanvasController.isClickPhase = true;
                 iconAnimator.SetBool("hold", false);
                 OnFinishAllPhase?.Invoke();
+            }
+            else if (QTESlider.value <= 0f) // if fail.....
+            {
+                Debug.Log($"홀드 phase에서 0 도달");
+                OnFailAnyPhase?.Invoke();
             }
         }
 

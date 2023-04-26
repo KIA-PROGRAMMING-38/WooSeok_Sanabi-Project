@@ -5,7 +5,7 @@ using UnityEngine;
 public class BossCanvasController : MonoBehaviour
 {
     [SerializeField] private GameObject QTESlider;
-    [SerializeField] private QTEUISlider sliderScript;
+    public QTEUISlider sliderScript;
 
     public bool isClickPhase { get; set; }
     
@@ -20,8 +20,14 @@ public class BossCanvasController : MonoBehaviour
 
     private void Start()
     {
+        sliderScript.OnFinishClickPhase -= TurnOffSlider;
+        sliderScript.OnFinishClickPhase += TurnOffSlider;
         sliderScript.OnFinishAllPhase -= TurnOffSlider;
         sliderScript.OnFinishAllPhase += TurnOffSlider;
+        sliderScript.OnFailAnyPhase -= TurnOffSlider;
+        sliderScript.OnFailAnyPhase += TurnOffSlider;
+        GameManager.Instance.playerController.OnQTEHitFinished -= TurnOnSlider;
+        GameManager.Instance.playerController.OnQTEHitFinished += TurnOnSlider;
     }
 
     public void IncreaseSliderGuageWhenClick()

@@ -21,6 +21,7 @@ public class BossController : MonoBehaviour
     public BossEvadeState EvadeState { get; private set; }
     public BossRunAwayState RunAwayState { get; private set; }
     public BossQTEState QTEState { get; private set; }
+    public BossQTEGotHitState QTEGotHitState { get; private set; }
     public BossEvadeToPhase2 EvadeToPhase2 { get; private set; }
     public BossExecutedState ExecutedState { get; private set; }
     public BossDeadState DeadState { get; private set; }
@@ -91,6 +92,7 @@ public class BossController : MonoBehaviour
         EvadeState = new BossEvadeState(this, StateMachine, bossData, "evade");
         RunAwayState = new BossRunAwayState(this, StateMachine, bossData, "runAway");
         QTEState = new BossQTEState(this, StateMachine, bossData, "QTE");
+        QTEGotHitState = new BossQTEGotHitState(this, StateMachine, bossData, "QTEGotHit");
         EvadeToPhase2 = new BossEvadeToPhase2(this, StateMachine, bossData, "toPhase2");
         ExecutedState = new BossExecutedState(this, StateMachine, bossData, "executed");
         DeadState = new BossDeadState(this, StateMachine, bossData, "dead");
@@ -100,6 +102,8 @@ public class BossController : MonoBehaviour
     {
         GameManager.Instance.bossController = this;
         GameManager.Instance.playerGrabPos = playerGrabPos;
+        GameManager.Instance.playerController.OnQTEHit -= ChangeToQTEGotHitState;
+        GameManager.Instance.playerController.OnQTEHit += ChangeToQTEGotHitState;
     }
 
     private void Start()
@@ -135,6 +139,11 @@ public class BossController : MonoBehaviour
     }
 
     #region Other Functions
+
+    private void ChangeToQTEGotHitState()
+    {
+        StateMachine.ChangeState(QTEGotHitState);
+    }
 
     public void BossRunAway()
     {
