@@ -13,6 +13,7 @@ public class PlayerBossState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
+        
     }
 
     public override void Enter()

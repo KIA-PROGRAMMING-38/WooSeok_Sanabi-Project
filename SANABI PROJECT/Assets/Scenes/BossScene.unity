@@ -375,7 +375,7 @@ GameObject:
   - component: {fileID: 372889689}
   - component: {fileID: 372889691}
   - component: {fileID: 372889690}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Block1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -923,7 +923,7 @@ GameObject:
   - component: {fileID: 519092338}
   - component: {fileID: 519092340}
   - component: {fileID: 519092339}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Block5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1122,6 +1122,10 @@ PrefabInstance:
     - target: {fileID: 851236262925654717, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
       propertyPath: m_RootOrder
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 851236262925654717, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 851236262925654717, guid: 13e169413e71ece4db7d1626dafe8cfb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2272,7 +2276,7 @@ GameObject:
   - component: {fileID: 1539397590}
   - component: {fileID: 1539397592}
   - component: {fileID: 1539397591}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Block3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2733,7 +2737,7 @@ GameObject:
   - component: {fileID: 1733148017}
   - component: {fileID: 1733148019}
   - component: {fileID: 1733148018}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Block4
   m_TagString: Untagged
   m_Icon: {fileID: 0}

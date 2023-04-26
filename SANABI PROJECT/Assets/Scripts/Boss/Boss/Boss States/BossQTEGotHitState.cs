@@ -7,7 +7,7 @@ using UnityEngine;
 
 
 
-public class BossQTEGotHitState : BossState
+public class BossQTEGotHitState : BossInteractionState
 {
     private bool isAllPhasedFinished;
     public BossQTEGotHitState(BossController bossController, BossStateMachine bossStateMachine, BossData bossData, string animBoolName) : base(bossController, bossStateMachine, bossData, animBoolName)
@@ -27,8 +27,8 @@ public class BossQTEGotHitState : BossState
         //GameManager.Instance.playerController.OnQTEHitFinished += ChangeTo_QTEState_Or_EvadeToPhase2State;
         GameManager.Instance.playerController.OnQTEHitFinished -= ChangeToQTEState;
         GameManager.Instance.playerController.OnQTEHitFinished += ChangeToQTEState;
-        bossController.CheckIfShouldFlip();
-        GameManager.Instance.playerController.transform.position = GameManager.Instance.playerGrabPos.position;
+        //bossController.CheckIfShouldFlip();
+        //GameManager.Instance.playerController.transform.position = GameManager.Instance.playerGrabPos.position;
     }
 
     public override void Exit()

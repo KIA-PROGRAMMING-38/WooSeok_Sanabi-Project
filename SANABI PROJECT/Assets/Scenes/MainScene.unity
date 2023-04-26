@@ -61722,7 +61722,7 @@ MonoBehaviour:
   bossData: {fileID: 0}
   bossController: {fileID: 0}
   bossGunController: {fileID: 0}
-  playerGrabPos: {fileID: 0}
+  playerGrabBossPos: {fileID: 0}
   bossCanvasController: {fileID: 0}
   TitleCanvas: {fileID: 0}
   pauseCanvas: {fileID: 1517556842}
@@ -66360,6 +66360,8 @@ MonoBehaviour:
   shootShakeIntensity: 0.1
   damagedShakeTime: 0.5
   damagedShakeIntensity: 0.45
+  QTEHitShakeTime: 0.1
+  QTEHitShakeIntensity: 0.2
   shakeMovePosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1446657981
 GameObject:
@@ -68835,7 +68837,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3070896645368846572, guid: 77e4f1967a79a95438ec1e91d0f73c28, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.06
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 3070896645368846572, guid: 77e4f1967a79a95438ec1e91d0f73c28, type: 3}
       propertyPath: m_LocalPosition.z
@@ -68911,7 +68913,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3070896646365267975, guid: 77e4f1967a79a95438ec1e91d0f73c28, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.24000001
+      value: -0.23
       objectReference: {fileID: 0}
     - target: {fileID: 3070896646489956980, guid: 77e4f1967a79a95438ec1e91d0f73c28, type: 3}
       propertyPath: m_LocalPosition.x

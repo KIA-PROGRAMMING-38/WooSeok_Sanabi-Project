@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
     public PlayerQTEState QTEState { get; private set; }
     public PlayerQTEHitState QTEHitState { get; private set; }
     public PlayerEvadeToPhase2State EvadeToPhase2State { get; private set; }
+    public PlayerExecuteBossState ExecuteBossState { get; private set; }
    
 
     #endregion
@@ -184,6 +185,7 @@ public class PlayerController : MonoBehaviour
         QTEState = new PlayerQTEState(this, StateMachine, playerData, "QTE");
         QTEHitState = new PlayerQTEHitState(this, StateMachine, playerData, "QTEHit");
         EvadeToPhase2State = new PlayerEvadeToPhase2State(this,StateMachine, playerData, "evadeToPhase2");
+        ExecuteBossState = new PlayerExecuteBossState(this, StateMachine, playerData, "executeBoss");
     }
 
     private void Start()
@@ -644,7 +646,7 @@ public class PlayerController : MonoBehaviour
     {
         StateMachine.ChangeState(IdleState);
     }
-    private void Flip()
+    public void Flip()
     {
         FacingDirection *= -1;
         Vector3 newScale = Vector3.one;

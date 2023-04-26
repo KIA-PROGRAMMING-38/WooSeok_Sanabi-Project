@@ -11,7 +11,8 @@ public class PlayerApproachDash : PlayerAbilityState
     private Vector3 grabbedPosition;
     private Vector3 approachDashDirection;
     private float ApproachDashForce;
-    private bool ifGoToPhase2;
+    private bool ifPhase1;
+    private bool ifQTE;
     public PlayerApproachDash(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -23,7 +24,8 @@ public class PlayerApproachDash : PlayerAbilityState
         ApproachDashForce = playerData.approachDashVelocity;
         if (GameManager.Instance.bossController != null)
         {
-            ifGoToPhase2 = GameManager.Instance.bossController.CheckIfGoToPhase2();
+            ifPhase1 = GameManager.Instance.bossController.CheckIfPhase1();
+            ifQTE = GameManager.Instance.bossController.CheckIfQTE();
         }
         
     }
@@ -80,15 +82,32 @@ public class PlayerApproachDash : PlayerAbilityState
 
     private void ChangeTo_GetHit_Or_QTEState()
     {
-        if (!ifGoToPhase2) // qte 조건 발동 전이라면
+        if (ifPhase1)
         {
-            stateMachine.ChangeState(playerController.GetHitState);
+            if (!ifQTE) // qte 조건 발동 전이라면
+            {
+                stateMachine.ChangeState(playerController.GetHitState);
+            }
+            else // qte 조건 발동 on 이라면
+            {
+                stateMachine.ChangeState(playerController.QTEState);
+            }
         }
-        else // qte 조건 발동 on 이라면
+        else
         {
-            stateMachine.ChangeState(playerController.QTEState);
+            if (!GameManager.Instance.bossController.isBossReadyToBeExecuted)
+            {
+                stateMachine.ChangeState(playerController.GetHitState);
+            }
+            else
+            {
+                stateMachine.ChangeState(playerController.ExecuteBossState);
+            }
+            
+
         }
-        
+
+
     }
 }
 

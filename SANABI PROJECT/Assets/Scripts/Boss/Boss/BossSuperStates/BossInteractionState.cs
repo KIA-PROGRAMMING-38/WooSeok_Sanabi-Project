@@ -2,22 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossExecutedState : BossInteractionState
+public class BossInteractionState : BossState
 {
-    public BossExecutedState(BossController bossController, BossStateMachine bossStateMachine, BossData bossData, string animBoolName) : base(bossController, bossStateMachine, bossData, animBoolName)
+    public BossInteractionState(BossController bossController, BossStateMachine bossStateMachine, BossData bossData, string animBoolName) : base(bossController, bossStateMachine, bossData, animBoolName)
     {
     }
 
     public override void DoChecks()
     {
         base.DoChecks();
-        
     }
 
     public override void Enter()
     {
         base.Enter();
-        
+        GameManager.Instance.playerController.transform.position = GameManager.Instance.playerGrabBossPos.position;
+        GameManager.Instance.bossGunController.lineRenderer.enabled = false;
     }
 
     public override void Exit()

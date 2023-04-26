@@ -11,7 +11,7 @@ public class BossState
     private string animBoolName;
 
     protected bool isPhase1;
-    protected bool ifGoToPhase2;
+    protected bool ifQTE;
 
     public BossState(BossController bossController, BossStateMachine bossStateMachine, BossData bossData, string animBoolName)
     {
@@ -23,7 +23,7 @@ public class BossState
     public virtual void DoChecks()
     {
         isPhase1 = bossController.CheckIfPhase1();
-        ifGoToPhase2 = bossController.CheckIfGoToPhase2();
+        ifQTE = bossController.CheckIfQTE();
     }
     public virtual void Enter()
     {
@@ -54,16 +54,34 @@ public class BossState
 
     private void ChangeTo_Evade_OR_QTEState()
     {
+        
         if (GameManager.Instance.grabController.hasGrabbedBoss)
         {
-            if (!ifGoToPhase2)
+            bossController.CheckIfShouldFlip();
+            if (isPhase1)
             {
-                stateMachine.ChangeState(bossController.EvadeState);
+                if (!ifQTE)
+                {
+                    stateMachine.ChangeState(bossController.EvadeState);
+                }
+                else
+                {
+                    stateMachine.ChangeState(bossController.QTEState);
+                }
             }
-            else
+            else // if phase 2
             {
-                stateMachine.ChangeState(bossController.QTEState);
+                if (!bossController.isBossReadyToBeExecuted)
+                {
+                    stateMachine.ChangeState(bossController.EvadeState);
+                }
+                else
+                {
+                    stateMachine.ChangeState(bossController.ExecutedState);
+                }
+                
             }
+            
         }
         
         

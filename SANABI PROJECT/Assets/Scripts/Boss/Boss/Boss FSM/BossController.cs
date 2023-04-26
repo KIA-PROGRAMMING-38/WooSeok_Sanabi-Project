@@ -68,9 +68,10 @@ public class BossController : MonoBehaviour
     public int hitCount;
     private int hitPhase2Count;
     public bool isPhase1;
+    public bool isBossReadyToBeExecuted { get; private set; }
 
     private int rightDirection = 1;
-    private int FacingDirection;
+    public int FacingDirection { get; private set; }
     #endregion
 
     private void Awake()
@@ -101,7 +102,7 @@ public class BossController : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.bossController = this;
-        GameManager.Instance.playerGrabPos = playerGrabPos;
+        GameManager.Instance.playerGrabBossPos = playerGrabPos;
         GameManager.Instance.playerController.OnQTEHit -= ChangeToQTEGotHitState;
         GameManager.Instance.playerController.OnQTEHit += ChangeToQTEGotHitState;
     }
@@ -121,6 +122,8 @@ public class BossController : MonoBehaviour
 
 
         isPhase1 = true;
+        //hitCount = 1;
+        hitCount = 2; // test
         hitPhase2Count = bossData.hitPhase2Count;
         FacingDirection = rightDirection;
 
@@ -136,6 +139,8 @@ public class BossController : MonoBehaviour
     {
         StateMachine.CurrentState.LogicUpdate();
         //Debug.Log(StateMachine.CurrentState);
+        
+        
     }
 
     #region Other Functions
@@ -148,8 +153,18 @@ public class BossController : MonoBehaviour
 
     public void BossRunAway()
     {
-        int randomIndex = UnityEngine.Random.Range(0, bossRunAwaySpots.Length - 1);
-        transform.position = bossRunAwaySpots[randomIndex].position;
+        if (isPhase1 == false && hitPhase2Count < hitCount)
+        {
+            transform.position = bossRunAwaySpots[bossRunAwaySpots.Length-1].position;
+            isBossReadyToBeExecuted = true;
+        }
+        else
+        {
+            int randomIndex = UnityEngine.Random.Range(0, bossRunAwaySpots.Length - 1);
+            transform.position = bossRunAwaySpots[randomIndex].position;
+            
+        }
+        
     }
 
     private void Flip()
@@ -257,20 +272,28 @@ public class BossController : MonoBehaviour
 
     public void CheckIfShouldFlip()
     {
-        if (1 <= FacingDirection) // if boss is looking right
+        Debug.Log($"ifShouldFlip ¹ßµ¿ ‰Î");
+        if (0f < FacingDirection * GameManager.Instance.playerController.FacingDirection) // they are looking opposite direction
         {
-            if (0f < GameManager.Instance.bossGunController.targetDistance.x) // but player is on leftside
-            {
-                Flip();
-            }
+            
+            Flip();
         }
-        else // if boss is looking left
-        {
-            if (GameManager.Instance.bossGunController.targetDistance.x < 0f) // but player is on rightside
-            {
-                Flip();
-            }
-        }
+
+
+        //if (1 <= FacingDirection) // if boss is looking right
+        //{
+        //    if (0f < GameManager.Instance.bossGunController.targetDistance.x) // but player is on leftside
+        //    {
+        //        Flip();
+        //    }
+        //}
+        //else // if boss is looking left
+        //{
+        //    if (GameManager.Instance.bossGunController.targetDistance.x < 0f) // but player is on rightside
+        //    {
+        //        Flip();
+        //    }
+        //}
 
     }
     
@@ -286,7 +309,7 @@ public class BossController : MonoBehaviour
             return false;
         }
     }
-    public bool CheckIfGoToPhase2()
+    public bool CheckIfQTE()
     {
         if (hitPhase2Count <= hitCount)
         {

@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
     public BossData bossData;
     public BossController bossController;
     public BossGunController bossGunController;
-    public Transform playerGrabPos;
+    public Transform playerGrabBossPos;
     public BossCanvasController bossCanvasController;
 
     public Vector3 bossScenePlayerSpawnSpot

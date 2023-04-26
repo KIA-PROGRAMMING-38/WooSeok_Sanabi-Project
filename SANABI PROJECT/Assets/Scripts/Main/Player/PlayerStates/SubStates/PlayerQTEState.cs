@@ -34,10 +34,10 @@ public class PlayerQTEState : PlayerBossState
     public override void Exit()
     {
         base.Exit();
+        playerController.OnQTE -= EternalZoomInPlayer;
         GameManager.Instance.bossCanvasController.sliderScript.OnFinishClickPhase -= ChangeToQTEHitState;
         GameManager.Instance.bossCanvasController.sliderScript.OnFinishAllPhase -= ChangeToEvadeToPhase2State;
         GameManager.Instance.bossCanvasController.sliderScript.OnFailAnyPhase -= ChangeToGetHitState;
-        playerController.OnQTE -= EternalZoomInPlayer;
         //EternalZoomOutPlayer();
     }
 

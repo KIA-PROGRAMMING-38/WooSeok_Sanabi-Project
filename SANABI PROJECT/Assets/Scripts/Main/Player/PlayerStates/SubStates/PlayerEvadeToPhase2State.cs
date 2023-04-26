@@ -21,12 +21,14 @@ public class PlayerEvadeToPhase2State : PlayerBossState
     {
         base.Enter();
         
-        playerController.camShake.TurnOnShake(playerController.camShake.QTEHitShakeTime, playerController.camShake.QTEHitShakeIntensity + 0.5f);
+        playerController.camShake.TurnOnShake(playerController.camShake.QTEHitShakeTime, playerController.camShake.QTEHitShakeIntensity + 0.2f);
     }
 
     public override void Exit()
     {
         base.Exit();
+        EternalZoomOutPlayer();
+
     }
 
     public override void LogicUpdate()
@@ -37,6 +39,11 @@ public class PlayerEvadeToPhase2State : PlayerBossState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+    }
+
+    private void EternalZoomOutPlayer()
+    {
+        GameManager.Instance.cameraFollow.StopEternalZoomOutPlayer();
     }
 }
 
