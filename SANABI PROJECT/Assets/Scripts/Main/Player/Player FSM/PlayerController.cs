@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     public PlayerQTEHitState QTEHitState { get; private set; }
     public PlayerEvadeToPhase2State EvadeToPhase2State { get; private set; }
     public PlayerExecuteBossState ExecuteBossState { get; private set; }
+    public PlayerMenaceState MenaceState { get; private set; }
    
 
     #endregion
@@ -186,6 +187,7 @@ public class PlayerController : MonoBehaviour
         QTEHitState = new PlayerQTEHitState(this, StateMachine, playerData, "QTEHit");
         EvadeToPhase2State = new PlayerEvadeToPhase2State(this,StateMachine, playerData, "evadeToPhase2");
         ExecuteBossState = new PlayerExecuteBossState(this, StateMachine, playerData, "executeBoss");
+        MenaceState = new PlayerMenaceState(this, StateMachine, playerData, "menace");
     }
 
     private void Start()
@@ -645,6 +647,11 @@ public class PlayerController : MonoBehaviour
     public void ChangeToIdleState()
     {
         StateMachine.ChangeState(IdleState);
+    }
+
+    public void ChangeToMenaceState()
+    {
+        StateMachine.ChangeState(MenaceState);
     }
     public void Flip()
     {

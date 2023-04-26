@@ -15,7 +15,10 @@ public class BossCanvasController : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.Instance.bossCanvasController = this;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.bossCanvasController = this;
+        }
         isClickPhase = true;
     }
 

@@ -24,6 +24,7 @@ public class BossController : MonoBehaviour
     public BossQTEGotHitState QTEGotHitState { get; private set; }
     public BossEvadeToPhase2 EvadeToPhase2State { get; private set; }
     public BossExecutedState ExecutedState { get; private set; }
+    public BossExecutedIdleState ExecutedIdleState { get; private set; }
     public BossDeadState DeadState { get; private set; }
 
     #endregion
@@ -96,6 +97,7 @@ public class BossController : MonoBehaviour
         QTEGotHitState = new BossQTEGotHitState(this, StateMachine, bossData, "QTEGotHit");
         EvadeToPhase2State = new BossEvadeToPhase2(this, StateMachine, bossData, "toPhase2");
         ExecutedState = new BossExecutedState(this, StateMachine, bossData, "executed");
+        ExecutedIdleState = new BossExecutedIdleState(this, StateMachine, bossData, "executedIdle");
         DeadState = new BossDeadState(this, StateMachine, bossData, "dead");
     }
 
@@ -272,12 +274,26 @@ public class BossController : MonoBehaviour
 
     public void CheckIfShouldFlip()
     {
-        Debug.Log($"ifShouldFlip ¹ßµ¿ ‰Î");
-        if (0f < FacingDirection * GameManager.Instance.playerController.FacingDirection) // they are looking opposite direction
+        if (1f <= FacingDirection) // looking right
         {
-            
-            Flip();
+            if (GameManager.Instance.playerController.transform.position.x <= transform.position.x) // if player is on left side of boss
+            {
+                Flip();
+            }
         }
+        else // looking left
+        {
+            if (transform.position.x <= GameManager.Instance.playerController.transform.position.x) // if player is on the right side of boss
+            {
+                Flip();
+            }
+        }
+
+
+        //if (0f < FacingDirection * GameManager.Instance.playerController.FacingDirection) // they are looking same direction
+        //{
+        //    Flip();
+        //}
 
 
         //if (1 <= FacingDirection) // if boss is looking right
@@ -343,6 +359,11 @@ public class BossController : MonoBehaviour
     public void ChangeToCooldownState()
     {
         StateMachine.ChangeState(CooldownState);    
+    }
+
+    public void ChangeToExecutedIdleState()
+    {
+        StateMachine.ChangeState(ExecutedIdleState);
     }
     #endregion
 

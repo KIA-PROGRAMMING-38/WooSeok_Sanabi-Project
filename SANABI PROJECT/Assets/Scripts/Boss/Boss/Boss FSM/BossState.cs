@@ -57,6 +57,7 @@ public class BossState
         
         if (GameManager.Instance.grabController.hasGrabbedBoss)
         {
+            
             bossController.CheckIfShouldFlip();
             if (isPhase1)
             {
