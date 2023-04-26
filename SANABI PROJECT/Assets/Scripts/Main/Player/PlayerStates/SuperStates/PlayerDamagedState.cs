@@ -51,12 +51,12 @@ public class PlayerDamagedState : PlayerState
         //playerController.playerHealth.OnDead += ChangeToDeadState;
 
         playerController.playerHealth.TakeDamage(playerData.PlayerTakeDamage); // got to change magic number
-        
+        GameManager.Instance.cameraFollow.StartChangeColor();
         damagedJumpDirection = Vector2.up + Vector2.right; // (1, 1)
         damagedOutTime = playerData.damagedOutTime;
         DamagedJumpBack(playerController.FacingDirection);
         playerController.camShake.TurnOnShake(cameraShakeTime, cameraShakeIntensity);
-        playerController.camFollow.ChangeColor();
+        //playerController.camFollow.ChangeColor();
         playerController.timeSlower.PleaseSlowDown(slowIntensity, slowTime);
     }
 

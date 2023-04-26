@@ -19,6 +19,7 @@ TagManager:
   - DeathPlatform
   - Boss
   - BossBullet
+  - WholePlayer
   layers:
   - Default
   - TransparentFX

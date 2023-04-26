@@ -762,8 +762,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   appearSpeed: 10
-  idleWaitTime: 1
-  rotateSpeed: 150
+  idleWaitTime: 5
+  rotateSpeed: 180
   aimWaitTime: 1.5
   aimLockTime: 0.5
   shootWaitTime: 1

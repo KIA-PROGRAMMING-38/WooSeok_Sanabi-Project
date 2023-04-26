@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     }
 
+
     [Header("Player")]
     public PlayerController playerController;
     public GrabController grabController;

@@ -31,14 +31,6 @@ public class TurretBullet : MonoBehaviour
     }
 
 
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Platform") || collision.gameObject.CompareTag("Player"))
-    //    {
-    //        bulletPool.ReturnToPool(this);
-    //    }
-    //}
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Platform") || collision.gameObject.CompareTag("Player"))

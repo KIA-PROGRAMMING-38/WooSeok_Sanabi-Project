@@ -12,7 +12,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private GameObject mainGround;
     private ShakeCamera camShake;
     private Vector3 offSet;
-    
+
 
     Volume volume;
     Bloom bloom;
@@ -20,18 +20,26 @@ public class CameraFollow : MonoBehaviour
     Color damagedColor = Color.red;
 
     [SerializeField][Range(0f, 0.4f)] private float ColorChangeTime = 0.07f;
-    private bool isColorChange;
+    //private bool isColorChange;
     private WaitForSeconds colorChangeTime;
     Vector2 referenceVelocity = Vector2.zero;
 
+    private Transform bossFilmSpot;
     //private bool isPlayerDead;
-    private bool isPlayerHit;
+    private bool inAnimation;
+    private Vector3 refVel = Vector3.zero;
+    private IEnumerator _FilmBossAppear;
+    private IEnumerator _ShowDamagedColor;
+    private IEnumerator _TemporaryZoomInPlayer;
+    private IEnumerator _EternalZoomInPlayer;
+    private IEnumerator _EternalZoomOutPlayer;
+    private IEnumerator _PlayerDeadZoomIn;
 
     [Header("Camera Zoom-In")]
     private float initialZoomAmount;
     [SerializeField] private float zoomInAmount = 3f;
     [SerializeField] private float zoomInTime = 1f;
-    [SerializeField] [Range(0.01f, 0.05f)] private float zoomInControl = 0.04f;
+    [SerializeField][Range(0.01f, 0.05f)] private float zoomInControl = 0.04f;
 
     private void Awake()
     {
@@ -42,6 +50,13 @@ public class CameraFollow : MonoBehaviour
     }
     private void Start()
     {
+        _FilmBossAppear = FilmBossAppear();
+        _ShowDamagedColor = ShowDamagedColor();
+        _TemporaryZoomInPlayer = TemporaryZoomInPlayer();
+        _EternalZoomInPlayer = EternalZoomInPlayer();
+        _EternalZoomOutPlayer = EternalZoomOutPlayer();
+        _PlayerDeadZoomIn = PlayerDeadZoomIn();
+
         playerHealth.OnDead -= WatchPlayerDie;
         playerHealth.OnDead += WatchPlayerDie;
         offSet = transform.position - playerTransform.position;
@@ -52,24 +67,68 @@ public class CameraFollow : MonoBehaviour
 
     private void Update()
     {
-
-        if (isColorChange)
-        {
-            TryChangeColor();
-        }
+        //if (isColorChange)
+        //{
+        //    TryChangeColor();
+        //}
 
     }
 
 
     private void LateUpdate()
     {
-
-        FollowPlayer();
-        //transform.position = playerTransform.position + offSet + camShake.shakeMovePosition; // 카메라가 흔들리는 만큼 추가로 이동해줌
-
-        
-
+        if (!inAnimation)
+        {
+            FollowPlayer();
+        }
+        //FollowPlayer();
     }
+
+
+
+    public void StartFilmBossAppear(Transform spot)
+    {
+        inAnimation = true;
+        bossFilmSpot = spot;
+        StartCoroutine(_FilmBossAppear);
+    }
+
+
+
+    private IEnumerator FilmBossAppear()
+    {
+        float elapsedTime = 0f;
+        Vector3 initialCamPos = transform.position;
+        GameManager.Instance.playerController.ChangeToPausedState();
+        while (true)
+        {
+            elapsedTime += Time.deltaTime;
+            transform.position = Vector3.SmoothDamp(transform.position, bossFilmSpot.position, ref refVel, 1f);
+            yield return null;
+            if (Vector3.Distance(transform.position, bossFilmSpot.position) <= 0.01f)
+            {
+                break;
+            }
+        }
+
+        transform.position = bossFilmSpot.position;
+        yield return new WaitForSeconds(GameManager.Instance.bossData.idleWaitTime - elapsedTime);
+
+        while (true)
+        {
+            transform.position = Vector3.SmoothDamp(transform.position, initialCamPos, ref refVel, 0.5f);
+            yield return null;
+            if (Vector3.Distance(transform.position, initialCamPos) <= 0.01f)
+            {
+                break;
+            }
+        }
+
+        transform.position = initialCamPos;
+        inAnimation = false;
+        GameManager.Instance.playerController.ChangeToIdleState();
+    }
+
 
 
     private void FollowPlayer()
@@ -77,11 +136,15 @@ public class CameraFollow : MonoBehaviour
         transform.position = playerTransform.position + offSet + camShake.shakeMovePosition; // 카메라가 흔들리는 만큼 추가로 이동해줌
     }
 
+
     public void StartTemporaryZoomInPlayer()
     {
-        StartCoroutine(TemporaryZoomInPlayer());
-        
+
+        _TemporaryZoomInPlayer = TemporaryZoomInPlayer();
+
+        StartCoroutine(_TemporaryZoomInPlayer);
     }
+
 
     private IEnumerator TemporaryZoomInPlayer()
     {
@@ -96,7 +159,7 @@ public class CameraFollow : MonoBehaviour
         }
 
         yield return new WaitForSeconds(zoomInTime);
-        
+
         while (true)
         {
             Camera.main.orthographicSize += zoomInControl;
@@ -109,15 +172,17 @@ public class CameraFollow : MonoBehaviour
         Camera.main.orthographicSize = initialZoomAmount;
     }
 
+
+
     public void StartEternalZoomInPlayer()
     {
-        StartCoroutine(EternalZoomInPlayer());
+
+        _EternalZoomInPlayer = EternalZoomInPlayer();
+
+        //StartCoroutine(EternalZoomInPlayer());
+        StartCoroutine(_EternalZoomInPlayer);
     }
 
-    public void StopEternalZoomOutPlayer()
-    {
-        StartCoroutine(EternalZoomOutPlayer());
-    }
     private IEnumerator EternalZoomInPlayer()
     {
         while (true)
@@ -129,6 +194,17 @@ public class CameraFollow : MonoBehaviour
                 break;
             }
         }
+    }
+
+
+
+    public void StopEternalZoomOutPlayer()
+    {
+
+        _EternalZoomOutPlayer = EternalZoomOutPlayer();
+
+        //StartCoroutine(EternalZoomOutPlayer());
+        StartCoroutine(_EternalZoomOutPlayer);
     }
 
     private IEnumerator EternalZoomOutPlayer()
@@ -145,9 +221,15 @@ public class CameraFollow : MonoBehaviour
         Camera.main.orthographicSize = initialZoomAmount;
     }
 
-    private void TryChangeColor()
+
+
+    public void StartChangeColor()
     {
-        StartCoroutine(ShowDamagedColor());
+
+        _ShowDamagedColor = ShowDamagedColor();
+
+        //StartCoroutine(ShowDamagedColor());
+        StartCoroutine(_ShowDamagedColor);
     }
 
     private IEnumerator ShowDamagedColor()
@@ -155,31 +237,62 @@ public class CameraFollow : MonoBehaviour
         bloom.tint.value = damagedColor;
         yield return colorChangeTime;
         bloom.tint.value = initialColor;
-        isColorChange = false;
+        //isColorChange = false;
     }
 
-    public void ChangeColor()
-    {
-        isColorChange = true;
-    }
+    //public void ChangeColor()
+    //{
+    //    isColorChange = true;
+    //}
 
     private void WatchPlayerDie()
     {
-        SlowCameraMove();
-        Camera.main.orthographicSize = zoomInAmount;
-        if (backGround.gameObject != null)
-        {
-            backGround.gameObject.SetActive(false);
-        }
-        if (mainGround.gameObject != null)
-        {
-            mainGround.gameObject.SetActive(false);
-        }
+        //Camera.main.orthographicSize = zoomInAmount;
+        //StartCoroutine(PlayerDeadZoomIn());
+        StartCoroutine(_PlayerDeadZoomIn);
+        TurnOffEverythingExceptPlayer();
+        //if (backGround.gameObject != null)
+        //{
+        //    backGround.gameObject.SetActive(false);
+        //}
+        //if (mainGround.gameObject != null)
+        //{
+        //    mainGround.gameObject.SetActive(false);
+        //}
         Camera.main.backgroundColor = Color.black;
     }
 
-    private void SlowCameraMove()
+    private void TurnOffEverythingExceptPlayer()
     {
-        transform.position = Vector2.SmoothDamp(transform.position, playerTransform.position, ref referenceVelocity, 3f);
+        foreach (GameObject obj in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
+        {
+            // Check if the current object is the one you want to keep active
+            if (obj.CompareTag("WholePlayer") || obj.CompareTag("MainCamera"))
+            {
+                // If it is, set it to active
+                obj.SetActive(true);
+            }
+            else
+            {
+                // If it's not, set it to inactive
+                obj.SetActive(false);
+            }
+        }
+
+    }
+
+
+
+    private IEnumerator PlayerDeadZoomIn()
+    {
+        while (true)
+        {
+            Camera.main.orthographicSize -= 0.05f;
+            yield return null;
+            if (Camera.main.orthographicSize <= zoomInAmount - 1f)
+            {
+                break;
+            }
+        }
     }
 }

@@ -45,9 +45,19 @@ public class PlayerHealth : Health
     {
         if (playerCurHP <= 0 || playerController.CheckIfPlayerHitDeathPlatform())
         {
+            InvokeOnDead();
             isPlayerDead = true;
+            //OnDead?.Invoke();
+        }
+    }
+
+    private void InvokeOnDead()
+    {
+        if (!isPlayerDead)
+        {
             OnDead?.Invoke();
         }
+        
     }
 
     public override bool CheckIfDead()

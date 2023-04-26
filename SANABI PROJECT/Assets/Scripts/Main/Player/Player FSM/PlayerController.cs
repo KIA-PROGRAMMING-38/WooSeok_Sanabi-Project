@@ -43,7 +43,8 @@ public class PlayerController : MonoBehaviour
     public PlayerEvadeToPhase2State EvadeToPhase2State { get; private set; }
     public PlayerExecuteBossState ExecuteBossState { get; private set; }
     public PlayerMenaceState MenaceState { get; private set; }
-   
+    public PlayerPausedState PausedState { get; private set; }
+    
 
     #endregion
 
@@ -188,6 +189,7 @@ public class PlayerController : MonoBehaviour
         EvadeToPhase2State = new PlayerEvadeToPhase2State(this,StateMachine, playerData, "evadeToPhase2");
         ExecuteBossState = new PlayerExecuteBossState(this, StateMachine, playerData, "executeBoss");
         MenaceState = new PlayerMenaceState(this, StateMachine, playerData, "menace");
+        PausedState = new PlayerPausedState(this, StateMachine, playerData, "paused");
     }
 
     private void Start()
@@ -593,6 +595,11 @@ public class PlayerController : MonoBehaviour
     private void ChangeToRollingState()
     {
         OnExecuteDash?.Invoke();
+    }
+
+    public void ChangeToPausedState()
+    {
+        StateMachine.ChangeState(PausedState);
     }
 
     public void CheckIfShouldRotate(float xInput, float yInput)

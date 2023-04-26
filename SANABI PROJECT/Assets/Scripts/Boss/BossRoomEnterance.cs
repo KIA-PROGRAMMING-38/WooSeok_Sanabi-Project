@@ -15,12 +15,20 @@ public class BossRoomEnterance : MonoBehaviour
     public BossGunController bossGunController;
 
     public Transform[] bossRunAwaySpots;
+    public Transform bossAppearSpot;
+
+    [SerializeField] private float cameraWaitTime = 2f;
+    private WaitForSeconds _cameraWaitTime;
+    private IEnumerator _WaitForCameraAction;
 
     private void Awake()
     {
         playerLayerMask = LayerMask.NameToLayer("SNB");
         boxCollider= GetComponent<BoxCollider2D>();
         rigidbody = GetComponentInParent<Rigidbody2D>();
+
+        _cameraWaitTime = new WaitForSeconds(cameraWaitTime);
+        _WaitForCameraAction = WaitForCameraAction();
     }
     
 
@@ -33,15 +41,16 @@ public class BossRoomEnterance : MonoBehaviour
             enteranceCollider.isTrigger = false;
             boxCollider.enabled = false;
             //var bossObject = Instantiate(bossPrefab, bossSpawnSpot.position, bossSpawnSpot.rotation);
-            var bossObject = Instantiate(bossPrefab, bossSpawnSpot.position, bossSpawnSpot.rotation);
-            bossObject.GetComponent<BossController>().bossRunAwaySpots = bossRunAwaySpots;
-
-            //Instantiate(bossPrefab, bossSpawnSpot);
-            //GameManager.Instance.bossData = bossPrefab.GetComponent<BossData>();
-            //GameManager.Instance.bossController = bossPrefab.GetComponent<BossController>();
-            //GameManager.Instance.bossGunController = bossPrefab.GetComponentInChildren<BossGunController>();
-            //GameManager.Instance.bossGunController.target = GameManager.Instance.playerController.transform;
+            StartCoroutine(_WaitForCameraAction);
+            GameManager.Instance.cameraFollow.StartFilmBossAppear(bossAppearSpot);
         }
+    }
+
+    private IEnumerator WaitForCameraAction()
+    {
+        yield return _cameraWaitTime;
+        var bossObject = Instantiate(bossPrefab, bossSpawnSpot.position, bossSpawnSpot.rotation);
+        bossObject.GetComponent<BossController>().bossRunAwaySpots = bossRunAwaySpots;
     }
 
 }
