@@ -25,6 +25,8 @@ public class BossController : MonoBehaviour
     public BossEvadeToPhase2 EvadeToPhase2State { get; private set; }
     public BossExecutedState ExecutedState { get; private set; }
     public BossExecutedIdleState ExecutedIdleState { get; private set; }
+    public BossFinalBeamState FinalBeamState { get; private set; }
+    public BossFallingState FallingState { get; private set; }
     public BossDeadState DeadState { get; private set; }
 
     #endregion
@@ -98,7 +100,10 @@ public class BossController : MonoBehaviour
         EvadeToPhase2State = new BossEvadeToPhase2(this, StateMachine, bossData, "toPhase2");
         ExecutedState = new BossExecutedState(this, StateMachine, bossData, "executed");
         ExecutedIdleState = new BossExecutedIdleState(this, StateMachine, bossData, "executedIdle");
+        FinalBeamState = new BossFinalBeamState(this, StateMachine, bossData, "finalBeam");
+        FallingState = new BossFallingState(this, StateMachine, bossData, "falling");
         DeadState = new BossDeadState(this, StateMachine, bossData, "dead");
+        
     }
 
     private void OnEnable()
@@ -252,6 +257,20 @@ public class BossController : MonoBehaviour
 
     #endregion
 
+    #region bossExecutedIdleState
+
+    public void StartWaitAndChangeToFinalBeamState()
+    {
+        StartCoroutine(WaitAndChangeToFinalBeamState());
+    }
+    private IEnumerator WaitAndChangeToFinalBeamState()
+    {
+        yield return new WaitForSeconds(5f);
+        StateMachine.ChangeState(FinalBeamState);
+    }
+
+    #endregion
+
     #endregion
 
 
@@ -288,29 +307,6 @@ public class BossController : MonoBehaviour
                 Flip();
             }
         }
-
-
-        //if (0f < FacingDirection * GameManager.Instance.playerController.FacingDirection) // they are looking same direction
-        //{
-        //    Flip();
-        //}
-
-
-        //if (1 <= FacingDirection) // if boss is looking right
-        //{
-        //    if (0f < GameManager.Instance.bossGunController.targetDistance.x) // but player is on leftside
-        //    {
-        //        Flip();
-        //    }
-        //}
-        //else // if boss is looking left
-        //{
-        //    if (GameManager.Instance.bossGunController.targetDistance.x < 0f) // but player is on rightside
-        //    {
-        //        Flip();
-        //    }
-        //}
-
     }
     
 
@@ -365,6 +361,17 @@ public class BossController : MonoBehaviour
     {
         StateMachine.ChangeState(ExecutedIdleState);
     }
+
+    public void ChangeToFallingState()
+    {
+        StateMachine.ChangeState(FallingState);
+    }
     #endregion
 
+    public void TurnOffCeilingCollider()
+    {
+        GameManager.Instance.bossCanvasController.TurnOffCeilingCollider();
+        ChangeToFallingState();
+        
+    }
 }

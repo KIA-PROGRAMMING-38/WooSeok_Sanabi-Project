@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UnityEngine;
 
-
-public class BossExecutedIdleState : BossState
+public class PlayerEvadeBeamState : PlayerBossState
 {
-    public BossExecutedIdleState(BossController bossController, BossStateMachine bossStateMachine, BossData bossData, string animBoolName) : base(bossController, bossStateMachine, bossData, animBoolName)
+    public PlayerEvadeBeamState(PlayerController player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
 
@@ -20,7 +18,6 @@ public class BossExecutedIdleState : BossState
     public override void Enter()
     {
         base.Enter();
-        bossController.StartWaitAndChangeToFinalBeamState();
     }
 
     public override void Exit()

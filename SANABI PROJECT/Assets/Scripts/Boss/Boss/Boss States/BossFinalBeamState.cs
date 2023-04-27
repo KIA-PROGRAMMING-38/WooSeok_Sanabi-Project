@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UnityEngine;
 
 
-public class BossExecutedIdleState : BossState
+public class BossFinalBeamState : BossState
 {
-    public BossExecutedIdleState(BossController bossController, BossStateMachine bossStateMachine, BossData bossData, string animBoolName) : base(bossController, bossStateMachine, bossData, animBoolName)
+    public BossFinalBeamState(BossController bossController, BossStateMachine bossStateMachine, BossData bossData, string animBoolName) : base(bossController, bossStateMachine, bossData, animBoolName)
     {
     }
 
@@ -20,7 +19,6 @@ public class BossExecutedIdleState : BossState
     public override void Enter()
     {
         base.Enter();
-        bossController.StartWaitAndChangeToFinalBeamState();
     }
 
     public override void Exit()
@@ -38,4 +36,3 @@ public class BossExecutedIdleState : BossState
         base.PhysicsUpdate();
     }
 }
-

@@ -19,6 +19,7 @@ public class PlayerMenaceState : PlayerBossState
     public override void Enter()
     {
         base.Enter();
+        playerController.StartWaitAndChangeToEvadeBeamState();
     }
 
     public override void Exit()

@@ -6,6 +6,7 @@ public class BossCanvasController : MonoBehaviour
 {
     [SerializeField] private GameObject QTESlider;
     public QTEUISlider sliderScript;
+    public BoxCollider2D ceilingCollider;
 
     public bool isClickPhase { get; set; }
     public bool isAllPhaseFinished { get; set; }
@@ -59,6 +60,11 @@ public class BossCanvasController : MonoBehaviour
     public void TurnOffSlider()
     {
         QTESlider.SetActive(false);
+    }
+
+    public void TurnOffCeilingCollider()
+    {
+        ceilingCollider.enabled = false;
     }
 
     private void Update()

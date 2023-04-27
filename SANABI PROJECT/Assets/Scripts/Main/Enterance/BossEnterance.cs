@@ -32,17 +32,19 @@ public class BossEnterance : MonoBehaviour
         //    SceneManager.LoadScene((int)GameManager.SceneNumber.Boss);
         //    GameManager.Instance.lastSceneNumber = GameManager.SceneNumber.Main;
         //    GameManager.Instance.currentSceneNumber = GameManager.SceneNumber.Boss;
+        //    GameManager.Instance.playerController.ClearAfterImagePool();
         //    foreach (GameObject element in playerRelatedObjects)
         //    {
         //        DontDestroyOnLoad(element);
         //    }
-            
+
         //}
-        if (collision.gameObject.CompareTag("Player")) // test¿ë
+        if (collision.gameObject.CompareTag("Player")) // test¿ë = ÅÍ·¿µµ ´Ù Á×¾î¾ßÇÔ
         {
             SceneManager.LoadScene((int)GameManager.SceneNumber.Boss);
             GameManager.Instance.lastSceneNumber = GameManager.SceneNumber.Main;
             GameManager.Instance.currentSceneNumber = GameManager.SceneNumber.Boss;
+            GameManager.Instance.playerController.ClearAfterImagePool();
             foreach (GameObject element in playerRelatedObjects)
             {
                 DontDestroyOnLoad(element);

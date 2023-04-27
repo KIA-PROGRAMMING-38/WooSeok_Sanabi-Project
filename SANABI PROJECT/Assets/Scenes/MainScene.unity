@@ -76733,7 +76733,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1501053236}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.2, y: 10.4, z: 0}
+  m_LocalPosition: {x: 148.4, y: 32.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -88545,7 +88545,7 @@ GameObject:
   - component: {fileID: 2115506956}
   - component: {fileID: 2115506957}
   - component: {fileID: 2115506958}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enterance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88671,6 +88671,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3070896645368846571, guid: 77e4f1967a79a95438ec1e91d0f73c28, type: 3}
+      propertyPath: approachDashVelocity
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 3070896645368846572, guid: 77e4f1967a79a95438ec1e91d0f73c28, type: 3}
       propertyPath: m_RootOrder
       value: 4

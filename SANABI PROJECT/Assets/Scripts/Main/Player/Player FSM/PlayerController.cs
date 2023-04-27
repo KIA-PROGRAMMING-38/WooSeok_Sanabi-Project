@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     public PlayerEvadeToPhase2State EvadeToPhase2State { get; private set; }
     public PlayerExecuteBossState ExecuteBossState { get; private set; }
     public PlayerMenaceState MenaceState { get; private set; }
+    public PlayerEvadeBeamState EvadeBeamState { get; private set; }
     public PlayerPausedState PausedState { get; private set; }
     
 
@@ -147,6 +148,9 @@ public class PlayerController : MonoBehaviour
     public event Action OnQTE;
     public event Action OnQTEHit;
     public event Action OnQTEHitFinished;
+
+    private IEnumerator _WaitAndChangeToEvadeBeamState;
+    private WaitForSeconds _menaceWaitTime;
     #endregion
     private void Awake()
     {
@@ -189,6 +193,7 @@ public class PlayerController : MonoBehaviour
         EvadeToPhase2State = new PlayerEvadeToPhase2State(this,StateMachine, playerData, "evadeToPhase2");
         ExecuteBossState = new PlayerExecuteBossState(this, StateMachine, playerData, "executeBoss");
         MenaceState = new PlayerMenaceState(this, StateMachine, playerData, "menace");
+        EvadeBeamState = new PlayerEvadeBeamState(this, StateMachine, playerData, "evadeBeam");
         PausedState = new PlayerPausedState(this, StateMachine, playerData, "paused");
     }
 
@@ -205,6 +210,8 @@ public class PlayerController : MonoBehaviour
         afterImageGapTime = playerData.afterImageGapTime;
         _afterImageGapTime = new WaitForSeconds(afterImageGapTime);
         _dustCreateTime = new WaitForSeconds(dustCreateTime);
+        _WaitAndChangeToEvadeBeamState = WaitAndChangeToEvadeBeamState();
+        _menaceWaitTime = new WaitForSeconds(playerData.menaceWaitTime);
 
 
         Input = GetComponentInParent<PlayerInput>();
@@ -272,6 +279,10 @@ public class PlayerController : MonoBehaviour
         CurrentVelocity = workspace;
     }
 
+    public void ClearAfterImagePool()
+    {
+        WireDashPool.ClearPool();
+    }
 
     public void PlayerWireDash()
     {
@@ -399,6 +410,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void StartWaitAndChangeToEvadeBeamState()
+    {
+        //StartCoroutine(WaitAndChangeToEvadeBeamState());
+        StartCoroutine(_WaitAndChangeToEvadeBeamState);
+    }
+
+    private IEnumerator WaitAndChangeToEvadeBeamState()
+    {
+        yield return _menaceWaitTime;
+        StateMachine.ChangeState(EvadeBeamState);
+    }
 
     public void PlayerWireDashStop()
     {
@@ -584,15 +606,19 @@ public class PlayerController : MonoBehaviour
         MakePlayerInvicible();
         yield return playerInvincibleWaitTime;
         MakePlayerVulnerable();
-
-
     }
-    private void ChangeToInAirState() // to be called from animation frames as event
+
+    public void ChangeToInAirState()
+    {
+        StateMachine.ChangeState(InAirState);
+    }
+
+    private void InvokeOnDamagedDash() // to be called from animation frames as event
     {
         OnDamagedDash?.Invoke();
     }
 
-    private void ChangeToRollingState()
+    private void InvokeOnExecuteDash()
     {
         OnExecuteDash?.Invoke();
     }
