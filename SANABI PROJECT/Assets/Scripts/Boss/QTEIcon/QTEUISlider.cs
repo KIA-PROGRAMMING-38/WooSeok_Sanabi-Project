@@ -54,10 +54,10 @@ public class QTEUISlider : MonoBehaviour
         }
         
 
-        if (bossTransform != null)
-        {
-            transform.position = Camera.main.WorldToScreenPoint(bossTransform.position + (Vector3)offset);
-        }
+        //if (bossTransform != null)
+        //{
+        //    transform.position = Camera.main.WorldToScreenPoint(bossTransform.position + (Vector3)offset);
+        //}
 
         QTESlider.value = initialValue; // default value
 

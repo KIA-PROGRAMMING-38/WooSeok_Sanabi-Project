@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BossDeadState : BossState
 {
+    private Vector2 backDirection = Vector2.zero;
     public BossDeadState(BossController bossController, BossStateMachine bossStateMachine, BossData bossData, string animBoolName) : base(bossController, bossStateMachine, bossData, animBoolName)
     {
     }
@@ -16,6 +17,8 @@ public class BossDeadState : BossState
     public override void Enter()
     {
         base.Enter();
+        backDirection.Set((bossController.transform.position - GameManager.Instance.playerController.transform.position).normalized.x, 0f);
+        bossController.SetBossVelocity(backDirection * 20f);
     }
 
     public override void Exit()

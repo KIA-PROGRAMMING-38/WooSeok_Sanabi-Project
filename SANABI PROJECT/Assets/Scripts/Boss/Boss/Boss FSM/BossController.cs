@@ -44,6 +44,8 @@ public class BossController : MonoBehaviour
     public Transform groundCheck;
     public Transform playerGrabPos;
 
+    public FinishChecker finishChecker;
+    public BossBullet bossBullet;
 
     #endregion
 
@@ -65,6 +67,7 @@ public class BossController : MonoBehaviour
     #region Events
 
     public event Action OnShoot;
+    public event Action OnFinalBeamShoot;
 
     #endregion
 
@@ -74,6 +77,8 @@ public class BossController : MonoBehaviour
     private int hitPhase2Count;
     public bool isPhase1;
     public bool isBossReadyToBeExecuted { get; private set; }
+    public bool isBossInFinishRange { get; set; }
+    public bool isBossReadyToBeFinished { get; set; }
 
     private int rightDirection = 1;
     public int FacingDirection { get; private set; }
@@ -185,8 +190,12 @@ public class BossController : MonoBehaviour
         newScale.x = FacingDirection;
         transform.localScale = newScale;
     }
-
-
+    public void TurnOffCeilingCollider()
+    {
+        GameManager.Instance.bossCanvasController.TurnOffCeilingCollider();
+        ChangeToFallingState();
+    }
+    
     #endregion
 
 
@@ -375,13 +384,18 @@ public class BossController : MonoBehaviour
     {
         StateMachine.ChangeState(AwakeIdleState);
     }
+    public void InvokeOnFinalBeamShoot()
+    {
+        OnFinalBeamShoot?.Invoke();
+        //bossBullet.ShootFinalBullet();
+    }
+
+    public void TurnOnGetHitCamShake()
+    {
+        GameManager.Instance.playerController.camShake.TurnOnShake(GameManager.Instance.playerController.camShake.QTEHitShakeTime, GameManager.Instance.playerController.camShake.QTEHitShakeIntensity);
+    }
 
     #endregion
 
-    public void TurnOffCeilingCollider()
-    {
-        GameManager.Instance.bossCanvasController.TurnOffCeilingCollider();
-        ChangeToFallingState();
-        
-    }
+    
 }

@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     public PlayerExecuteBossState ExecuteBossState { get; private set; }
     public PlayerMenaceState MenaceState { get; private set; }
     public PlayerEvadeBeamState EvadeBeamState { get; private set; }
+    public PlayerFinishBossState FinishBossState { get; private set; }
     public PlayerPausedState PausedState { get; private set; }
     
 
@@ -151,6 +152,10 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator _WaitAndChangeToEvadeBeamState;
     private WaitForSeconds _menaceWaitTime;
+
+    public event Action OnFinishBoss;
+
+    
     #endregion
     private void Awake()
     {
@@ -194,6 +199,7 @@ public class PlayerController : MonoBehaviour
         ExecuteBossState = new PlayerExecuteBossState(this, StateMachine, playerData, "executeBoss");
         MenaceState = new PlayerMenaceState(this, StateMachine, playerData, "menace");
         EvadeBeamState = new PlayerEvadeBeamState(this, StateMachine, playerData, "evadeBeam");
+        FinishBossState = new PlayerFinishBossState(this, StateMachine,playerData, "finishBoss");
         PausedState = new PlayerPausedState(this, StateMachine, playerData, "paused");
     }
 
@@ -299,7 +305,10 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(CountDashCooltime());
         }
     }
-
+    public void InvokeOnFinishBoss()
+    {
+        OnFinishBoss?.Invoke();
+    }
     //public void PlayerApproachDash()
     //{
     //    if (CanDash)

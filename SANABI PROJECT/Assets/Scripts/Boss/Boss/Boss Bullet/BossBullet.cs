@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class BossBullet : MonoBehaviour
 {
@@ -32,13 +33,24 @@ public class BossBullet : MonoBehaviour
     {
         bossController.OnShoot -= ShootBullet;
         bossController.OnShoot += ShootBullet;
+        bossController.OnFinalBeamShoot -= ShootFinalBullet;
+        bossController.OnFinalBeamShoot += ShootFinalBullet;
 
         _WaitBullet = WaitBullet();
         _bulletReturnTime = new WaitForSeconds(bulletReturnTime);
         trailRenderer.emitting = false;
+        circleCollider.enabled = false;
     }
 
+    public void ShootFinalBullet()
+    {
+        transform.position = bossGunController.transform.position;
+        trailRenderer.emitting = true;
+        Vector2 upDirection = Vector2.zero;
+        upDirection.Set((GameManager.Instance.playerController.transform.position - bossGunController.transform.position).normalized.x, 1f);
+        bulletRigid.velocity = upDirection * shootSpeed;
 
+    }
 
     private void ShootBullet()
     {

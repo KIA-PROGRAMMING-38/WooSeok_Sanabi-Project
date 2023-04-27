@@ -59,6 +59,13 @@ public class PlayerGroundedState : PlayerState
         {
             stateMachine.ChangeState(playerController.DamagedState);
         }
+        else if (Input.GetKeyDown(KeyCode.Return))
+        {
+            if (GameManager.Instance.bossController != null && GameManager.Instance.bossController.isBossReadyToBeFinished)
+            {
+                stateMachine.ChangeState(playerController.FinishBossState);
+            }
+        }
 
     }
 

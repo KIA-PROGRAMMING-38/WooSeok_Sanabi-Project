@@ -42,8 +42,12 @@ public class BossGunController : MonoBehaviour
 
     public event Action OnFinishedAiming;
     public event Action OnFinishedAimLock;
+    
 
     #endregion
+
+    
+
 
     private void OnEnable()
     {

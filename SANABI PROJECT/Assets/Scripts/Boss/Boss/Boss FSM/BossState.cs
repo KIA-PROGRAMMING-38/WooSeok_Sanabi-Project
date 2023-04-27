@@ -57,7 +57,6 @@ public class BossState
         
         if (GameManager.Instance.grabController.hasGrabbedBoss)
         {
-            
             bossController.CheckIfShouldFlip();
             if (isPhase1)
             {
@@ -78,8 +77,10 @@ public class BossState
                 }
                 else
                 {
-                    stateMachine.ChangeState(bossController.ExecutedState);
-                    
+                    if (!bossController.isBossReadyToBeFinished)
+                    {
+                        stateMachine.ChangeState(bossController.ExecutedState);
+                    }
                 }
                 
             }

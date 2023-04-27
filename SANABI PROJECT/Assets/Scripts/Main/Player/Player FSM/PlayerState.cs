@@ -75,7 +75,15 @@ public class PlayerState
     
     private void ChangeToApproachDashState()
     {
-        stateMachine.ChangeState(playerController.ApproachDash);
+        if (GameManager.Instance.bossController == null)
+        {
+            stateMachine.ChangeState(playerController.ApproachDash);
+        }
+        else if (!GameManager.Instance.bossController.isBossReadyToBeFinished)
+        {
+            stateMachine.ChangeState(playerController.ApproachDash);
+        }
+        
     }
 
     private void ChangeToDeadState()

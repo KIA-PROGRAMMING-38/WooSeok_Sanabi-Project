@@ -10,8 +10,8 @@ public class PlayerData : MonoBehaviour
     public int playerHP = 4;
     public int PlayerTakeDamage = 1;
     public int PlayerHPRecoverStrength = 1;
-    public float playerMinVelocityY = -10f;
-    public float playerMaxVelocityY = 10f;    
+    public float playerMinVelocityY = -18f;
+    public float playerMaxVelocityY = 15f;    
     [Range(0.01f, 0.05f)] public float afterImageGapTime = 0.05f;
 
     [Header("Walk State")]

@@ -185,7 +185,10 @@ public class GrabController : MonoBehaviour
         {
             SetGrabbedPosition(collision.transform);
             hasGrabbedBoss = true;
+
             OnGrabBoss?.Invoke();
+
+
         }
     }
 
