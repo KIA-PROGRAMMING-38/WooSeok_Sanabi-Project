@@ -53,6 +53,7 @@ public class PlayerState
     public virtual void LogicUpdate() // update for each frame
     {
         //playerController.AfterImage();
+        playerController.SetMinMaxVelocityY();
     }
 
     public virtual void PhysicsUpdate() // update for fixed time

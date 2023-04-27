@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class PlayerEvadeBeamState : PlayerBossState
 {
@@ -18,6 +19,7 @@ public class PlayerEvadeBeamState : PlayerBossState
     public override void Enter()
     {
         base.Enter();
+        playerController.SetVelocityX(10f * playerController.FacingDirection);
     }
 
     public override void Exit()

@@ -33,6 +33,10 @@ public class BossFallingState : BossState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        if (bossController.CheckIfGrounded())
+        {
+            stateMachine.ChangeState(bossController.AwakeAfterFallState);
+        }
     }
 }
 

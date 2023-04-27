@@ -526,6 +526,14 @@ public class PlayerController : MonoBehaviour
         DamagedDirection = workspace;
     }
 
+    public void SetMinMaxVelocityY()
+    {
+        workspace.Set(CurrentVelocity.x, Mathf.Clamp(CurrentVelocity.y, playerData.playerMinVelocityY, playerData.playerMaxVelocityY));
+        playerRigidBody.velocity = workspace;
+        CurrentVelocity = workspace;
+    }
+
+
     public Vector2 GetDamagedDashVelocity()
     {
         return DamagedDirection;

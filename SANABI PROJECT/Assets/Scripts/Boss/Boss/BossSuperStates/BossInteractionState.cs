@@ -18,6 +18,7 @@ public class BossInteractionState : BossState
         base.Enter();
         GameManager.Instance.playerController.transform.position = GameManager.Instance.playerGrabBossPos.position;
         GameManager.Instance.bossGunController.lineRenderer.enabled = false;
+        GameManager.Instance.grabController.hasGrabbedBoss = false;
     }
 
     public override void Exit()

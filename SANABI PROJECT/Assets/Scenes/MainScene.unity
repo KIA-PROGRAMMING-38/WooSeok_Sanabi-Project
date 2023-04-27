@@ -88672,6 +88672,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3070896645368846571, guid: 77e4f1967a79a95438ec1e91d0f73c28, type: 3}
+      propertyPath: playerMaxVelocityY
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070896645368846571, guid: 77e4f1967a79a95438ec1e91d0f73c28, type: 3}
+      propertyPath: playerMinVelocityY
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070896645368846571, guid: 77e4f1967a79a95438ec1e91d0f73c28, type: 3}
       propertyPath: approachDashVelocity
       value: 70
       objectReference: {fileID: 0}

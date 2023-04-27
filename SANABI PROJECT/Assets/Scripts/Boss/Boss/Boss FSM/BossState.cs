@@ -79,6 +79,7 @@ public class BossState
                 else
                 {
                     stateMachine.ChangeState(bossController.ExecutedState);
+                    
                 }
                 
             }

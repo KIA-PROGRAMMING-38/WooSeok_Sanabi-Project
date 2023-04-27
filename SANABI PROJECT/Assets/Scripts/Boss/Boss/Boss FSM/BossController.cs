@@ -27,6 +27,8 @@ public class BossController : MonoBehaviour
     public BossExecutedIdleState ExecutedIdleState { get; private set; }
     public BossFinalBeamState FinalBeamState { get; private set; }
     public BossFallingState FallingState { get; private set; }
+    public BossAwakeAfterFallState AwakeAfterFallState { get; private set; }
+    public BossAwakeIdleState AwakeIdleState { get; private set; }
     public BossDeadState DeadState { get; private set; }
 
     #endregion
@@ -102,6 +104,8 @@ public class BossController : MonoBehaviour
         ExecutedIdleState = new BossExecutedIdleState(this, StateMachine, bossData, "executedIdle");
         FinalBeamState = new BossFinalBeamState(this, StateMachine, bossData, "finalBeam");
         FallingState = new BossFallingState(this, StateMachine, bossData, "falling");
+        AwakeAfterFallState = new BossAwakeAfterFallState(this, StateMachine, bossData, "awakeAfterFall");
+        AwakeIdleState = new BossAwakeIdleState(this, StateMachine, bossData, "awakeIdle");
         DeadState = new BossDeadState(this, StateMachine, bossData, "dead");
         
     }
@@ -366,6 +370,12 @@ public class BossController : MonoBehaviour
     {
         StateMachine.ChangeState(FallingState);
     }
+
+    public void ChangeToAwakeIdleState()
+    {
+        StateMachine.ChangeState(AwakeIdleState);
+    }
+
     #endregion
 
     public void TurnOffCeilingCollider()
