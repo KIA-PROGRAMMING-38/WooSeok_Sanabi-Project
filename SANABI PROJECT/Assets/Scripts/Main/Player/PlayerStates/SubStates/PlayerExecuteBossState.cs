@@ -21,7 +21,8 @@ public class PlayerExecuteBossState : PlayerBossState
     {
         base.Enter();
         CheckIfShouldFlip();
-        
+        GameManager.Instance.cameraFollow.StartEternalZoomInPlayer();
+
     }
 
     public override void Exit()

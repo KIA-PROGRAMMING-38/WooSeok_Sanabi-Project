@@ -25,6 +25,7 @@ public class PlayerMenaceState : PlayerBossState
     public override void Exit()
     {
         base.Exit();
+        GameManager.Instance.cameraFollow.StopEternalZoomOutPlayer();
     }
 
     public override void LogicUpdate()

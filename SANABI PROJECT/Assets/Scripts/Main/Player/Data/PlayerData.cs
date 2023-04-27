@@ -81,6 +81,11 @@ public class PlayerData : MonoBehaviour
     [Header("Menace")]
     public float menaceWaitTime = 5f;
 
+    [Header("FinishBoss")]
+    [Range(0f, 1.5f)] public float finishBossSlowTime = 1f;
+    [Range(0f, 1f)] public float finishBossTimeScale = 0.5f;
+
+
     [Header("Check Variables")]
     [Range(0f, 0.3f)] public float groundCheckRadius = 0.1f;
     [Range(0f, 0.7f)] public float wallCheckDistance = 0.5f;
