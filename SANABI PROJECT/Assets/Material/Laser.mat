@@ -54,7 +54,7 @@ Material:
     - _LaserEdgeSmoothness: 7.6
     - _LaserThickness: 20
     m_Colors:
-    - _Color: {r: 9.849155, g: 9.849155, b: 9.849155, a: 1}
+    - _Color: {r: 6.4222345, g: 6.4222345, b: 6.4222345, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _LaserSpeed: {r: -1.42, g: 0, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}

@@ -318,7 +318,7 @@ MonoBehaviour:
   bulletRigid: {fileID: 0}
   trailRenderer: {fileID: 0}
   circleCollider: {fileID: 0}
-  shootSpeed: 300
+  shootSpeed: 500
   bulletReturnTime: 1
 --- !u!96 &851236261067164051
 TrailRenderer:
