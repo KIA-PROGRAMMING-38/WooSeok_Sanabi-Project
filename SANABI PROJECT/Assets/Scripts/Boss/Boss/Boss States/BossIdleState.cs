@@ -23,6 +23,7 @@ public class BossIdleState : BossState
     public override void Exit()
     {
         base.Exit();
+        //GameManager.Instance.bossCanvasController.TurnOffAppearText();
     }
 
     public override void LogicUpdate()

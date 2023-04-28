@@ -44,10 +44,8 @@ public class BossBullet : MonoBehaviour
 
     public void ShootFinalBullet()
     {
-        Debug.Log("ShootFinalBullet 함수 실행됌");
         transform.position = bossGunController.transform.position;
         trailRenderer.emitting = true;
-        
         Vector2 upDirection = default;
         upDirection.Set((GameManager.Instance.playerController.transform.position - bossGunController.transform.position).normalized.x, 1f);
         bulletRigid.velocity = upDirection * shootSpeed;

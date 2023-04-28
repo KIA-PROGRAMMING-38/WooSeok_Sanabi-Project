@@ -20,7 +20,6 @@ public class BossFinalBeamState : BossState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("FinalBeam State 들어옴");
     }
 
     public override void Exit()

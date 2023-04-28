@@ -387,7 +387,6 @@ public class BossController : MonoBehaviour
     }
     public void InvokeOnFinalBeamShoot()
     {
-        Debug.Log("InvokeOnFinalBeamShoot ½ÇÇà‰Î");
         OnFinalBeamShoot?.Invoke();
         //bossBullet.ShootFinalBullet();
     }

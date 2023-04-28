@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossCanvasController : MonoBehaviour
 {
     [SerializeField] private GameObject QTESlider;
     public QTEUISlider sliderScript;
+    public GameObject appearTextImage;
     public BoxCollider2D ceilingCollider;
 
     public bool isClickPhase { get; set; }
     public bool isAllPhaseFinished { get; set; }
     
-
+    
     public Transform bossTransform { private get; set; }    
 
     private void OnEnable()
@@ -66,10 +68,15 @@ public class BossCanvasController : MonoBehaviour
     {
         ceilingCollider.enabled = false;
     }
-
-    private void Update()
+    public void TurnOnAppearText()
     {
-       
+        appearTextImage.SetActive(true);
     }
+
+    public void TurnOffAppearText()
+    {
+        appearTextImage.SetActive(false);
+    }
+    
 
 }
