@@ -47,7 +47,11 @@ public class CameraFollow : MonoBehaviour
         volume = GetComponent<Volume>();
         volume.profile.TryGet(out bloom);
         initialZoomAmount = Camera.main.orthographicSize;
+        
     }
+
+    
+
     private void Start()
     {
         _FilmBossAppear = FilmBossAppear();
@@ -59,6 +63,8 @@ public class CameraFollow : MonoBehaviour
 
         playerHealth.OnDead -= WatchPlayerDie;
         playerHealth.OnDead += WatchPlayerDie;
+        GameManager.Instance.bossEnterance.OnBossEnterance -= ChangeBloomState;
+        GameManager.Instance.bossEnterance.OnBossEnterance += ChangeBloomState;
         offSet = transform.position - playerTransform.position;
         initialColor = bloom.tint.value;
         colorChangeTime = new WaitForSeconds(ColorChangeTime);
@@ -93,7 +99,12 @@ public class CameraFollow : MonoBehaviour
         StartCoroutine(_FilmBossAppear);
     }
 
-
+    private void ChangeBloomState()
+    {
+        volume.weight = 0.12f;
+        bloom.intensity.value = 6f;
+        bloom.scatter.value = 1f;
+    }
 
     private IEnumerator FilmBossAppear()
     {

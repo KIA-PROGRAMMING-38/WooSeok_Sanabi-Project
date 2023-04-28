@@ -55,6 +55,7 @@ public class BossBullet : MonoBehaviour
     private void ShootBullet()
     {
         //ReturnToHead();
+        trailRenderer.enabled = true;
         trailRenderer.emitting = true;
         shootDirection = bossGunController.gunTipDistance.normalized;
         bulletRigid.velocity = shootDirection * shootSpeed;
@@ -64,7 +65,8 @@ public class BossBullet : MonoBehaviour
     private void ReturnToHead()
     {
         circleCollider.enabled = false;
-        trailRenderer.emitting = false;
+        trailRenderer.enabled = false;
+        //trailRenderer.emitting = false;
         bulletRigid.velocity = Vector2.zero;
         transform.position = bossGunController.transform.position;
         //StartWaitBullet();

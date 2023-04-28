@@ -49,7 +49,6 @@ public class TitleScreenShaker : MonoBehaviour
         {
             // 초기 위치로부터 구 범위 * Intensity 의 범위 안에서 위치 변동
             Camera.main.transform.position = startPosition + Random.insideUnitSphere * shakeIntensity;
-
             saveTime -= Time.deltaTime;
             yield return null; // 매 프레임 흔들어줌
         }

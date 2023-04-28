@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
     public WireDashIconController wireDashIconController;
     public GameObject playerPrefab;
     public CameraFollow cameraFollow;
+    public BossEnterance bossEnterance;
 
     private SceneNumber initialSceneNumber;
     public SceneNumber currentSceneNumber;
