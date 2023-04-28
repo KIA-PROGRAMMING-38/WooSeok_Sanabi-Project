@@ -8,6 +8,8 @@ public class BossCanvasController : MonoBehaviour
     [SerializeField] private GameObject QTESlider;
     public QTEUISlider sliderScript;
     public GameObject appearTextImage;
+    public GameObject menaceTextImage;
+    public GameObject beggingTextImage;
     public BoxCollider2D ceilingCollider;
 
     public bool isClickPhase { get; set; }
@@ -77,6 +79,22 @@ public class BossCanvasController : MonoBehaviour
     {
         appearTextImage.SetActive(false);
     }
-    
+    public void TurnOnMenaceText()
+    {
+        menaceTextImage.SetActive(true);
+    }
 
+    public void TurnOffMenaceText()
+    {
+        menaceTextImage.SetActive(false);
+    }
+    public void TurnOnBeggingText()
+    {
+        beggingTextImage.SetActive(true);
+    }
+
+    public void TurnOffBeggingText()
+    {
+        beggingTextImage.SetActive(false);
+    }
 }

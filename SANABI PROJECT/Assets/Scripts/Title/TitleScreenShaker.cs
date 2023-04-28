@@ -19,7 +19,6 @@ public class TitleScreenShaker : MonoBehaviour
     private void Update()
     {
         mouseX = Input.GetAxisRaw("Mouse X");
-        
         if (mouseX != 0)
         {
             OnShakeCamera(shakeTime, shakeIntensity);
@@ -34,6 +33,11 @@ public class TitleScreenShaker : MonoBehaviour
         //}
         //StartCoroutine(_ShakeCameraPosition);
         StartCoroutine(ShakeCameraPosition());
+    }
+
+    public void StopShakeCameraCoroutine()
+    {
+        StopCoroutine(ShakeCameraPosition());
     }
 
     private IEnumerator ShakeCameraPosition()

@@ -46,6 +46,7 @@ public class BossEnterance : MonoBehaviour
             GameManager.Instance.currentSceneNumber = GameManager.SceneNumber.Boss;
             GameManager.Instance.playerController.ClearAfterImagePool();
             GameManager.Instance.playerController.ClearDustPool();
+            DontDestroyOnLoad(GameManager.Instance);
             foreach (GameObject element in playerRelatedObjects)
             {
                 DontDestroyOnLoad(element);

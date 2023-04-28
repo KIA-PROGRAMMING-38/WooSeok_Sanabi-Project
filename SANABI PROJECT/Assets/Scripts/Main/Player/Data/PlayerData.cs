@@ -80,7 +80,7 @@ public class PlayerData : MonoBehaviour
     [Range(0f, 1f)] public float executeDashTimeScale = 0.05f;
 
     [Header("Menace")]
-    public float menaceWaitTime = 5f;
+    public float menaceWaitTime = 3f;
 
     [Header("FinishBoss")]
     [Range(0f, 1.5f)] public float finishBossSlowTime = 1f;

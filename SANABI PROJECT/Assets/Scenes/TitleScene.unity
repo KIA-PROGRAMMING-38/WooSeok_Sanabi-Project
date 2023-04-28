@@ -1212,6 +1212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tempCheck: {fileID: 1227790482}
+  titleScreenShaker: {fileID: 948927648}
 --- !u!1 &1363738726
 GameObject:
   m_ObjectHideFlags: 0

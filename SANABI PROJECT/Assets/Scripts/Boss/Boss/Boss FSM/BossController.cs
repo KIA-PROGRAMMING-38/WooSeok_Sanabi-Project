@@ -80,9 +80,13 @@ public class BossController : MonoBehaviour
     public bool isBossReadyToBeExecuted { get; private set; }
     public bool isBossInFinishRange { get; set; }
     public bool isBossReadyToBeFinished { get; set; }
-
+    public bool isBossDead;
     private int rightDirection = 1;
     public int FacingDirection { get; private set; }
+
+    
+    private WaitForSeconds _executedIdleTime1;
+    private WaitForSeconds _executedIdleTime2;
     #endregion
 
     private void Awake()
@@ -113,7 +117,7 @@ public class BossController : MonoBehaviour
         AwakeAfterFallState = new BossAwakeAfterFallState(this, StateMachine, bossData, "awakeAfterFall");
         AwakeIdleState = new BossAwakeIdleState(this, StateMachine, bossData, "awakeIdle");
         DeadState = new BossDeadState(this, StateMachine, bossData, "dead");
-        
+
     }
 
     private void OnEnable()
@@ -138,6 +142,8 @@ public class BossController : MonoBehaviour
         _waitCooldownTime = new WaitForSeconds(bossData.cooldownWaitTime);
 
 
+        _executedIdleTime1 = new WaitForSeconds(bossData.executedIdleTime1);
+        _executedIdleTime2 = new WaitForSeconds(bossData.executedIdleTime2);
         isPhase1 = true;
         //hitCount = 1;
         hitCount = 2; // test
@@ -156,8 +162,8 @@ public class BossController : MonoBehaviour
     {
         StateMachine.CurrentState.LogicUpdate();
         //Debug.Log(StateMachine.CurrentState);
-        
-        
+
+
     }
 
     #region Other Functions
@@ -172,16 +178,16 @@ public class BossController : MonoBehaviour
     {
         if (isPhase1 == false && hitPhase2Count < hitCount)
         {
-            transform.position = bossRunAwaySpots[bossRunAwaySpots.Length-1].position;
+            transform.position = bossRunAwaySpots[bossRunAwaySpots.Length - 1].position;
             isBossReadyToBeExecuted = true;
         }
         else
         {
             int randomIndex = UnityEngine.Random.Range(0, bossRunAwaySpots.Length - 1);
             transform.position = bossRunAwaySpots[randomIndex].position;
-            
+
         }
-        
+
     }
 
     private void Flip()
@@ -196,7 +202,7 @@ public class BossController : MonoBehaviour
         GameManager.Instance.bossCanvasController.TurnOffCeilingCollider();
         ChangeToFallingState();
     }
-    
+
     #endregion
 
 
@@ -222,7 +228,7 @@ public class BossController : MonoBehaviour
             StateMachine.ChangeState(AimingState);
             StopWaitIdleTime();
         }
-        
+
     }
 
     #endregion
@@ -273,13 +279,20 @@ public class BossController : MonoBehaviour
 
     #region bossExecutedIdleState
 
+
+
     public void StartWaitAndChangeToFinalBeamState()
     {
         StartCoroutine(WaitAndChangeToFinalBeamState());
     }
     private IEnumerator WaitAndChangeToFinalBeamState()
     {
-        yield return new WaitForSeconds(5f);
+        //yield return _executedIdleTime1;
+        yield return new WaitForSeconds(2f);
+        GameManager.Instance.bossCanvasController.TurnOnMenaceText();
+        //yield return _executedIdleTime2;
+        yield return new WaitForSeconds(1f);
+        GameManager.Instance.bossCanvasController.TurnOffMenaceText();
         StateMachine.ChangeState(FinalBeamState);
     }
 
@@ -322,7 +335,7 @@ public class BossController : MonoBehaviour
             }
         }
     }
-    
+
 
     public bool CheckIfPhase1()
     {
@@ -368,7 +381,7 @@ public class BossController : MonoBehaviour
 
     public void ChangeToCooldownState()
     {
-        StateMachine.ChangeState(CooldownState);    
+        StateMachine.ChangeState(CooldownState);
     }
 
     public void ChangeToExecutedIdleState()
@@ -403,5 +416,5 @@ public class BossController : MonoBehaviour
 
     #endregion
 
-    
+
 }

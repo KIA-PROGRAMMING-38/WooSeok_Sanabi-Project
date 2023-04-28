@@ -75,12 +75,13 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this);
+            //DontDestroyOnLoad(this);
         }
-        else
-        {
-            Destroy(this.gameObject);
-        }
+        //else
+        //{
+        //    Destroy(this.gameObject);
+        //}
+        //DontDestroyOnLoad(this);
 
         initialSceneNumber = SceneNumber.Main;
         ScreenShakeIntensity = 1f;

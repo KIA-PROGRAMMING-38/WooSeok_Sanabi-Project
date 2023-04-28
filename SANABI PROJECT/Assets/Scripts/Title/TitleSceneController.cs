@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class TitleSceneController : MonoBehaviour
 {
     public TempCheck tempCheck;
+    public TitleScreenShaker titleScreenShaker;
     private void Awake()
     {
         //gameManager = FindAnyObjectByType<GameManager>();
@@ -18,6 +19,8 @@ public class TitleSceneController : MonoBehaviour
         //GameManager.Instance.currentSceneNumber = GameManager.SceneNumber.Main;
         //GameManager.Instance.lastSceneNumber= GameManager.SceneNumber.Title;
         SceneManager.LoadScene((int)GameManager.SceneNumber.Main);
+        Time.timeScale = 1f;
+        titleScreenShaker.StopShakeCameraCoroutine();
         //DontDestroyOnLoad(gameManager);
         
     }

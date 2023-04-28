@@ -21,7 +21,7 @@ public class PlayerFinishBossState : PlayerBossState
     {
         base.Enter();
         //playerController.camShake.TurnOnShake(playerController.camShake.finishBossShakeTime, playerController.camShake.finishBossShakeIntensity);
-        playerController.timeSlower.PleaseSlowDown(playerData.finishBossTimeScale, playerData.finishBossSlowTime);
+        //playerController.timeSlower.PleaseSlowDown(playerData.finishBossTimeScale, playerData.finishBossSlowTime);
         //playerController.InvokeOnFinishBoss();
         playerController.Flip();
     }

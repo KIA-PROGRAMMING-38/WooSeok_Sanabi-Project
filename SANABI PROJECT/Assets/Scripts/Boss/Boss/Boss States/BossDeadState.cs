@@ -17,6 +17,7 @@ public class BossDeadState : BossState
     public override void Enter()
     {
         base.Enter();
+        bossController.isBossDead = true;
         backDirection.Set((bossController.transform.position - GameManager.Instance.playerController.transform.position).normalized.x, 0f);
         bossController.SetBossVelocity(backDirection * 20f);
         

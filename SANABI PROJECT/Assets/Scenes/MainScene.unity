@@ -88677,6 +88677,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3070896645368846571, guid: 77e4f1967a79a95438ec1e91d0f73c28, type: 3}
+      propertyPath: menaceWaitTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070896645368846571, guid: 77e4f1967a79a95438ec1e91d0f73c28, type: 3}
       propertyPath: finishBossSlowTime
       value: 1
       objectReference: {fileID: 0}

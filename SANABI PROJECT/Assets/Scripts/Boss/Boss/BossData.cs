@@ -23,6 +23,9 @@ public class BossData : MonoBehaviour
     [Header("Cooldown State")]
     public float cooldownWaitTime = 0.5f;
 
+    [Header("ExecutedIdle State")]
+    public float executedIdleTime1 = 2f;
+    public float executedIdleTime2 = 1f;
 
 
     [Header("Check Variables")]
@@ -34,5 +37,6 @@ public class BossData : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.bossData = this;
+        
     }
 }

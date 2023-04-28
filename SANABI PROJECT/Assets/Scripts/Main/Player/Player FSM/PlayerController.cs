@@ -313,6 +313,7 @@ public class PlayerController : MonoBehaviour
     public void InvokeOnFinishBoss()
     {
         camShake.TurnOnShake(camShake.finishBossShakeTime, camShake.finishBossShakeIntensity);
+        timeSlower.PleaseSlowDown(playerData.finishBossTimeScale, playerData.finishBossSlowTime);
         OnFinishBoss?.Invoke();
     }
     //public void PlayerApproachDash()
