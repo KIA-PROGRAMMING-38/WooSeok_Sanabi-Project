@@ -45,6 +45,7 @@ public class BossBullet : MonoBehaviour
     public void ShootFinalBullet()
     {
         transform.position = bossGunController.transform.position;
+        trailRenderer.enabled = true;
         trailRenderer.emitting = true;
         Vector2 upDirection = default;
         upDirection.Set((GameManager.Instance.playerController.transform.position - bossGunController.transform.position).normalized.x, 1f);
