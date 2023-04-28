@@ -7,20 +7,9 @@ using UnityEngine.UI;
 public class FullScreenChange : MonoBehaviour
 {
     [SerializeField] private TMP_Text fullscreenText;
-    private SettingSceneController settingController;
-    //private Button[] buttons;
 
     private int fullScreenOn = 1;
     private int fullScreenOff = -1;
-
-    private bool isFullScreen = true;
-    public bool IsFullScreen { get; private set; }
-
-    private void Awake()
-    {
-        //InitFullscreen();
-        settingController = GetComponentInParent<SettingSceneController>();
-    }
 
     private void Start()
     {
@@ -34,28 +23,12 @@ public class FullScreenChange : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        //isFullScreen = settingController.isFullScreen;
-        //if (isFullScreen)
-        //{
-        //    fullscreenText.text = "ÄÑÁü";
-        //}
-        //else
-        //{
-        //    fullscreenText.text = "²¨Áü";
-        //}
-    }
 
     private void InitFullscreen()
     {
         PlayerPrefs.SetInt("isFullScreen", fullScreenOn);
         Screen.fullScreen = true;
         fullscreenText.text = "ÄÑÁü";
-        //isFullScreen = true;
-        //IsFullScreen = isFullScreen;
-        //Screen.fullScreen = IsFullScreen;
-        //fullscreenText.text = "ÄÑÁü";
     }
 
     private void LoadFullScreenState()
@@ -89,25 +62,6 @@ public class FullScreenChange : MonoBehaviour
             fullscreenText.text = "ÄÑÁü";
         }
 
-
-        //if (isFullScreen == true)
-        //{
-        //    isFullScreen = false;
-        //    IsFullScreen = isFullScreen;
-        //    Screen.fullScreen = IsFullScreen;
-        //    fullscreenText.text = "²¨Áü";
-        //    settingController.isFullScreen = IsFullScreen;
-        //    Debug.Log(settingController.isFullScreen);
-        //}
-        //else
-        //{
-        //    isFullScreen = true;
-        //    IsFullScreen = isFullScreen;
-        //    Screen.fullScreen = IsFullScreen;
-        //    fullscreenText.text = "ÄÑÁü";
-        //    settingController.isFullScreen = IsFullScreen;
-        //    Debug.Log(settingController.isFullScreen);
-        //}
     }
 
     

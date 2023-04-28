@@ -9,7 +9,6 @@ public class ResolutionChange : MonoBehaviour
     private List<Resolution> resolutions = new List<Resolution>();
     [SerializeField] private FullScreenChange fullScreenChange;
     [SerializeField] private TMP_Text resolutionText;
-    //private Button[] buttons;
     private int currentIndex;
     private bool isFullScreen;
     private int resolutionWidth;
@@ -36,8 +35,6 @@ public class ResolutionChange : MonoBehaviour
             InitResolution();
         }
     }
-
-    // playerPref 에서 받아와야할 건 width와 height 만 가져오면 될듯?
 
     private void AddResolutions()
     {
@@ -101,11 +98,6 @@ public class ResolutionChange : MonoBehaviour
         PlayerPrefs.SetInt("resolutionWidth", resolutionWidth);
         PlayerPrefs.SetInt("resolutionHeight", resolutionHeight);
         PlayerPrefs.SetInt("resolutionIndex", changedIndex);
-
-        //currentIndex = (currentIndex + 1) % resolutions.Count;
-        //isFullScreen = fullScreenChange.IsFullScreen;
-        //resolutionText.text = $"{resolutions[currentIndex].width}X{resolutions[currentIndex].height}";
-        //Screen.SetResolution(resolutions[currentIndex].width, resolutions[currentIndex].height, isFullScreen);
     }
 
     public void OnLeftClick()
@@ -134,16 +126,6 @@ public class ResolutionChange : MonoBehaviour
         PlayerPrefs.SetInt("resolutionWidth", resolutionWidth);
         PlayerPrefs.SetInt("resolutionHeight", resolutionHeight);
         PlayerPrefs.SetInt("resolutionIndex", changedIndex);
-
-        //currentIndex -= 1;
-
-        //if (currentIndex < 0)
-        //{
-        //    currentIndex = resolutions.Count - 1;
-        //}
-        //isFullScreen = fullScreenChange.IsFullScreen;
-        //resolutionText.text = $"{resolutions[currentIndex].width}X{resolutions[currentIndex].height}";
-        //Screen.SetResolution(resolutions[currentIndex].width, resolutions[currentIndex].height, isFullScreen);
     }
     
 }
