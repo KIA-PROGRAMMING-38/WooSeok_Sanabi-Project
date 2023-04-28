@@ -20,6 +20,8 @@ public class GrabState
         this.animBoolName = animBoolName;
         grabController.OnGrabTurret -= ChangeToGrabIdleState;
         grabController.OnGrabTurret += ChangeToGrabIdleState;
+        grabController.OnGrabBoss -= ChangeToGrabIdleState;
+        grabController.OnGrabBoss += ChangeToGrabIdleState;
     }
 
     public virtual void Enter()

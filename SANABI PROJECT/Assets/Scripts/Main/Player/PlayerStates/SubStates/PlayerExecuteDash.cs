@@ -40,6 +40,7 @@ public class PlayerExecuteDash : PlayerAbilityState
         playerController.timeSlower.PleaseSlowDown(slowIntensity, slowTime);
         playerController.StartShowAfterImage();
         playerController.SetExecuteDashEffectOn();
+        GameManager.Instance.grabController.hasGrabbedTurret = false;
     }
 
     public override void Exit()

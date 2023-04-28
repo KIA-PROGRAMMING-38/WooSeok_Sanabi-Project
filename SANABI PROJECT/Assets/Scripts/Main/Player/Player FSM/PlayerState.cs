@@ -33,6 +33,8 @@ public class PlayerState
         playerController.playerHealth.OnDead += ChangeToDeadState;
         playerController.GrabController.OnGrabTurret -= ChangeToApproachDashState;
         playerController.GrabController.OnGrabTurret += ChangeToApproachDashState;
+        GameManager.Instance.grabController.OnGrabBoss -= ChangeToApproachDashState;
+        GameManager.Instance.grabController.OnGrabBoss += ChangeToApproachDashState;
         startTime = Time.time;
         isAnimationFinished = false;
         isExitingState = false;
@@ -44,12 +46,14 @@ public class PlayerState
         playerController.ArmAnimator.SetBool(animBoolName, false);
         playerController.playerHealth.OnDead -= ChangeToDeadState;
         playerController.GrabController.OnGrabTurret -= ChangeToApproachDashState;
+        GameManager.Instance.grabController.OnGrabBoss -= ChangeToApproachDashState;
         isExitingState = true;
     }
 
     public virtual void LogicUpdate() // update for each frame
     {
         //playerController.AfterImage();
+        playerController.SetMinMaxVelocityY();
     }
 
     public virtual void PhysicsUpdate() // update for fixed time
@@ -71,7 +75,15 @@ public class PlayerState
     
     private void ChangeToApproachDashState()
     {
-        stateMachine.ChangeState(playerController.ApproachDash);
+        if (GameManager.Instance.bossController == null)
+        {
+            stateMachine.ChangeState(playerController.ApproachDash);
+        }
+        else if (!GameManager.Instance.bossController.isBossReadyToBeFinished)
+        {
+            stateMachine.ChangeState(playerController.ApproachDash);
+        }
+        
     }
 
     private void ChangeToDeadState()

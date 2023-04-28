@@ -37,6 +37,17 @@ public class PlayerController : MonoBehaviour
     public PlayerExecuteHolded ExecuteHolded { get; private set; }
     public PlayerExecuteDash ExecuteDash { get; private set; }
 
+    public PlayerGetHitState GetHitState { get; private set; }
+    public PlayerQTEState QTEState { get; private set; }
+    public PlayerQTEHitState QTEHitState { get; private set; }
+    public PlayerEvadeToPhase2State EvadeToPhase2State { get; private set; }
+    public PlayerExecuteBossState ExecuteBossState { get; private set; }
+    public PlayerMenaceState MenaceState { get; private set; }
+    public PlayerEvadeBeamState EvadeBeamState { get; private set; }
+    public PlayerFinishBossState FinishBossState { get; private set; }
+    public PlayerPausedState PausedState { get; private set; }
+    
+
     #endregion
 
     public Rigidbody2D playerRigidBody { get; private set; }
@@ -66,6 +77,7 @@ public class PlayerController : MonoBehaviour
 
     public CameraFollow camFollow;
 
+    public Transform playerTransform;
     //public GameManager gameManager;
 
     public TimeSlow timeSlower;
@@ -81,12 +93,14 @@ public class PlayerController : MonoBehaviour
     public int FacingDirection { get; private set; }
     private int RightDirection = 1; // to avoid magicNumber
 
+    //private int PlatformLayerNumber;
     private int MagmaLayerNumber;
+    private int NormalWallLayerNumber;
+    private int NoGrabWallLayerNumber;
     private bool isPlayerDamaged;
     private bool isPlayerInvincible;
     private float playerInvincibleTime;
     private WaitForSeconds playerInvincibleWaitTime;
-    private float damageTimer;
 
 
     private WaitForSeconds DashCooltime;
@@ -126,14 +140,33 @@ public class PlayerController : MonoBehaviour
     private IEnumerator _ShowWallSlideDust;
     [SerializeField] private float dustCreateTime = 0.05f;
     private WaitForSeconds _dustCreateTime;
+
+
+    public event Action OnApproachDashToBoss;
+
+    public bool isPlayerBossState { get; set; }
+    public event Action OnGetHit;
+    public event Action OnQTE;
+    public event Action OnQTEHit;
+    public event Action OnQTEHitFinished;
+
+    private IEnumerator _WaitAndChangeToEvadeBeamState;
+    private WaitForSeconds _menaceWaitTime;
+
+    public event Action OnFinishBoss;
+
+    
     #endregion
     private void Awake()
     {
         StateMachine = new PlayerStateMachine();
-        playerData = GetComponentInParent<PlayerData>();
-        ArmController = GameObject.FindGameObjectWithTag("Arm").GetComponent<PlayerArmController>();
+        //playerData = GetComponentInParent<PlayerData>();
+        playerData = GameManager.Instance.playerData;
+        //ArmController = GameObject.FindGameObjectWithTag("Arm").GetComponent<PlayerArmController>();
+        ArmController = GameManager.Instance.armController;
         camShake = Camera.main.GetComponent<ShakeCamera>();
         camFollow = Camera.main.GetComponent<CameraFollow>();
+        playerTransform = GetComponent<Transform>();    
         //gameManager = new GameManager();
         
         playerHealth = GetComponentInParent<PlayerHealth>();
@@ -159,10 +192,20 @@ public class PlayerController : MonoBehaviour
         ApproachDash = new PlayerApproachDash(this, StateMachine, playerData, "approachDash");
         ExecuteHolded = new PlayerExecuteHolded(this, StateMachine, playerData, "executeHolded");
         ExecuteDash = new PlayerExecuteDash(this, StateMachine, playerData, "executeDash");
+        GetHitState = new PlayerGetHitState(this, StateMachine, playerData, "getHit");
+        QTEState = new PlayerQTEState(this, StateMachine, playerData, "QTE");
+        QTEHitState = new PlayerQTEHitState(this, StateMachine, playerData, "QTEHit");
+        EvadeToPhase2State = new PlayerEvadeToPhase2State(this,StateMachine, playerData, "evadeToPhase2");
+        ExecuteBossState = new PlayerExecuteBossState(this, StateMachine, playerData, "executeBoss");
+        MenaceState = new PlayerMenaceState(this, StateMachine, playerData, "menace");
+        EvadeBeamState = new PlayerEvadeBeamState(this, StateMachine, playerData, "evadeBeam");
+        FinishBossState = new PlayerFinishBossState(this, StateMachine,playerData, "finishBoss");
+        PausedState = new PlayerPausedState(this, StateMachine, playerData, "paused");
     }
 
     private void Start()
     {
+        transform.position = GameManager.Instance.playerSpawnSpot.position;
         playerRigidBody = GetComponent<Rigidbody2D>();
         FacingDirection = RightDirection;
         _ShowAfterImage = ShowAfterImage();
@@ -173,6 +216,8 @@ public class PlayerController : MonoBehaviour
         afterImageGapTime = playerData.afterImageGapTime;
         _afterImageGapTime = new WaitForSeconds(afterImageGapTime);
         _dustCreateTime = new WaitForSeconds(dustCreateTime);
+        _WaitAndChangeToEvadeBeamState = WaitAndChangeToEvadeBeamState();
+        _menaceWaitTime = new WaitForSeconds(playerData.menaceWaitTime);
 
 
         Input = GetComponentInParent<PlayerInput>();
@@ -186,13 +231,16 @@ public class PlayerController : MonoBehaviour
         _HoldOnToTurret = HoldOnToTurret();
         _ShowWallSlideDust = ShowWallSlideDust();
 
+        NormalWallLayerNumber = LayerMask.NameToLayer("NormalWall");
+        NoGrabWallLayerNumber = LayerMask.NameToLayer("NoGrabWall");
         MagmaLayerNumber = LayerMask.NameToLayer("Magma");
+
+
         StateMachine.Initialize(IdleState);
 
         //Debug.Log($"플레이어컨트롤러에서의 ID = {playerHealth.GetInstanceID()}");
 
     }
-
     private void Update()
     {
         CurrentVelocity = playerRigidBody.velocity;
@@ -237,6 +285,15 @@ public class PlayerController : MonoBehaviour
         CurrentVelocity = workspace;
     }
 
+    public void ClearDustPool()
+    {
+        dustPool.ClearPool();
+    }
+
+    public void ClearAfterImagePool()
+    {
+        WireDashPool.ClearPool();
+    }
 
     public void PlayerWireDash()
     {
@@ -253,7 +310,12 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(CountDashCooltime());
         }
     }
-
+    public void InvokeOnFinishBoss()
+    {
+        camShake.TurnOnShake(camShake.finishBossShakeTime, camShake.finishBossShakeIntensity);
+        timeSlower.PleaseSlowDown(playerData.finishBossTimeScale, playerData.finishBossSlowTime);
+        OnFinishBoss?.Invoke();
+    }
     //public void PlayerApproachDash()
     //{
     //    if (CanDash)
@@ -266,6 +328,33 @@ public class PlayerController : MonoBehaviour
     //    }
     //}
 
+    public void InvokeOnQTEHitFinished()
+    {
+        OnQTEHitFinished?.Invoke();
+    }
+
+    public void InvokeOnQTEHit()
+    {
+        OnQTEHit?.Invoke();
+        camShake.TurnOnShake(camShake.QTEHitShakeTime, camShake.QTEHitShakeIntensity);
+        //camShake.TurnOnShake(cameraShakeTime, cameraShakeIntensity);
+    }
+
+    public void TurnOnGetHitCamShake()
+    {
+        camShake.TurnOnShake(camShake.QTEHitShakeTime, camShake.QTEHitShakeIntensity);
+    }
+
+    public void InvokeOnGetHit()
+    {
+        OnGetHit?.Invoke();
+    }
+
+    public void InvokeOnQTE()
+    {
+        OnQTE?.Invoke();
+    }
+
     public void TurretHasBeenReleased()
     {
         OffTurret?.Invoke();
@@ -275,23 +364,6 @@ public class PlayerController : MonoBehaviour
     {
         isDashing = isPlayerDashing;
     }
-
-    //public void AfterImage()
-    //{
-    //    if (isDashing)
-    //    {
-    //        if (dashTimeLeft > 0)
-    //        {
-    //            dashTimeLeft -= Time.deltaTime;
-    //            WireDashPool.GetFromPool();
-    //        }
-    //        else
-    //        {
-    //            //isDashing = false;
-    //            PlayerIsDash(false);
-    //        }
-    //    }
-    //}
 
     public void StartShowAfterImage()
     {
@@ -354,6 +426,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void StartWaitAndChangeToEvadeBeamState()
+    {
+        //StartCoroutine(WaitAndChangeToEvadeBeamState());
+        StartCoroutine(_WaitAndChangeToEvadeBeamState);
+    }
+
+    private IEnumerator WaitAndChangeToEvadeBeamState()
+    {
+        yield return _menaceWaitTime;
+        StateMachine.ChangeState(EvadeBeamState);
+    }
 
     public void PlayerWireDashStop()
     {
@@ -368,10 +451,15 @@ public class PlayerController : MonoBehaviour
         CanDash = true;
 
         OnWireDashFinished?.Invoke();
-
-
-
     }
+
+    public void IgnorePlatformCollision(bool ignoreplatform)
+    {
+        Physics2D.IgnoreLayerCollision(gameObject.layer, NormalWallLayerNumber, ignoreplatform);
+        Physics2D.IgnoreLayerCollision(gameObject.layer, NoGrabWallLayerNumber, ignoreplatform);
+        Physics2D.IgnoreLayerCollision(gameObject.layer, MagmaLayerNumber, ignoreplatform);
+    }
+
 
     public void SetDashVelocity(float xInput)
     {
@@ -454,6 +542,14 @@ public class PlayerController : MonoBehaviour
         DamagedDirection = workspace;
     }
 
+    public void SetMinMaxVelocityY()
+    {
+        workspace.Set(CurrentVelocity.x, Mathf.Clamp(CurrentVelocity.y, playerData.playerMinVelocityY, playerData.playerMaxVelocityY));
+        playerRigidBody.velocity = workspace;
+        CurrentVelocity = workspace;
+    }
+
+
     public Vector2 GetDamagedDashVelocity()
     {
         return DamagedDirection;
@@ -534,17 +630,32 @@ public class PlayerController : MonoBehaviour
         MakePlayerInvicible();
         yield return playerInvincibleWaitTime;
         MakePlayerVulnerable();
-
-
     }
-    private void ChangeToInAirState() // to be called from animation frames as event
+
+    public void ChangeToInAirState()
+    {
+        StateMachine.ChangeState(InAirState);
+    }
+
+    public void InvokeOnEvadeBeam()
+    {
+        GameManager.Instance.bossController.TurnOffCeilingCollider();
+        StateMachine.ChangeState(InAirState);
+    }
+
+    private void InvokeOnDamagedDash() // to be called from animation frames as event
     {
         OnDamagedDash?.Invoke();
     }
 
-    private void ChangeToRollingState()
+    private void InvokeOnExecuteDash()
     {
         OnExecuteDash?.Invoke();
+    }
+
+    public void ChangeToPausedState()
+    {
+        StateMachine.ChangeState(PausedState);
     }
 
     public void CheckIfShouldRotate(float xInput, float yInput)
@@ -591,8 +702,21 @@ public class PlayerController : MonoBehaviour
     private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
     private void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
 
+    public void TransformMove(Vector2 direction, float speed)
+    {
+        transform.Translate(direction * speed * Time.deltaTime);
+    }
 
-    private void Flip()
+    public void ChangeToIdleState()
+    {
+        StateMachine.ChangeState(IdleState);
+    }
+
+    public void ChangeToMenaceState()
+    {
+        StateMachine.ChangeState(MenaceState);
+    }
+    public void Flip()
     {
         FacingDirection *= -1;
         Vector3 newScale = Vector3.one;
@@ -652,7 +776,11 @@ public class PlayerController : MonoBehaviour
         {
             OnApproachDashToTurret?.Invoke();
         }
-        else if (collision.gameObject.CompareTag("TurretBullet"))
+        else if (collision.gameObject.CompareTag("Boss"))
+        {
+            OnApproachDashToBoss?.Invoke();
+        }
+        else if (collision.gameObject.CompareTag("TurretBullet") || collision.gameObject.CompareTag("BossBullet"))
         {
             if (!isPlayerInvincible)
             {

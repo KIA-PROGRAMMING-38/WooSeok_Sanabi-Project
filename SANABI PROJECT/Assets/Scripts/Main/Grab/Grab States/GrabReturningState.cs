@@ -14,6 +14,7 @@ public class GrabReturningState : GrabState
     {
         base.Enter();
         SetGrabStatus();
+        grabController.IgnoreTurretCollision(true);
     }
     public override void LogicUpdate()
     {
@@ -30,7 +31,7 @@ public class GrabReturningState : GrabState
 
     private void GrabReturn()
     {
-        grabController.transform.position = Vector2.MoveTowards(grabController.transform.position, grabController.GrabReturnCollider.transform.position, playerData.shootSpeed * Time.deltaTime);
+        grabController.transform.position = Vector2.MoveTowards(grabController.transform.position, grabController.GrabReturnCollider.transform.position, playerData.shootSpeed * 2f * Time.deltaTime);
     }
 
     
@@ -46,6 +47,7 @@ public class GrabReturningState : GrabState
         base.Exit();
         grabController.IsGrabReturned = true;
         SetStartPos();
+        grabController.IgnoreTurretCollision(false);
     }
 
     private void SetStartPos()

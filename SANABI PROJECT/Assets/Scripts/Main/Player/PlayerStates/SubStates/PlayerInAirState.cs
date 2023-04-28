@@ -90,11 +90,11 @@ public class PlayerInAirState : PlayerState
     {
         if (playerController.CurrentVelocity.y < 0f)
         {
-            playerController.playerRigidBody.gravityScale = 1.5f;
+            playerController.playerRigidBody.gravityScale = 2.5f;
         }
         else
         {
-            playerController.playerRigidBody.gravityScale = 1.0f;
+            playerController.playerRigidBody.gravityScale = 1.5f;
         }
     }
     private void CheckJumpMultiplier()

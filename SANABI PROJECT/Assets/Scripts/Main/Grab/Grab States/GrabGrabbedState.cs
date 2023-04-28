@@ -23,8 +23,10 @@ public class GrabGrabbedState : GrabState
     {
         base.LogicUpdate();
         HoldGrab();
+        //GameManager.Instance.armController.ConnectAnchor();
         if (!mouseInputHold)
         {
+            //GameManager.Instance.armController.DisconnectAnchor();
             stateMachine.ChangeState(grabController.ReturningState);
         }
     }

@@ -6,14 +6,18 @@ using UnityEngine.SceneManagement;
 public class PauseButtonScript : MonoBehaviour
 {
     
-    public void SwitchToTitleScene()
-    {
-        SceneManager.LoadScene((int)GameManager.SceneNumber.Title);
-    }
+    
 
     public void SwitchToSettingsScene()
     {
         SceneManager.LoadScene((int)GameManager.SceneNumber.Settings, LoadSceneMode.Additive);
+        this.gameObject.SetActive(false);
+        GameManager.Instance.currentSceneNumber = GameManager.SceneNumber.Settings;
+    }
+
+    public void SwitchToTitleScene()
+    {
+        SceneManager.LoadScene((int)GameManager.SceneNumber.Title);
     }
 
     public void TurnOffTheGame()

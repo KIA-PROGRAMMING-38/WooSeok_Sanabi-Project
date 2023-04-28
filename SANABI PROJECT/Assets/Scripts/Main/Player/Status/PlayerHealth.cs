@@ -27,9 +27,14 @@ public class PlayerHealth : Health
     public event Action<int> OnRecoverHP;
     public event Action OnDead;
 
-    private void OnEnable()
+    private void Awake()
     {
         playerData = GameManager.Instance.playerData;
+    }
+
+    private void OnEnable()
+    {
+        //playerData = GameManager.Instance.playerData;
         playerController = GameManager.Instance.playerController;
         playerCurHP = playerMaxHP = playerData.playerHP;
         invicibleTime = playerData.damagedOutTime;
@@ -40,9 +45,19 @@ public class PlayerHealth : Health
     {
         if (playerCurHP <= 0 || playerController.CheckIfPlayerHitDeathPlatform())
         {
+            InvokeOnDead();
             isPlayerDead = true;
+            //OnDead?.Invoke();
+        }
+    }
+
+    private void InvokeOnDead()
+    {
+        if (!isPlayerDead)
+        {
             OnDead?.Invoke();
         }
+        
     }
 
     public override bool CheckIfDead()

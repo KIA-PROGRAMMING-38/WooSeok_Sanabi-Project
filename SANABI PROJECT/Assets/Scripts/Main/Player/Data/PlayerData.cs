@@ -10,6 +10,8 @@ public class PlayerData : MonoBehaviour
     public int playerHP = 4;
     public int PlayerTakeDamage = 1;
     public int PlayerHPRecoverStrength = 1;
+    public float playerMinVelocityY = -18f;
+    public float playerMaxVelocityY = 15f;    
     [Range(0.01f, 0.05f)] public float afterImageGapTime = 0.05f;
 
     [Header("Walk State")]
@@ -43,6 +45,7 @@ public class PlayerData : MonoBehaviour
     [Header("WireShoot State")]
     public float wireLength = 10f;
     public float shootSpeed = 110f;
+    
 
     [Header("WireGrappled State")]
     public float grappleAddedForce = 2f;
@@ -75,6 +78,14 @@ public class PlayerData : MonoBehaviour
     public float executeDashVelocity = 20f;
     [Range(0f, 0.5f)] public float executeDashSlowTime = 0.005f;
     [Range(0f, 1f)] public float executeDashTimeScale = 0.05f;
+
+    [Header("Menace")]
+    public float menaceWaitTime = 3f;
+
+    [Header("FinishBoss")]
+    [Range(0f, 1.5f)] public float finishBossSlowTime = 1f;
+    [Range(0f, 1f)] public float finishBossTimeScale = 0.5f;
+
 
     [Header("Check Variables")]
     [Range(0f, 0.3f)] public float groundCheckRadius = 0.1f;
