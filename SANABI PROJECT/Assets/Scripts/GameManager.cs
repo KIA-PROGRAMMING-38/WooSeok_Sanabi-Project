@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     private SceneNumber initialSceneNumber;
     public SceneNumber currentSceneNumber;
     public SceneNumber lastSceneNumber;
-    public float ScreenShakeIntensity { get; set; }
+    //public float ScreenShakeIntensity { get; set; }
     public bool isGamePaused;
 
     [Header("Boss")]
@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
         //DontDestroyOnLoad(this);
 
         initialSceneNumber = SceneNumber.Main;
-        ScreenShakeIntensity = 1f;
+        //ScreenShakeIntensity = 1f;
         currentSceneNumber = initialSceneNumber;
 
     }

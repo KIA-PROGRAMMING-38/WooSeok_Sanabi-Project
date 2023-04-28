@@ -22,6 +22,7 @@ public class ShakeCamera : MonoBehaviour
 
     private float shakeTime;
     private float shakeIntensity;
+    private float controlledShakeIntensity;
 
     //private bool ShakeOn;
     private float saveTime; // 시간을 저장하기 위한 변수
@@ -50,8 +51,9 @@ public class ShakeCamera : MonoBehaviour
 
     public void TurnOnShake(float shakeTime, float shakeIntensity)
     {
+        controlledShakeIntensity = PlayerPrefs.GetFloat("shakeIntensity");
         this.shakeTime = shakeTime;
-        this.shakeIntensity = shakeIntensity * GameManager.Instance.ScreenShakeIntensity;
+        this.shakeIntensity = shakeIntensity * controlledShakeIntensity;
         //ShakeOn = true;
         OnShakeCamera();
     }
