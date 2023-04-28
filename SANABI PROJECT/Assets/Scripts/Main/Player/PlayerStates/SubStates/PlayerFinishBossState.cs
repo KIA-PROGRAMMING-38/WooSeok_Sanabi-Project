@@ -20,7 +20,7 @@ public class PlayerFinishBossState : PlayerBossState
     public override void Enter()
     {
         base.Enter();
-        playerController.camShake.TurnOnShake(playerController.camShake.finishBossShakeTime, playerController.camShake.finishBossShakeIntensity);
+        //playerController.camShake.TurnOnShake(playerController.camShake.finishBossShakeTime, playerController.camShake.finishBossShakeIntensity);
         playerController.timeSlower.PleaseSlowDown(playerData.finishBossTimeScale, playerData.finishBossSlowTime);
         //playerController.InvokeOnFinishBoss();
         playerController.Flip();

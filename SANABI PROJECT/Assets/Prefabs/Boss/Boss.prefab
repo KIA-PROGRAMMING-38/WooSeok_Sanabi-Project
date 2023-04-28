@@ -794,6 +794,7 @@ MonoBehaviour:
   playerGrabPos: {fileID: 3530565451870017930}
   finishChecker: {fileID: 1630035196083801564}
   bossBullet: {fileID: 851236261067164050}
+  bossCollider: {fileID: 0}
   bossRunAwaySpots: []
   hitCount: 0
   isPhase1: 0

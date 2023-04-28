@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-    //public static GameManager Instance { get; private set; }
     private static GameManager instance = null;
     public static GameManager Instance
     {
@@ -66,8 +65,7 @@ public class GameManager : MonoBehaviour
     }
 
     [Header("Canvas")]
-    [SerializeField] public Canvas TitleCanvas;
-    //[SerializeField] public Canvas SettingsCanvas;
+    //[SerializeField] public Canvas TitleCanvas;
     [SerializeField] public Canvas pauseCanvas;
 
     public bool hasSceneChanged;
@@ -84,34 +82,31 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        initialSceneNumber = SceneNumber.Title;
+        initialSceneNumber = SceneNumber.Main;
         ScreenShakeIntensity = 1f;
-        //Instance = this;
         currentSceneNumber = initialSceneNumber;
 
     }
 
     private void Start()
     {
-        //Instantiate(playerPrefab, playerSpawnSpot.position, playerSpawnSpot.rotation);
         
     }
 
     private void Update()
     {
-        if (currentSceneNumber == SceneNumber.Title)
-        {
-            // it's almost click events, no keyboard is required to be honest
-        }
+        
 
         if (currentSceneNumber == SceneNumber.Settings)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                currentSceneNumber = lastSceneNumber;
                 lastSceneNumber = SceneNumber.Settings;
+                currentSceneNumber = SceneNumber.Main;
                 SceneManager.UnloadSceneAsync((int)lastSceneNumber);
-                TitleCanvas.gameObject.SetActive(true);
+                //TitleCanvas.gameObject.SetActive(true);
+                Time.timeScale = 1f;
+                isGamePaused= false;
             }
         }
 

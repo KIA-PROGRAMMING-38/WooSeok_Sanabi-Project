@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 
 public class BossFinalBeamState : BossState
@@ -19,6 +20,7 @@ public class BossFinalBeamState : BossState
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("FinalBeam State 들어옴");
     }
 
     public override void Exit()

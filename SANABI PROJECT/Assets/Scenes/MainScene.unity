@@ -5632,7 +5632,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 344636937}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25d6371b345838e4db129ef85e323664, type: 3}
   m_Name: 
@@ -6044,7 +6044,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 412136952}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25d6371b345838e4db129ef85e323664, type: 3}
   m_Name: 
@@ -66829,7 +66829,6 @@ MonoBehaviour:
   bossGunController: {fileID: 0}
   playerGrabBossPos: {fileID: 0}
   bossCanvasController: {fileID: 0}
-  TitleCanvas: {fileID: 0}
   pauseCanvas: {fileID: 1517556842}
   hasSceneChanged: 0
 --- !u!1 &681028384 stripped
@@ -69321,7 +69320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &753708831
 RectTransform:
   m_ObjectHideFlags: 0
@@ -76337,6 +76336,8 @@ MonoBehaviour:
   damagedShakeIntensity: 0.45
   QTEHitShakeTime: 0.1
   QTEHitShakeIntensity: 0.2
+  finishBossShakeTime: 0.5
+  finishBossShakeIntensity: 0.2
   shakeMovePosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1446657981
 GameObject:
@@ -76384,7 +76385,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1446657981}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25d6371b345838e4db129ef85e323664, type: 3}
   m_Name: 
@@ -76733,7 +76734,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1501053236}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 148.4, y: 32.5, z: 0}
+  m_LocalPosition: {x: 151, y: 31.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -81688,7 +81689,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1634650121
 RectTransform:
   m_ObjectHideFlags: 0
@@ -87203,7 +87204,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1743884128}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25d6371b345838e4db129ef85e323664, type: 3}
   m_Name: 
@@ -87683,7 +87684,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1806778223
 RectTransform:
   m_ObjectHideFlags: 0
@@ -87843,7 +87844,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1882057718
 RectTransform:
   m_ObjectHideFlags: 0

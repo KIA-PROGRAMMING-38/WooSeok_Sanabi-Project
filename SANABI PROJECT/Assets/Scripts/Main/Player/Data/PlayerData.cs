@@ -45,6 +45,7 @@ public class PlayerData : MonoBehaviour
     [Header("WireShoot State")]
     public float wireLength = 10f;
     public float shootSpeed = 110f;
+    
 
     [Header("WireGrappled State")]
     public float grappleAddedForce = 2f;

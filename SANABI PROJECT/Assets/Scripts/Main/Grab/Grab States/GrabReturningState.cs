@@ -31,7 +31,7 @@ public class GrabReturningState : GrabState
 
     private void GrabReturn()
     {
-        grabController.transform.position = Vector2.MoveTowards(grabController.transform.position, grabController.GrabReturnCollider.transform.position, playerData.shootSpeed * Time.deltaTime);
+        grabController.transform.position = Vector2.MoveTowards(grabController.transform.position, grabController.GrabReturnCollider.transform.position, playerData.shootSpeed * 2f * Time.deltaTime);
     }
 
     

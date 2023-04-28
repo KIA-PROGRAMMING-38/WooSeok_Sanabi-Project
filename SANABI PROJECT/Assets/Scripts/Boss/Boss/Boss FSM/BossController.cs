@@ -46,6 +46,7 @@ public class BossController : MonoBehaviour
 
     public FinishChecker finishChecker;
     public BossBullet bossBullet;
+    public BoxCollider2D bossCollider;
 
     #endregion
 
@@ -89,7 +90,7 @@ public class BossController : MonoBehaviour
         StateMachine = new BossStateMachine();
         bossData = GetComponent<BossData>();
         bossGunController = GetComponentInChildren<BossGunController>();
-
+        bossCollider = GetComponent<BoxCollider2D>();
         BodyAnimator = GetComponent<Animator>();
 
 
@@ -386,10 +387,16 @@ public class BossController : MonoBehaviour
     }
     public void InvokeOnFinalBeamShoot()
     {
+        Debug.Log("InvokeOnFinalBeamShoot ½ÇÇà‰Î");
         OnFinalBeamShoot?.Invoke();
         //bossBullet.ShootFinalBullet();
     }
 
+    public void MakeBossPassable()
+    {
+        bossCollider.enabled = false;
+        bossRigidbody.bodyType = RigidbodyType2D.Static;
+    }
     public void TurnOnGetHitCamShake()
     {
         GameManager.Instance.playerController.camShake.TurnOnShake(GameManager.Instance.playerController.camShake.QTEHitShakeTime, GameManager.Instance.playerController.camShake.QTEHitShakeIntensity);

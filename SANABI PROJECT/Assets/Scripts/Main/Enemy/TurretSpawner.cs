@@ -37,7 +37,6 @@ public class TurretSpawner : MonoBehaviour
         else if (turretSpawnSpots.Length <= deadTurretNumber) // if all turrets dead
         {
             OnAllTurretsDead?.Invoke();
-            Debug.Log("ÅÍ·¿ ´Ù Á×À½");
         }
     }
 

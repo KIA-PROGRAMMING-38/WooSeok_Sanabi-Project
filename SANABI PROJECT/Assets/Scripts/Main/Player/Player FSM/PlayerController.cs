@@ -285,6 +285,11 @@ public class PlayerController : MonoBehaviour
         CurrentVelocity = workspace;
     }
 
+    public void ClearDustPool()
+    {
+        dustPool.ClearPool();
+    }
+
     public void ClearAfterImagePool()
     {
         WireDashPool.ClearPool();
@@ -307,6 +312,7 @@ public class PlayerController : MonoBehaviour
     }
     public void InvokeOnFinishBoss()
     {
+        camShake.TurnOnShake(camShake.finishBossShakeTime, camShake.finishBossShakeIntensity);
         OnFinishBoss?.Invoke();
     }
     //public void PlayerApproachDash()
@@ -627,6 +633,12 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeToInAirState()
     {
+        StateMachine.ChangeState(InAirState);
+    }
+
+    public void InvokeOnEvadeBeam()
+    {
+        GameManager.Instance.bossController.TurnOffCeilingCollider();
         StateMachine.ChangeState(InAirState);
     }
 

@@ -14,19 +14,19 @@ public class BossBullet : MonoBehaviour
     private Vector2 shootDirection;
     [SerializeField] private float shootSpeed = 300f;
 
-    private int platformLayer;
-    private int playerLayer;
+    //private int platformLayer;
+    //private int playerLayer;
 
     private IEnumerator _WaitBullet;
     [SerializeField] private float bulletReturnTime = 1f;
-    private WaitForSeconds _bulletReturnTime;
+    //private WaitForSeconds _bulletReturnTime;
 
     private void Awake()
     {
         bulletRigid = GetComponent<Rigidbody2D>();
         trailRenderer = GetComponent<TrailRenderer>();
-        platformLayer = LayerMask.NameToLayer("NormalWall");
-        playerLayer = LayerMask.NameToLayer("SNB");
+        //platformLayer = LayerMask.NameToLayer("NormalWall");
+        //playerLayer = LayerMask.NameToLayer("SNB");
         circleCollider= GetComponent<CircleCollider2D>();   
     }
     private void Start()
@@ -36,17 +36,19 @@ public class BossBullet : MonoBehaviour
         bossController.OnFinalBeamShoot -= ShootFinalBullet;
         bossController.OnFinalBeamShoot += ShootFinalBullet;
 
-        _WaitBullet = WaitBullet();
-        _bulletReturnTime = new WaitForSeconds(bulletReturnTime);
+        //_WaitBullet = WaitBullet();
+        //_bulletReturnTime = new WaitForSeconds(bulletReturnTime);
         trailRenderer.emitting = false;
         circleCollider.enabled = false;
     }
 
     public void ShootFinalBullet()
     {
+        Debug.Log("ShootFinalBullet 함수 실행됌");
         transform.position = bossGunController.transform.position;
         trailRenderer.emitting = true;
-        Vector2 upDirection = Vector2.zero;
+        
+        Vector2 upDirection = default;
         upDirection.Set((GameManager.Instance.playerController.transform.position - bossGunController.transform.position).normalized.x, 1f);
         bulletRigid.velocity = upDirection * shootSpeed;
 
@@ -54,7 +56,7 @@ public class BossBullet : MonoBehaviour
 
     private void ShootBullet()
     {
-        ReturnToHead();
+        //ReturnToHead();
         trailRenderer.emitting = true;
         shootDirection = bossGunController.gunTipDistance.normalized;
         bulletRigid.velocity = shootDirection * shootSpeed;
@@ -63,30 +65,38 @@ public class BossBullet : MonoBehaviour
 
     private void ReturnToHead()
     {
+        circleCollider.enabled = false;
         trailRenderer.emitting = false;
         bulletRigid.velocity = Vector2.zero;
         transform.position = bossGunController.transform.position;
-        StartWaitBullet();
+        //StartWaitBullet();
     }
 
-    private void StartWaitBullet()
+    //private void StartWaitBullet()
+    //{
+    //    _WaitBullet = WaitBullet();
+    //    StartCoroutine(_WaitBullet);
+    //}
+
+    //private void StopWaitBullet()
+    //{
+    //    StopCoroutine(_WaitBullet);
+    //}
+
+    //private IEnumerator WaitBullet()
+    //{
+    //    circleCollider.enabled = false;
+    //    yield return _bulletReturnTime;
+    //    ReturnToHead();
+    //    StopWaitBullet();
+    //}
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        _WaitBullet = WaitBullet();
-        StartCoroutine(_WaitBullet);
+        if (collision.gameObject.CompareTag("BulletDeadZone"))
+        {
+            ReturnToHead();
+        }
     }
-
-    private void StopWaitBullet()
-    {
-        StopCoroutine(_WaitBullet);
-    }
-
-    private IEnumerator WaitBullet()
-    {
-        circleCollider.enabled = false;
-        yield return _bulletReturnTime;
-        ReturnToHead();
-        StopWaitBullet();
-    }
-
 
 }

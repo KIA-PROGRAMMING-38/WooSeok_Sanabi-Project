@@ -22,6 +22,7 @@ public class PlayerWireGrappledInAirState : PlayerWireState
     public override void Exit()
     {
         base.Exit();
+        hasGrabBeenDisabled = false;
     }
 
     public override void LogicUpdate()
