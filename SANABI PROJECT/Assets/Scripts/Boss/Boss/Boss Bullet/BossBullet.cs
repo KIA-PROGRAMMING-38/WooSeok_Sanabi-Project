@@ -50,7 +50,7 @@ public class BossBullet : MonoBehaviour
         Vector2 upDirection = default;
         upDirection.Set((GameManager.Instance.playerController.transform.position - bossGunController.transform.position).normalized.x, 1f);
         bulletRigid.velocity = upDirection * shootSpeed;
-
+        //GameManager.Instance.audioManager.Play("bossFinalBeam");
     }
 
     private void ShootBullet()

@@ -17,6 +17,7 @@ public class BossShootState : BossState
     {
         base.Enter();
         bossController.StartWaitShootTime();
+        GameManager.Instance.audioManager.Play("bossShoot");
     }
 
     public override void Exit()

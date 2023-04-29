@@ -17,6 +17,7 @@ public class BossRunAwayState : BossState
     {
         base.Enter();
         bossController.BossRunAway();
+        
     }
 
     public override void Exit()

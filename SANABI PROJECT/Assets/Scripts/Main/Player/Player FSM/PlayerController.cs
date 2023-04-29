@@ -318,6 +318,7 @@ public class PlayerController : MonoBehaviour
     {
         camShake.TurnOnShake(camShake.finishBossShakeTime, camShake.finishBossShakeIntensity);
         timeSlower.PleaseSlowDown(playerData.finishBossTimeScale, playerData.finishBossSlowTime);
+        GameManager.Instance.audioManager.Play("playerFinishBoss");
         OnFinishBoss?.Invoke();
     }
     //public void PlayerApproachDash()

@@ -8,7 +8,11 @@ public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
 
-    void Awake()
+    private IEnumerator _GradualIncreaseVolume;
+    private Sound audio;
+    private float increaseAmount;
+
+    private void Awake()
     {
         foreach (Sound element in sounds)
         {
@@ -18,6 +22,12 @@ public class AudioManager : MonoBehaviour
             element.source.pitch = element.pitch;
             element.source.loop = element.loop;
         }
+    }
+
+
+    private void Start()
+    {
+        _GradualIncreaseVolume = GradualIncreaseVolume();
     }
 
     public void Play(string name)
@@ -31,6 +41,21 @@ public class AudioManager : MonoBehaviour
         audio.source.Play();
     }
 
+    
+    public void GradualVolumePlay(string name)
+    {
+        Sound audio = Array.Find(sounds, sound => sound.name == name);
+        if (audio == null)
+        {
+            Debug.LogWarning($"Sound: {name} is not found");
+            return;
+        }
+        audio.source.Play();
+
+
+        StartIncreaseVolume(audio, 0.0005f);
+    }
+
     public void Stop(string name)
     {
         Sound audio = Array.Find(sounds, sound => sound.name == name);
@@ -42,4 +67,27 @@ public class AudioManager : MonoBehaviour
         audio.source.Stop();
     }
 
+
+    private void StartIncreaseVolume(Sound audio, float increaseAmount)
+    {
+        this.audio = audio;
+        this.increaseAmount = increaseAmount;
+        _GradualIncreaseVolume = GradualIncreaseVolume();
+        StartCoroutine(_GradualIncreaseVolume);
+    }
+
+    
+    private IEnumerator GradualIncreaseVolume()
+    {
+        audio.source.volume = 0f;
+        while (true)
+        {
+            audio.source.volume += increaseAmount;
+            yield return null;
+            if (audio.volume <= audio.source.volume)
+            {
+                break;
+            }
+        }
+    }
 }

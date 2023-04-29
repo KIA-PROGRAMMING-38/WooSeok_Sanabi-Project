@@ -57,6 +57,10 @@ public class PlayerExecuteDash : PlayerAbilityState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        if (MouseInput)
+        {
+            stateMachine.ChangeState(playerController.WireShootState);
+        }
     }
 
     public override void PhysicsUpdate()

@@ -67109,7 +67109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1501053236}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.7, y: -1.1, z: 0}
+  m_LocalPosition: {x: 149.9, y: 31.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -69299,6 +69299,12 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: grabGrabWall
+    clip: {fileID: 8300000, guid: ee1957b81865bbf478458a7ee37d3e75, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   - name: playerGrabReturn
     clip: {fileID: 8300000, guid: bfa2cbbf05e3bcc49b377a003f08d6db, type: 3}
     volume: 1
@@ -69317,8 +69323,122 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: playerExecuteHold
+    clip: {fileID: 8300000, guid: ceea61fb2e4c2014e94b0a4a9ec0e53f, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   - name: playerExecuteDash
     clip: {fileID: 8300000, guid: d2c8e1aa8b9c282418139fc51df4c0a2, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: turretShoot
+    clip: {fileID: 8300000, guid: 738bb68085501c34ba7ef076293eabaf, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: turretPopUp
+    clip: {fileID: 8300000, guid: 31b97357fd249ff409fa9fa324751a01, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerFinishBoss
+    clip: {fileID: 8300000, guid: 74f94a3dcc225b94cbe66c4d6ca18487, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: BossBGM
+    clip: {fileID: 8300000, guid: 427d5ab211f171346bb4e17970861ab4, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: bossAppear
+    clip: {fileID: 8300000, guid: eac03704e6978c047af99adfb2ecd2cb, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossAimLock
+    clip: {fileID: 8300000, guid: 70a7cd5661da3a0488ba8d74548deb7e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossShoot
+    clip: {fileID: 8300000, guid: 1ebd2d3bb50b01a41a66c909720b6d76, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossCooldown
+    clip: {fileID: 8300000, guid: ce97b67014ba3a84f8050922dd551205, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossHitPlayer
+    clip: {fileID: 8300000, guid: 865127f3e91899a44b9ba2fef63247fb, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossRunAway
+    clip: {fileID: 8300000, guid: c5f895ad562b9554583cb5662c4fb20b, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossPinOff
+    clip: {fileID: 8300000, guid: 8cb16197e26d9814e9cd842910907206, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossSmokeShell
+    clip: {fileID: 8300000, guid: 5e8c1373eafeb6d49824a72069dc5b3e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossGetHit1
+    clip: {fileID: 8300000, guid: eaabf9359c8fddd46b252b869e4e15a6, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossGetHit2
+    clip: {fileID: 8300000, guid: 71ec076f6fc4e9e4a848550c4e9afb27, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossArmOff
+    clip: {fileID: 8300000, guid: 72ff2e75866de5a45991f01b7b1c10b5, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: QTEClick
+    clip: {fileID: 8300000, guid: 66049b8f04e91614d92200fb2cd4d466, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossFall
+    clip: {fileID: 8300000, guid: 4489417a82502e946a7160a97f31aeed, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossFinalBeam
+    clip: {fileID: 8300000, guid: d8ea63f062f38b64b875a94d2dffd6ef, type: 3}
     volume: 1
     pitch: 1
     loop: 0
@@ -69546,6 +69666,7 @@ MonoBehaviour:
   - {fileID: 1647074859}
   - {fileID: 1805863573}
   - {fileID: 1444619811}
+  - {fileID: 2040814904}
 --- !u!1001 &3070896646154741279
 PrefabInstance:
   m_ObjectHideFlags: 0

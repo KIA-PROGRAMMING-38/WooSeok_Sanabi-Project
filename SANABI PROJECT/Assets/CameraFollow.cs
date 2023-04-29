@@ -139,6 +139,8 @@ public class CameraFollow : MonoBehaviour
         transform.position = initialCamPos;
         inAnimation = false;
         GameManager.Instance.playerController.ChangeToIdleState();
+        //GameManager.Instance.audioManager.Play("BossBGM");
+        GameManager.Instance.audioManager.GradualVolumePlay("BossBGM");
     }
 
 

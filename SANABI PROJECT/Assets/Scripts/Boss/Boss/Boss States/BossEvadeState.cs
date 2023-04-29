@@ -18,6 +18,7 @@ public class BossEvadeState : BossInteractionState
     {
         base.Enter();
         ++bossController.hitCount;
+        
         //bossController.CheckIfShouldFlip();
         //GameManager.Instance.playerController.transform.position = GameManager.Instance.playerGrabPos.position;
         //GameManager.Instance.bossGunController.lineRenderer.enabled = false;
