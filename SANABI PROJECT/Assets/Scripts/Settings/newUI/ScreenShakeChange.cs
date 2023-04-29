@@ -50,6 +50,6 @@ public class ScreenShakeChange : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(ShakeIntensity);
+        
     }
 }

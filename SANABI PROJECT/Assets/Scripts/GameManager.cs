@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public AudioManager audioManager;
 
     [Header("Player")]
     public PlayerController playerController;

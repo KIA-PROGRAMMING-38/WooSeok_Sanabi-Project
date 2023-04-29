@@ -93,6 +93,8 @@ public class PlayerController : MonoBehaviour
     public int FacingDirection { get; private set; }
     private int RightDirection = 1; // to avoid magicNumber
 
+    public bool stillOnWall;
+
     //private int PlatformLayerNumber;
     private int MagmaLayerNumber;
     private int NormalWallLayerNumber;

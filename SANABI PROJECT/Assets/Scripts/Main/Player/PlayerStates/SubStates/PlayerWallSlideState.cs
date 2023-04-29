@@ -13,7 +13,8 @@ public class PlayerWallSlideState : PlayerTouchingWallState
     {
         base.Enter();
         playerController.StartShowWallSlideDust();
-        
+        playerController.stillOnWall = true;
+        GameManager.Instance.audioManager.Play("playerWallSlide");
     }
 
 
@@ -32,6 +33,8 @@ public class PlayerWallSlideState : PlayerTouchingWallState
     public override void Exit()
     {
         base.Exit();
+        
         playerController.StopShowWallSlideDust();
+        GameManager.Instance.audioManager.Stop("playerWallSlide");
     }
 }

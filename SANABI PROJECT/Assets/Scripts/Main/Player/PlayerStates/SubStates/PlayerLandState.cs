@@ -18,6 +18,7 @@ public class PlayerLandState : PlayerGroundedState
         base.Enter();
         playerController.SetVelocityX(0f);
         playerController.SetLandEffectOn();
+        GameManager.Instance.audioManager.Play("playerLand");
     }
 
     public override void Exit()

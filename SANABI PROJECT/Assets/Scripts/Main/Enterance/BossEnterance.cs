@@ -15,6 +15,7 @@ public class BossEnterance : MonoBehaviour
     {
         turretSpawner.OnAllTurretsDead -= CheckIfAllTurretsDead;
         turretSpawner.OnAllTurretsDead += CheckIfAllTurretsDead;
+        GameManager.Instance.audioManager.Play("MainBGM");
     }
 
     void Update()

@@ -57,10 +57,12 @@ public class PlayerTouchingWallState : PlayerState
         if (isGrounded)
         {
             stateMachine.ChangeState(playerController.IdleState);
+            playerController.stillOnWall = false;
         }
         else if (!isTouchingWall)// || xInput != player.FacingDirection)
         {
             stateMachine.ChangeState(playerController.InAirState);
+            playerController.stillOnWall = false;
         }
         else if (isTouchingWall && JumpInput) //  && (isTouchingWall || isTouchingWallBack)
         {
@@ -74,6 +76,7 @@ public class PlayerTouchingWallState : PlayerState
             if (playerData.wallGrabOffSeconds <= xInputTime)
             {
                 stateMachine.ChangeState(playerController.InAirState);
+                playerController.stillOnWall = false;
                 xInputTime = 0f;
             }
         }
@@ -81,10 +84,12 @@ public class PlayerTouchingWallState : PlayerState
         {
             playerController.Input.UseWireShoot();
             stateMachine.ChangeState(playerController.WireShootState);
+            playerController.stillOnWall = false;
         }
         else if (isDamaged)
         {
             stateMachine.ChangeState(playerController.DamagedState);
+            playerController.stillOnWall = false;
         }
     }
 
