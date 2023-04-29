@@ -301,6 +301,7 @@ public class PlayerController : MonoBehaviour
     {
         if (CanDash)
         {
+            GameManager.Instance.audioManager.Play("playerWireDash");
             OnWireDash?.Invoke();
             StartShowAfterImage();
             CanDash = false;
@@ -310,6 +311,7 @@ public class PlayerController : MonoBehaviour
             Input.UseDashInput();
             SetDashVelocity(Input.MovementInput.x);
             StartCoroutine(CountDashCooltime());
+            
         }
     }
     public void InvokeOnFinishBoss()

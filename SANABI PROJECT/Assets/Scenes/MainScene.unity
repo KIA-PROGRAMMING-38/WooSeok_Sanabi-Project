@@ -69287,6 +69287,42 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: playerDamaged
+    clip: {fileID: 8300000, guid: fc82fc7605987f94c8520de474b84b4b, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerWireShoot
+    clip: {fileID: 8300000, guid: e58947fc5679921458d52e0004b21158, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerGrabReturn
+    clip: {fileID: 8300000, guid: bfa2cbbf05e3bcc49b377a003f08d6db, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerWireDash
+    clip: {fileID: 8300000, guid: 5720d2ecbfe252548ae0e488e61b416e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerApproachDash
+    clip: {fileID: 8300000, guid: 2eb6db2e01a4a2541a1ca0422b82fbb9, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerExecuteDash
+    clip: {fileID: 8300000, guid: d2c8e1aa8b9c282418139fc51df4c0a2, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!4 &2040814906
 Transform:
   m_ObjectHideFlags: 0

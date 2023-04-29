@@ -41,6 +41,7 @@ public class PlayerExecuteDash : PlayerAbilityState
         playerController.StartShowAfterImage();
         playerController.SetExecuteDashEffectOn();
         GameManager.Instance.grabController.hasGrabbedTurret = false;
+        GameManager.Instance.audioManager.Play("playerExecuteDash");
     }
 
     public override void Exit()

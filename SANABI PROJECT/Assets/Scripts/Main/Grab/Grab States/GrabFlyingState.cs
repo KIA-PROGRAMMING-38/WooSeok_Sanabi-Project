@@ -13,6 +13,7 @@ public class GrabFlyingState : GrabState
         base.Enter();
         SetVariables();
         ShootGrab();
+        GameManager.Instance.audioManager.Play("playerWireShoot");
     }
     
     public override void Exit()
