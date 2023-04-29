@@ -16,17 +16,15 @@ public class GrabGrabbedState : GrabState
         GetPosAndRot();
         grabController.AnchorPosition = holdPosition;
         grabController.isGrappled = true;
-        //HoldGrab();
+        GameManager.Instance.audioManager.Play("grabGrabWall");
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
         HoldGrab();
-        //GameManager.Instance.armController.ConnectAnchor();
         if (!mouseInputHold)
         {
-            //GameManager.Instance.armController.DisconnectAnchor();
             stateMachine.ChangeState(grabController.ReturningState);
         }
     }

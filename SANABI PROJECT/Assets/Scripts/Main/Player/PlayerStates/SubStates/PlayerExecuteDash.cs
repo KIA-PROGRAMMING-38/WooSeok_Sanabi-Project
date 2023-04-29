@@ -41,6 +41,7 @@ public class PlayerExecuteDash : PlayerAbilityState
         playerController.StartShowAfterImage();
         playerController.SetExecuteDashEffectOn();
         GameManager.Instance.grabController.hasGrabbedTurret = false;
+        GameManager.Instance.audioManager.Play("playerExecuteDash");
     }
 
     public override void Exit()
@@ -56,6 +57,10 @@ public class PlayerExecuteDash : PlayerAbilityState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        if (MouseInput)
+        {
+            stateMachine.ChangeState(playerController.WireShootState);
+        }
     }
 
     public override void PhysicsUpdate()

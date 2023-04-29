@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 public class PlayerDamagedState : PlayerState
 {
     protected bool isGrounded;
-    protected Vector2 damagedJumpDirection;
+    protected Vector2 damagedJumpDirection = Vector2.up + Vector2.right;
     protected float elapsedTime;
     protected float damagedOutTime;
     private float cameraShakeTime;
@@ -47,17 +47,15 @@ public class PlayerDamagedState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        //playerController.playerHealth.OnDead -= ChangeToDeadState;
-        //playerController.playerHealth.OnDead += ChangeToDeadState;
 
-        playerController.playerHealth.TakeDamage(playerData.PlayerTakeDamage); // got to change magic number
+        playerController.playerHealth.TakeDamage(playerData.PlayerTakeDamage); 
         GameManager.Instance.cameraFollow.StartChangeColor();
-        damagedJumpDirection = Vector2.up + Vector2.right; // (1, 1)
+        //damagedJumpDirection = Vector2.up + Vector2.right; // (1, 1)
         damagedOutTime = playerData.damagedOutTime;
         DamagedJumpBack(playerController.FacingDirection);
         playerController.camShake.TurnOnShake(cameraShakeTime, cameraShakeIntensity);
-        //playerController.camFollow.ChangeColor();
         playerController.timeSlower.PleaseSlowDown(slowIntensity, slowTime);
+        GameManager.Instance.audioManager.Play("playerDamaged");
     }
 
     public override void Exit()

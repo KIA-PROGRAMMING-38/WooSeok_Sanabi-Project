@@ -7,58 +7,61 @@ using UnityEngine.UI;
 public class FullScreenChange : MonoBehaviour
 {
     [SerializeField] private TMP_Text fullscreenText;
-    private SettingSceneController settingController;
-    //private Button[] buttons;
-    private bool isFullScreen = true;
-    public bool IsFullScreen { get; private set; }
 
-    private void Awake()
+    private int fullScreenOn = 1;
+    private int fullScreenOff = -1;
+
+    private void Start()
     {
-        //InitFullscreen();
-        settingController = GetComponentInParent<SettingSceneController>();
+        if (PlayerPrefs.HasKey("isFullScreen"))
+        {
+            LoadFullScreenState();
+        }
+        else
+        {
+            InitFullscreen();
+        }
     }
 
-    private void OnEnable()
+
+    private void InitFullscreen()
     {
-        isFullScreen = settingController.isFullScreen;
-        if (isFullScreen)
+        PlayerPrefs.SetInt("isFullScreen", fullScreenOn);
+        Screen.fullScreen = true;
+        fullscreenText.text = "ÄÑÁü";
+    }
+
+    private void LoadFullScreenState()
+    {
+        int fullScreenValue = PlayerPrefs.GetInt("isFullScreen");
+        if (fullScreenValue == fullScreenOn)
         {
+            Screen.fullScreen = true;
             fullscreenText.text = "ÄÑÁü";
         }
         else
         {
+            Screen.fullScreen = false;
             fullscreenText.text = "²¨Áü";
         }
     }
 
-    //private void InitFullscreen()
-    //{
-    //    isFullScreen = true;
-    //    IsFullScreen = isFullScreen;
-    //    Screen.fullScreen = IsFullScreen;
-    //    fullscreenText.text = "ÄÑÁü";
-    //}
 
     public void OnClick()
     {
-        if (isFullScreen == true)
+        if (PlayerPrefs.GetInt("isFullScreen") == fullScreenOn)
         {
-            isFullScreen = false;
-            IsFullScreen = isFullScreen;
-            Screen.fullScreen = IsFullScreen;
+            PlayerPrefs.SetInt("isFullScreen", fullScreenOff);
+            Screen.fullScreen = false;
             fullscreenText.text = "²¨Áü";
-            settingController.isFullScreen = IsFullScreen;
-            Debug.Log(settingController.isFullScreen);
         }
-        else
+        else // if not full screen but clicked the button?
         {
-            isFullScreen = true;
-            IsFullScreen = isFullScreen;
-            Screen.fullScreen = IsFullScreen;
+            PlayerPrefs.SetInt("isFullScreen", fullScreenOn);
+            Screen.fullScreen = true;
             fullscreenText.text = "ÄÑÁü";
-            settingController.isFullScreen = IsFullScreen;
-            Debug.Log(settingController.isFullScreen);
         }
+
     }
 
     

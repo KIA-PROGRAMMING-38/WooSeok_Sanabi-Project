@@ -287,6 +287,7 @@ public class TurretController : MonoBehaviour
         {
             ShootBulletWide();
             ++shotBulletNumber;
+            GameManager.Instance.audioManager.Play("turretShoot");
             yield return _shootGapTime;
         }
         shotBulletNumber = 0;

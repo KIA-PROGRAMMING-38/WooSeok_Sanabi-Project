@@ -20,6 +20,7 @@ public class BossFinalBeamState : BossState
     public override void Enter()
     {
         base.Enter();
+        GameManager.Instance.audioManager.Play("bossFinalBeam");
     }
 
     public override void Exit()

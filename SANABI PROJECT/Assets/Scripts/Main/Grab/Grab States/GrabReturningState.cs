@@ -15,6 +15,7 @@ public class GrabReturningState : GrabState
         base.Enter();
         SetGrabStatus();
         grabController.IgnoreTurretCollision(true);
+        GameManager.Instance.audioManager.Play("playerGrabReturn");
     }
     public override void LogicUpdate()
     {

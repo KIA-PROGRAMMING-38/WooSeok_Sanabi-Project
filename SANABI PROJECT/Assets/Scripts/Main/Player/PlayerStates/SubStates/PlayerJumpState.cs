@@ -20,6 +20,7 @@ public class PlayerJumpState : PlayerAbilityState
         isAbilityDone = true;
         playerController.InAirState.SetIsJumping();
         playerController.SetJumpEffectOn();
+        GameManager.Instance.audioManager.Play("playerJump");
     }
 
     public override void Exit()

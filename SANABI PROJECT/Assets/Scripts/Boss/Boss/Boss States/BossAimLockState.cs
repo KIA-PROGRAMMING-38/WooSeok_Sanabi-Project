@@ -16,6 +16,7 @@ public class BossAimLockState : BossState
     public override void Enter()
     {
         base.Enter();
+        GameManager.Instance.audioManager.Play("bossAimLock");
         bossController.bossGunController.OnFinishedAimLock -= ChangeToReadyToShootState;
         bossController.bossGunController.OnFinishedAimLock += ChangeToReadyToShootState;
 

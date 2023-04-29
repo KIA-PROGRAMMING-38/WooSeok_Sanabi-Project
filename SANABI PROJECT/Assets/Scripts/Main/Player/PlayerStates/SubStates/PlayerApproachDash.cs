@@ -41,7 +41,7 @@ public class PlayerApproachDash : PlayerAbilityState
         playerController.OnApproachDashToBoss -= ChangeTo_GetHit_Or_QTEState;
         playerController.OnApproachDashToBoss += ChangeTo_GetHit_Or_QTEState;
         //playerController.SetVelocityAll(approachDashDirection.x * ApproachDashForce, approachDashDirection.y * ApproachDashForce);
-        
+        GameManager.Instance.audioManager.Play("playerApproachDash");
         playerController.StartShowAfterImage();
     }
 

@@ -9,25 +9,31 @@ public class ResolutionChange : MonoBehaviour
     private List<Resolution> resolutions = new List<Resolution>();
     [SerializeField] private FullScreenChange fullScreenChange;
     [SerializeField] private TMP_Text resolutionText;
-    //private Button[] buttons;
     private int currentIndex;
     private bool isFullScreen;
+    private int resolutionWidth;
+    private int resolutionHeight;
+
+    private int fullScreenOn = 1;
+    private int fullScreenOff = -1;
 
     private (int, int, int)[] resolutionCandidates = new (int, int, int)[] {(960, 720, 144), (1024, 768, 144), (1280,720,144), (1440,900,144), (1600,900,144), (1920,1080,144) };
 
     private void Awake()
     {
-        //buttons = GetComponentsInChildren<Button>();
         AddResolutions();
-        InitResolution();
     }
 
-    private void InitResolution()
+    private void Start()
     {
-        //Screen.SetResolution(1920, 1080, true);
-        currentIndex = resolutionCandidates.Length - 1;
-        resolutionText.text = $"{resolutions[currentIndex].width}X{resolutions[currentIndex].height}";
-        Screen.SetResolution(resolutions[currentIndex].width, resolutions[currentIndex].height, isFullScreen);
+        if (PlayerPrefs.HasKey("resolutionWidth") && PlayerPrefs.HasKey("resolutionHeight"))
+        {
+            LoadResolution();
+        }
+        else
+        {
+            InitResolution();
+        }
     }
 
     private void AddResolutions()
@@ -41,26 +47,85 @@ public class ResolutionChange : MonoBehaviour
             resolutions.Add(newResolution);
         }
     }
+    private void InitResolution()
+    {
+        resolutionWidth = 1920;
+        resolutionHeight = 1080;
+        resolutionText.text = $"{resolutionWidth}X{resolutionHeight}";
+        Screen.SetResolution(resolutionWidth, resolutionHeight, true);
+        PlayerPrefs.SetInt("resolutionWidth", resolutionWidth);
+        PlayerPrefs.SetInt("resolutionHeight", resolutionHeight);
+        PlayerPrefs.SetInt("resolutionIndex", resolutions.Count-1); // 5 at first
+    }
+
+    private void LoadResolution()
+    {
+        resolutionWidth = PlayerPrefs.GetInt("resolutionWidth");
+        resolutionHeight = PlayerPrefs.GetInt("resolutionHeight");
+
+        bool isFullScreen = default;
+        if (PlayerPrefs.GetInt("isFullScreen") == fullScreenOn)
+        {
+            isFullScreen = true;
+        }
+        else
+        {
+            isFullScreen = false;
+        }
+
+        Screen.SetResolution(resolutionWidth, resolutionHeight, isFullScreen);
+        resolutionText.text = $"{resolutionWidth}X{resolutionHeight}";
+    }
 
     public void OnRightClick()
     {
-        currentIndex = (currentIndex + 1) % resolutions.Count;
-        isFullScreen = fullScreenChange.IsFullScreen;
-        resolutionText.text = $"{resolutions[currentIndex].width}X{resolutions[currentIndex].height}";
-        Screen.SetResolution(resolutions[currentIndex].width, resolutions[currentIndex].height, isFullScreen);
+        currentIndex = PlayerPrefs.GetInt("resolutionIndex");
+        int changedIndex = (currentIndex + 1) % resolutions.Count;
+
+        resolutionWidth = resolutionCandidates[changedIndex].Item1;
+        resolutionHeight = resolutionCandidates[changedIndex].Item2;
+        bool isFullScreen = default;
+        if (PlayerPrefs.GetInt("isFullScreen") == fullScreenOn)
+        {
+            isFullScreen = true;
+        }
+        else
+        {
+            isFullScreen = false;
+        }
+        resolutionText.text = $"{resolutionWidth}X{resolutionHeight}";
+        Screen.SetResolution(resolutionWidth, resolutionHeight, isFullScreen);
+        PlayerPrefs.SetInt("resolutionWidth", resolutionWidth);
+        PlayerPrefs.SetInt("resolutionHeight", resolutionHeight);
+        PlayerPrefs.SetInt("resolutionIndex", changedIndex);
     }
 
     public void OnLeftClick()
     {
-        currentIndex -= 1;
+        currentIndex = PlayerPrefs.GetInt("resolutionIndex");
+        int changedIndex = currentIndex - 1;
 
-        if (currentIndex < 0)
+        if (changedIndex < 0)
         {
-            currentIndex = resolutions.Count - 1;
+            changedIndex = resolutions.Count - 1;
         }
-        isFullScreen = fullScreenChange.IsFullScreen;
-        resolutionText.text = $"{resolutions[currentIndex].width}X{resolutions[currentIndex].height}";
-        Screen.SetResolution(resolutions[currentIndex].width, resolutions[currentIndex].height, isFullScreen);
+
+        resolutionWidth = resolutionCandidates[changedIndex].Item1;
+        resolutionHeight = resolutionCandidates[changedIndex].Item2;
+        bool isFullScreen = default;
+        if (PlayerPrefs.GetInt("isFullScreen") == fullScreenOn)
+        {
+            isFullScreen = true;
+        }
+        else
+        {
+            isFullScreen = false;
+        }
+        resolutionText.text = $"{resolutionWidth}X{resolutionHeight}";
+        Screen.SetResolution(resolutionWidth, resolutionHeight, isFullScreen);
+        PlayerPrefs.SetInt("resolutionWidth", resolutionWidth);
+        PlayerPrefs.SetInt("resolutionHeight", resolutionHeight);
+        PlayerPrefs.SetInt("resolutionIndex", changedIndex);
     }
     
 }

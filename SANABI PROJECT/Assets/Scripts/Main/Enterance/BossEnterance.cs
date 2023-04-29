@@ -15,6 +15,8 @@ public class BossEnterance : MonoBehaviour
     {
         turretSpawner.OnAllTurretsDead -= CheckIfAllTurretsDead;
         turretSpawner.OnAllTurretsDead += CheckIfAllTurretsDead;
+        //GameManager.Instance.audioManager.Play("MainBGM");
+        GameManager.Instance.audioManager.GradualVolumePlay("MainBGM");
     }
 
     void Update()
@@ -46,6 +48,7 @@ public class BossEnterance : MonoBehaviour
             GameManager.Instance.playerController.ClearAfterImagePool();
             GameManager.Instance.playerController.ClearDustPool();
             DontDestroyOnLoad(GameManager.Instance);
+            GameManager.Instance.audioManager.Stop("MainBGM");
             OnBossEnterance?.Invoke();
             foreach (GameObject element in playerRelatedObjects)
             {

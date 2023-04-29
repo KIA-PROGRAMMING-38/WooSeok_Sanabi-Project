@@ -61913,6 +61913,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfeb4d52a5fd17745bb62aec7b1497bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioManager: {fileID: 2040814905}
   playerController: {fileID: 1937223198}
   grabController: {fileID: 1390056219}
   armController: {fileID: 1837626194}
@@ -67108,7 +67109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1501053236}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 118.3, y: 10.1, z: 0}
+  m_LocalPosition: {x: 149.9, y: 31.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -69208,6 +69209,255 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2034938893}
   m_CullTransparentMesh: 1
+--- !u!1 &2040814904
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2040814906}
+  - component: {fileID: 2040814905}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2040814905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040814904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c75348d4f4b40f48a51cad3dcd660d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: MainBGM
+    clip: {fileID: 8300000, guid: 2f4fd2742e030c9479c551c6f8c82659, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: playerRun
+    clip: {fileID: 8300000, guid: 97c6d3007518b504c9e458c77718f0e5, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: playerJump
+    clip: {fileID: 8300000, guid: 3c158fd7f821b7443b2162e5142140e0, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerLand
+    clip: {fileID: 8300000, guid: e32dd2ac7a13abf4f90f51e5619cd935, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerWallGrab
+    clip: {fileID: 8300000, guid: d4e49b08e2d52bd4aaef6726d6275bd4, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerWallClimb
+    clip: {fileID: 8300000, guid: 399125a8c91528a47a9a3e464c6d1da0, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: playerWallSlide
+    clip: {fileID: 8300000, guid: 2bc0f27c2aaa2474eac078500466219a, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: playerWallJump
+    clip: {fileID: 8300000, guid: 8dff20f0d4ae28f49a8657d09262c771, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerDamaged
+    clip: {fileID: 8300000, guid: fc82fc7605987f94c8520de474b84b4b, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerWireShoot
+    clip: {fileID: 8300000, guid: e58947fc5679921458d52e0004b21158, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: grabGrabWall
+    clip: {fileID: 8300000, guid: ee1957b81865bbf478458a7ee37d3e75, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerGrabReturn
+    clip: {fileID: 8300000, guid: bfa2cbbf05e3bcc49b377a003f08d6db, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerWireDash
+    clip: {fileID: 8300000, guid: 5720d2ecbfe252548ae0e488e61b416e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerApproachDash
+    clip: {fileID: 8300000, guid: 2eb6db2e01a4a2541a1ca0422b82fbb9, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerExecuteHold
+    clip: {fileID: 8300000, guid: ceea61fb2e4c2014e94b0a4a9ec0e53f, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerExecuteDash
+    clip: {fileID: 8300000, guid: d2c8e1aa8b9c282418139fc51df4c0a2, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: turretShoot
+    clip: {fileID: 8300000, guid: 738bb68085501c34ba7ef076293eabaf, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: turretPopUp
+    clip: {fileID: 8300000, guid: 31b97357fd249ff409fa9fa324751a01, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: playerFinishBoss
+    clip: {fileID: 8300000, guid: 74f94a3dcc225b94cbe66c4d6ca18487, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: BossBGM
+    clip: {fileID: 8300000, guid: 427d5ab211f171346bb4e17970861ab4, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: bossAppear
+    clip: {fileID: 8300000, guid: eac03704e6978c047af99adfb2ecd2cb, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossAimLock
+    clip: {fileID: 8300000, guid: 70a7cd5661da3a0488ba8d74548deb7e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossShoot
+    clip: {fileID: 8300000, guid: 1ebd2d3bb50b01a41a66c909720b6d76, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossCooldown
+    clip: {fileID: 8300000, guid: ce97b67014ba3a84f8050922dd551205, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossHitPlayer
+    clip: {fileID: 8300000, guid: 865127f3e91899a44b9ba2fef63247fb, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossRunAway
+    clip: {fileID: 8300000, guid: c5f895ad562b9554583cb5662c4fb20b, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossPinOff
+    clip: {fileID: 8300000, guid: 8cb16197e26d9814e9cd842910907206, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossSmokeShell
+    clip: {fileID: 8300000, guid: 5e8c1373eafeb6d49824a72069dc5b3e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossGetHit1
+    clip: {fileID: 8300000, guid: eaabf9359c8fddd46b252b869e4e15a6, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossGetHit2
+    clip: {fileID: 8300000, guid: 71ec076f6fc4e9e4a848550c4e9afb27, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossArmOff
+    clip: {fileID: 8300000, guid: 72ff2e75866de5a45991f01b7b1c10b5, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: QTEClick
+    clip: {fileID: 8300000, guid: 66049b8f04e91614d92200fb2cd4d466, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossFall
+    clip: {fileID: 8300000, guid: 4489417a82502e946a7160a97f31aeed, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bossFinalBeam
+    clip: {fileID: 8300000, guid: d8ea63f062f38b64b875a94d2dffd6ef, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+--- !u!4 &2040814906
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040814904}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.660212, y: 6.278838, z: 7.876348}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2103013328
 GameObject:
   m_ObjectHideFlags: 0
@@ -69416,6 +69666,7 @@ MonoBehaviour:
   - {fileID: 1647074859}
   - {fileID: 1805863573}
   - {fileID: 1444619811}
+  - {fileID: 2040814904}
 --- !u!1001 &3070896646154741279
 PrefabInstance:
   m_ObjectHideFlags: 0

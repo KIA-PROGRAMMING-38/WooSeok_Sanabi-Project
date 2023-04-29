@@ -414,6 +414,47 @@ public class BossController : MonoBehaviour
         GameManager.Instance.playerController.camShake.TurnOnShake(GameManager.Instance.playerController.camShake.QTEHitShakeTime, GameManager.Instance.playerController.camShake.QTEHitShakeIntensity);
     }
 
+    public void BossGetHitSound()
+    {
+        int random = UnityEngine.Random.Range(0, 2);
+        if (random == 0)
+        {
+            GameManager.Instance.audioManager.Play("bossGetHit1");
+        }
+        else
+        {
+            GameManager.Instance.audioManager.Play("bossGetHit2");
+        }
+    }
+
+    public void BossHitPlayerSound()
+    {
+        GameManager.Instance.audioManager.Play("bossHitPlayer");
+    }
+    public void BossRunAwaySound()
+    {
+        GameManager.Instance.audioManager.Play("bossRunAway");
+    }
+    public void BossPinOffSound()
+    {
+        GameManager.Instance.audioManager.Play("bossPinOff");
+    }
+
+    public void BossSmokeShellSound()
+    {
+        GameManager.Instance.audioManager.Play("bossSmokeShell");
+    }
+
+    public void BossArmOffSound()
+    {
+        GameManager.Instance.audioManager.Play("bossArmOff");
+    }
+
+    public void BossFinalBeam()
+    {
+        GameManager.Instance.audioManager.Play("bossFinalBeam");
+    }
+
     #endregion
 
 

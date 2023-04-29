@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class ScreenShakeChange : MonoBehaviour
 {
     private Slider shakeSlider;
+    private float initialScreenShakeValue = 1f;
+    float ShakeIntensity;
 
     private void Awake()
     {
@@ -15,25 +17,34 @@ public class ScreenShakeChange : MonoBehaviour
 
     private void Start()
     {
-        InitShakeIntensity();
-    }
-    public void ConveyShakeIntensity()
-    {
-        if (GameManager.Instance != null)
+        if (PlayerPrefs.HasKey("shakeIntensity"))
         {
-            GameManager.Instance.ScreenShakeIntensity = shakeSlider.value;
+            LoadShakeIntensity();
         }
-        //GameManager.Instance.ScreenShakeIntensity = shakeSlider.value;
+        else
+        {
+            InitShakeIntensity();
+        }
+        
     }
+    
 
 
     private void InitShakeIntensity()
     {
-        shakeSlider.value = 1f;
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.ScreenShakeIntensity = shakeSlider.value;
-        }
+        PlayerPrefs.SetFloat("shakeIntensity", initialScreenShakeValue);
+        shakeSlider.value = initialScreenShakeValue;
+    }
+
+    private void LoadShakeIntensity()
+    {
+        ShakeIntensity = PlayerPrefs.GetFloat("shakeIntensity");
+        shakeSlider.value = ShakeIntensity;
+    }
+    public void ConveyShakeIntensity()
+    {
+        ShakeIntensity = shakeSlider.value;
+        PlayerPrefs.SetFloat("shakeIntensity", ShakeIntensity);
     }
 
 

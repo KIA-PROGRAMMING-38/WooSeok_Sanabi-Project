@@ -32,6 +32,7 @@ public class PlayerExecuteHolded : PlayerAbilityState
         playerController.StartExecuteHolded();
         playerController.timeSlower.PleaseSlowDown(slowIntensity, slowTime);
         playerController.SetExecuteHoldedEffectOn();
+        GameManager.Instance.audioManager.Play("playerExecuteHold");
     }
 
     public override void Exit()

@@ -13,6 +13,11 @@ public class PlayerWallGrabState : PlayerTouchingWallState
     {
         base.Enter();
         holdPosition = playerController.transform.position;
+        if (!playerController.stillOnWall)
+        {
+            GameManager.Instance.audioManager.Play("playerWallGrab");
+        }
+        
     }
 
     public override void LogicUpdate()

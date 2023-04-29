@@ -32,6 +32,7 @@ public class TitleScreenShaker : MonoBehaviour
         //    _ShakeCameraPosition = ShakeCameraPosition();
         //}
         //StartCoroutine(_ShakeCameraPosition);
+        //this.shakeIntensity = shakeIntensity * PlayerPrefs.GetFloat("shakeIntensity");
         StartCoroutine(ShakeCameraPosition());
     }
 
@@ -48,7 +49,7 @@ public class TitleScreenShaker : MonoBehaviour
         while (0f < saveTime)
         {
             // 초기 위치로부터 구 범위 * Intensity 의 범위 안에서 위치 변동
-            Camera.main.transform.position = startPosition + Random.insideUnitSphere * shakeIntensity;
+            Camera.main.transform.position = startPosition + Random.insideUnitSphere * shakeIntensity * PlayerPrefs.GetFloat("shakeIntensity");
             saveTime -= Time.deltaTime;
             yield return null; // 매 프레임 흔들어줌
         }

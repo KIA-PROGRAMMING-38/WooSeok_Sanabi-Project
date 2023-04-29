@@ -17,6 +17,7 @@ public class BossCooldownState : BossState
     {
         base.Enter();
         bossController.StartWaitCooldownTime();
+        GameManager.Instance.audioManager.Play("bossCooldown");
     }
 
     public override void Exit()

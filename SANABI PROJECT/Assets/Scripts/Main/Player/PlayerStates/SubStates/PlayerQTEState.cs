@@ -48,6 +48,7 @@ public class PlayerQTEState : PlayerBossState
         if (MouseInput)
         {
             GameManager.Instance.bossCanvasController.IncreaseSliderGuageWhenClick();
+            GameManager.Instance.audioManager.Play("QTEClick");
         }
         else if (MouseInputHold)
         {

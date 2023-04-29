@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class PlayerWallClimbState : PlayerTouchingWallState
@@ -8,6 +9,12 @@ public class PlayerWallClimbState : PlayerTouchingWallState
     {
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+        playerController.stillOnWall = true;
+        GameManager.Instance.audioManager.Play("playerWallClimb");
+    }
     public override void LogicUpdate()
     {
         base.LogicUpdate();
@@ -18,6 +25,11 @@ public class PlayerWallClimbState : PlayerTouchingWallState
         {
             stateMachine.ChangeState(playerController.WallGrabState);
         }
-        //base.LogicUpdate();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        GameManager.Instance.audioManager.Stop("playerWallClimb");
     }
 }

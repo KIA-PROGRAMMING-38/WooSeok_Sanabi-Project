@@ -19,6 +19,7 @@ public class TurretPopUpState : TurretState
     public override void Enter()
     {
         base.Enter();
+        GameManager.Instance.audioManager.Play("turretPopUp");
     }
 
     public override void Exit()

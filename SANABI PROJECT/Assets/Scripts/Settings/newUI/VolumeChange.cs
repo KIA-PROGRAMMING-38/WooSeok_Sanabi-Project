@@ -9,48 +9,80 @@ public class VolumeChange : MonoBehaviour
     [SerializeField] private TMP_Text volumeText;
     //private Button[] buttons;
 
-    private float curVolume;
+    private float initialVolume = 5f;
     private float minVolume = 0f;
     private float maxVolume = 10f;
 
     private void Awake()
     {
-        InitVolume();
+        //InitVolume();
     }
 
     private void Start()
     {
-        
+        if (PlayerPrefs.HasKey("musicVolume"))
+        {
+            LoadVolume();
+        }
+        else
+        {
+            InitVolume();
+        }
     }
 
     private void InitVolume()
     {
-        curVolume = 5f;
-        volumeText.text = $"{curVolume}";
-        AudioListener.volume = curVolume / maxVolume;
+        volumeText.text = $"{initialVolume}";
+        float actualVolume = initialVolume / maxVolume;
+        AudioListener.volume = actualVolume;
+        PlayerPrefs.SetFloat("musicVolume", actualVolume);
+    }
+
+    private void LoadVolume()
+    {
+        float actualVolume = PlayerPrefs.GetFloat("musicVolume");
+        volumeText.text = $"{actualVolume * maxVolume}";
+        AudioListener.volume = actualVolume;
+        PlayerPrefs.SetFloat("musicVolume", actualVolume);
     }
 
     public void OnRightClick()
     {
-        curVolume += 1f;
-        if (maxVolume < curVolume)
+        float increasedVolume = PlayerPrefs.GetFloat("musicVolume") * maxVolume + 1f;
+
+        if (maxVolume < increasedVolume)
         {
-            curVolume = minVolume;
+            increasedVolume = minVolume;
         }
-        volumeText.text = $"{curVolume}";
-        AudioListener.volume = curVolume / maxVolume;
+        volumeText.text = $"{increasedVolume}";
+        float actualVolume = increasedVolume * 0.1f;
+        AudioListener.volume = actualVolume;
+        PlayerPrefs.SetFloat("musicVolume", actualVolume);
     }
 
     public void OnLeftClick()
     {
-        curVolume -= 1f;
-        if (curVolume < minVolume)
+        float decreasedVolume = PlayerPrefs.GetFloat("musicVolume") * maxVolume - 1f;
+
+        if (Mathf.Abs(decreasedVolume) < 0.00001f) // this is due to float precision problem
         {
-            curVolume = maxVolume;
+            decreasedVolume = minVolume;
         }
-        volumeText.text = $"{curVolume}";
-        AudioListener.volume = curVolume / maxVolume;
+
+        if (decreasedVolume < minVolume)
+        {
+            decreasedVolume = maxVolume;
+        }
+        volumeText.text = $"{decreasedVolume}";
+        float actualVolume = decreasedVolume * 0.1f;
+
+        AudioListener.volume = actualVolume;
+        PlayerPrefs.SetFloat("musicVolume", actualVolume);
     }
 
+    private void Update()
+    {
+        
+    }
 
 }

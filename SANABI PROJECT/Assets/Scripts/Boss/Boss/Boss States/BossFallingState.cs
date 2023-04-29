@@ -35,6 +35,7 @@ public class BossFallingState : BossState
         base.PhysicsUpdate();
         if (bossController.CheckIfGrounded())
         {
+            GameManager.Instance.audioManager.Play("bossFall");
             stateMachine.ChangeState(bossController.AwakeAfterFallState);
         }
     }

@@ -15,6 +15,8 @@ public class PlayerWallJumpState : PlayerAbilityState
         playerController.SetWallJumpVelocity(playerData.wallJumpVelocity, playerData.wallJumpAngle, wallJumpDirection);
         playerController.CheckIfShouldFlip(wallJumpDirection);
         playerController.SetWallJumpEffectOn();
+        playerController.stillOnWall = false;
+        GameManager.Instance.audioManager.Play("playerWallJump");
     }
 
     public override void LogicUpdate()

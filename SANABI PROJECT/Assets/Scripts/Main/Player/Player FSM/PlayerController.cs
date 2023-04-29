@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor.SceneManagement;
+//using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -92,6 +92,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 workspace;
     public int FacingDirection { get; private set; }
     private int RightDirection = 1; // to avoid magicNumber
+
+    public bool stillOnWall;
 
     //private int PlatformLayerNumber;
     private int MagmaLayerNumber;
@@ -299,6 +301,7 @@ public class PlayerController : MonoBehaviour
     {
         if (CanDash)
         {
+            GameManager.Instance.audioManager.Play("playerWireDash");
             OnWireDash?.Invoke();
             StartShowAfterImage();
             CanDash = false;
@@ -308,12 +311,14 @@ public class PlayerController : MonoBehaviour
             Input.UseDashInput();
             SetDashVelocity(Input.MovementInput.x);
             StartCoroutine(CountDashCooltime());
+            
         }
     }
     public void InvokeOnFinishBoss()
     {
         camShake.TurnOnShake(camShake.finishBossShakeTime, camShake.finishBossShakeIntensity);
         timeSlower.PleaseSlowDown(playerData.finishBossTimeScale, playerData.finishBossSlowTime);
+        GameManager.Instance.audioManager.Play("playerFinishBoss");
         OnFinishBoss?.Invoke();
     }
     //public void PlayerApproachDash()

@@ -17,11 +17,13 @@ public class PlayerRunState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
+        GameManager.Instance.audioManager.Play("playerRun");
     }
 
     public override void Exit()
     {
         base.Exit();
+        GameManager.Instance.audioManager.Stop("playerRun");
     }
 
     public override void LogicUpdate()
