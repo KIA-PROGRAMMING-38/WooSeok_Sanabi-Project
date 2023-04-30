@@ -7,15 +7,16 @@ using UnityEngine.SceneManagement;
 public class BossEnterance : MonoBehaviour
 {
     [SerializeField] private TurretSpawner turretSpawner;
+    [SerializeField] private SpriteRenderer portalRenderer;
+    private Color openColor = new Color(23f, 191f, 170f, 31f);
     public event Action OnBossEnterance;
 
     [SerializeField] GameObject[] playerRelatedObjects;
     private bool isAllTurretsDead;
     void Start()
     {
-        turretSpawner.OnAllTurretsDead -= CheckIfAllTurretsDead;
-        turretSpawner.OnAllTurretsDead += CheckIfAllTurretsDead;
-        //GameManager.Instance.audioManager.Play("MainBGM");
+        turretSpawner.OnAllTurretsDead -= ConfirmAllTurretsDead;
+        turretSpawner.OnAllTurretsDead += ConfirmAllTurretsDead;
         GameManager.Instance.audioManager.GradualVolumePlay("MainBGM");
     }
 
@@ -40,7 +41,7 @@ public class BossEnterance : MonoBehaviour
         //    }
         //}
 
-        if (collision.gameObject.CompareTag("Player")) // test¿ë = ÅÍ·¿µµ ´Ù Á×¾î¾ßÇÔ
+        if (collision.gameObject.CompareTag("Player") && isAllTurretsDead) 
         {
             SceneManager.LoadScene((int)GameManager.SceneNumber.Boss);
             GameManager.Instance.lastSceneNumber = GameManager.SceneNumber.Main;
@@ -58,8 +59,9 @@ public class BossEnterance : MonoBehaviour
         }
     }
 
-    private void CheckIfAllTurretsDead()
+    private void ConfirmAllTurretsDead()
     {
         isAllTurretsDead = true;
+        portalRenderer.material.color = openColor;
     }
 }

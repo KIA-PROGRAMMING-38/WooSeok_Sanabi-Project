@@ -46,6 +46,9 @@ public class GrabIdleState : GrabState
         grabController.GrabReturnCollider.enabled = false;
         grabController.spriteRenderer.enabled = false;
         grabController.grabRigid.velocity = Vector2.zero;
+
+        //grabController.startPos = grabController.GrabReturnCollider.transform.position; // added
+        
         grabController.transform.position = grabController.startPos;
         grabController.grabRigid.bodyType = RigidbodyType2D.Kinematic;
         grabController.trailRenderer.emitting= false;

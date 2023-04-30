@@ -11,6 +11,7 @@ public class GrabFlyingState : GrabState
     public override void Enter()
     {
         base.Enter();
+        grabController.startPos = grabController.GrabReturnCollider.transform.position; // added
         SetVariables();
         ShootGrab();
         GameManager.Instance.audioManager.Play("playerWireShoot");
@@ -63,6 +64,7 @@ public class GrabFlyingState : GrabState
     private void ShootGrab()
     {
         SetGrabStatus();
+        //Debug.Break();
         grabController.grabRigid.velocity = grabController.transform.up * playerData.shootSpeed;
     }
 }

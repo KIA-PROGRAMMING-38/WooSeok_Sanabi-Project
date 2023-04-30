@@ -35,12 +35,10 @@ public class PlayerApproachDash : PlayerAbilityState
         base.Enter();
         playerController.IgnorePlatformCollision(true);
         playerController.MakePlayerInvicible();
-        //playerController.playerRigidBody.bodyType = RigidbodyType2D.Kinematic;
         playerController.OnApproachDashToTurret -= ChangeToExecuteHoldedState;
         playerController.OnApproachDashToTurret += ChangeToExecuteHoldedState;
         playerController.OnApproachDashToBoss -= ChangeTo_GetHit_Or_QTEState;
         playerController.OnApproachDashToBoss += ChangeTo_GetHit_Or_QTEState;
-        //playerController.SetVelocityAll(approachDashDirection.x * ApproachDashForce, approachDashDirection.y * ApproachDashForce);
         GameManager.Instance.audioManager.Play("playerApproachDash");
         playerController.StartShowAfterImage();
     }
@@ -48,13 +46,11 @@ public class PlayerApproachDash : PlayerAbilityState
     public override void Exit()
     {
         base.Exit();
-        //playerController.playerRigidBody.bodyType = RigidbodyType2D.Dynamic; 
         playerController.IgnorePlatformCollision(false);
         playerController.PlayerIsDash(false);
         playerController.OnApproachDashToTurret -= ChangeToExecuteHoldedState;
         playerController.OnApproachDashToBoss -= ChangeTo_GetHit_Or_QTEState;
         playerController.MakePlayerVulnerable();
-        //playerController.StopShowAfterImage();
     }
 
     public override void LogicUpdate()

@@ -124,7 +124,7 @@ public class CameraFollow : MonoBehaviour
 
         transform.position = bossFilmSpot.position;
         yield return new WaitForSeconds(GameManager.Instance.bossData.idleWaitTime - elapsedTime);
-        GameManager.Instance.bossCanvasController.TurnOffAppearText();
+        //GameManager.Instance.bossCanvasController.TurnOffAppearText();
 
         while (true)
         {

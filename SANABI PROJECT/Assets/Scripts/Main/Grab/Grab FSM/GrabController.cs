@@ -178,7 +178,11 @@ public class GrabController : MonoBehaviour
             SetGrabbedTurretInstanceID(collision.gameObject.GetInstanceID());
             SetGrabbedPosition(collision.transform);
             grabbedTurret = collision.gameObject;
+
+
+            Physics2D.IgnoreCollision(GameManager.Instance.playerController.GetComponent<BoxCollider2D>(), GetGrabbedTurretObject().blockerCollider, true);
             hasGrabbedTurret = true;
+            //Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("SNB"), LayerMask.NameToLayer("SNBBlocker"), true);
             OnGrabTurret?.Invoke();
         }
         else if (collision.gameObject.CompareTag("Boss"))
@@ -187,8 +191,6 @@ public class GrabController : MonoBehaviour
             hasGrabbedBoss = true;
 
             OnGrabBoss?.Invoke();
-
-
         }
     }
 
