@@ -779,7 +779,9 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Turret"))
         {
+            Debug.Log("OnApproachDashTotTruret ¹ßµ¿!");
             OnApproachDashToTurret?.Invoke();
+
         }
         else if (collision.gameObject.CompareTag("Boss"))
         {

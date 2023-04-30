@@ -41,6 +41,8 @@ public class PlayerExecuteDash : PlayerAbilityState
         playerController.StartShowAfterImage();
         playerController.SetExecuteDashEffectOn();
         GameManager.Instance.grabController.hasGrabbedTurret = false;
+        //Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("SNB"), LayerMask.NameToLayer("SNBBlocker"), false);
+        //Physics2D.IgnoreCollision();
         GameManager.Instance.audioManager.Play("playerExecuteDash");
     }
 

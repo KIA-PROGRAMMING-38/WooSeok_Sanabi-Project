@@ -25,6 +25,7 @@ public class TurretController : MonoBehaviour
     public Animator WarningInsideAnimator;
     public Animator WarningOutsideAnimator;
     private BoxCollider2D turretCollider;
+    public CircleCollider2D blockerCollider;
 
     public PlayerController playerController;
     public GunController gunController;
