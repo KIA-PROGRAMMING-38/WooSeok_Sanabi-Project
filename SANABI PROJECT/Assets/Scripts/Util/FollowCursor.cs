@@ -10,7 +10,8 @@ public class FollowCursor : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
-        // Cursor.lockState = CursorLockMode.Confined; // Limit the position of cursur within the Game frame
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined; // Limit the position of cursur within the Game frame
     }
 
     void Update()

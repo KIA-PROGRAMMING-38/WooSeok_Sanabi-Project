@@ -22,8 +22,8 @@ public class BossEvadeToPhase2 : BossInteractionState
     {
         base.Enter();
         bossController.isPhase1 = false;
-        //bossController.hitCount = 1;
-        bossController.hitCount = 3; // test
+        bossController.hitCount = 1;
+        //bossController.hitCount = 3; // test
     }
 
     public override void Exit()

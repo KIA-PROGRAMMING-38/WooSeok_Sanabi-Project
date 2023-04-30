@@ -87,6 +87,7 @@ public class BossController : MonoBehaviour
     
     private WaitForSeconds _executedIdleTime1;
     private WaitForSeconds _executedIdleTime2;
+    private IEnumerator _WaitAndChangeToFinalBeamState;
     #endregion
 
     private void Awake()
@@ -141,12 +142,12 @@ public class BossController : MonoBehaviour
         _WaitCooldownTime = WaitCooldownTime();
         _waitCooldownTime = new WaitForSeconds(bossData.cooldownWaitTime);
 
-
+        _WaitAndChangeToFinalBeamState = WaitAndChangeToFinalBeamState();
         _executedIdleTime1 = new WaitForSeconds(bossData.executedIdleTime1);
         _executedIdleTime2 = new WaitForSeconds(bossData.executedIdleTime2);
         isPhase1 = true;
-        //hitCount = 1;
-        hitCount = 2; // test
+        hitCount = 1;
+        //hitCount = 2; // test
         hitPhase2Count = bossData.hitPhase2Count;
         FacingDirection = rightDirection;
 
@@ -283,15 +284,16 @@ public class BossController : MonoBehaviour
 
     public void StartWaitAndChangeToFinalBeamState()
     {
-        StartCoroutine(WaitAndChangeToFinalBeamState());
+        //StartCoroutine(WaitAndChangeToFinalBeamState());
+        StartCoroutine(_WaitAndChangeToFinalBeamState);
     }
     private IEnumerator WaitAndChangeToFinalBeamState()
     {
-        //yield return _executedIdleTime1;
-        yield return new WaitForSeconds(2f);
+        yield return _executedIdleTime1;
+        //yield return new WaitForSeconds(2f);
         GameManager.Instance.bossCanvasController.TurnOnMenaceText();
-        //yield return _executedIdleTime2;
-        yield return new WaitForSeconds(1f);
+        yield return _executedIdleTime2;
+        //yield return new WaitForSeconds(1f);
         GameManager.Instance.bossCanvasController.TurnOffMenaceText();
         StateMachine.ChangeState(FinalBeamState);
     }
