@@ -49,6 +49,12 @@ public class ShakeCamera : MonoBehaviour
         StartCoroutine(_ShakeCameraPosition);
     }
 
+    public void TurnOffShake()
+    {
+        _ShakeCameraPosition = ShakeCameraPosition();
+        StopCoroutine(_ShakeCameraPosition);
+    }
+
     public void TurnOnShake(float shakeTime, float shakeIntensity)
     {
         controlledShakeIntensity = PlayerPrefs.GetFloat("shakeIntensity");
