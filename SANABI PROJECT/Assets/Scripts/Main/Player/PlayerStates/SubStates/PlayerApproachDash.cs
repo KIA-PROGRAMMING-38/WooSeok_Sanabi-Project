@@ -73,7 +73,6 @@ public class PlayerApproachDash : PlayerAbilityState
 
     private void ChangeToExecuteHoldedState()
     {
-        Debug.Log($"executeHoldState로 변경!");
         stateMachine.ChangeState(playerController.ExecuteHolded);
     }
 
