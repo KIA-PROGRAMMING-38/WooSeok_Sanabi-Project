@@ -18,7 +18,9 @@ public class PlayerDeadState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        
+        playerController.camShake.TurnOffShake();
+        playerController.timeSlower.StopSlowDown();
+
     }
 
     public override void Exit()
