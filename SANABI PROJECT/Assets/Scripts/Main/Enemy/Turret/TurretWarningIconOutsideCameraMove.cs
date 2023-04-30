@@ -9,18 +9,23 @@ public class TurretWarningIconOutsideCameraMove : MonoBehaviour
     private Vector2 topRight;
     private Vector3 clampedPosition;
     [SerializeField] private float gapBetweenCameraFrame = 0.5f;
+    private Vector3 bottomLeftWorldPoint;
+    private Vector3 topRightWorldPoint;
 
     void Start()
     {
         mainCamera = Camera.main;
+        bottomLeftWorldPoint = new Vector3(0, 0, mainCamera.nearClipPlane);
+        topRightWorldPoint = new Vector3(1, 1, mainCamera.nearClipPlane);
     }
 
     void Update()
     {
-        bottomLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, mainCamera.nearClipPlane));
-        topRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane));
+        bottomLeft = mainCamera.ViewportToWorldPoint(bottomLeftWorldPoint);
+        topRight = mainCamera.ViewportToWorldPoint(topRightWorldPoint);
 
-        cameraBounds = Rect.MinMaxRect(bottomLeft.x + gapBetweenCameraFrame, bottomLeft.y + gapBetweenCameraFrame, topRight.x - gapBetweenCameraFrame, topRight.y - gapBetweenCameraFrame);
+        cameraBounds = Rect.MinMaxRect(bottomLeft.x + gapBetweenCameraFrame, bottomLeft.y + gapBetweenCameraFrame, 
+                                       topRight.x - gapBetweenCameraFrame, topRight.y - gapBetweenCameraFrame);
 
 
         clampedPosition.x = Mathf.Clamp(turretTransform.position.x, cameraBounds.xMin, cameraBounds.xMax);

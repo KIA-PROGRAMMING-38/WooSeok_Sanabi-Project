@@ -362,7 +362,6 @@ public class TurretController : MonoBehaviour
             WarningIconInsideRenderer.enabled = true;
             WarningIconOutsideRenderer.enabled = false;
         }
-        
     }
 
     private void OnBecameInvisible()
@@ -374,7 +373,6 @@ public class TurretController : MonoBehaviour
             WarningIconInsideRenderer.enabled = false;
             WarningIconOutsideRenderer.enabled = true;
         }
-        
     }
 
     public void TurnOffSprite()
