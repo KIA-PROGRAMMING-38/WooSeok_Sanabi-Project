@@ -42,7 +42,7 @@ public class BossAppearState : BossState
         {
             GameManager.Instance.audioManager.Play("bossAppear");
             GameManager.Instance.playerController.TurnOnGetHitCamShake();
-            GameManager.Instance.bossCanvasController.TurnOnAppearText();
+            //GameManager.Instance.bossCanvasController.TurnOnAppearText();
             stateMachine.ChangeState(bossController.IdleState);
         }
     }
